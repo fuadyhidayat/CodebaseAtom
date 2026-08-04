@@ -1,4 +1,4 @@
-namespace CodebaseAtom.WebUI.Infrastructure.Authorization.Statics;
+namespace CodebaseAtom.WebUI.Infrastructure.Identity.Statics;
 
 public static class RoleNameFor
 {
