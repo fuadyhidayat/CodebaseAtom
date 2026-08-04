@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
-public sealed class CreateDocumentLogic(DatabaseService databaseService, IFileStorageService fileStorageService)
+public sealed class CreateDocumentLogic(DatabaseService databaseService, FileStorageService fileStorageService)
 {
     public async Task<CreateDocumentOutput> Handle(CreateDocumentInput input, CancellationToken cancellationToken = default)
     {

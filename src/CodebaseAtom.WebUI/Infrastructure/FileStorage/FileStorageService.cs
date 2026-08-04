@@ -1,9 +1,6 @@
 namespace CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
-public sealed partial class FileStorageService(
-    IOptions<FileStorageOptions> fileStorageOptions,
-    ILogger<FileStorageService> logger)
-    : IFileStorageService
+public sealed partial class FileStorageService(IOptions<FileStorageOptions> fileStorageOptions, ILogger<FileStorageService> logger)
 {
     private readonly string _folderPath = Path.IsPathRooted(fileStorageOptions.Value.FolderPath)
         ? fileStorageOptions.Value.FolderPath
@@ -34,7 +31,7 @@ public sealed partial class FileStorageService(
         LogFileCreated(logger, fileName, directoryFullPath);
     }
 
-    public Task DeleteAsync(string filePath, CancellationToken cancellationToken = default)
+    public void Delete(string filePath)
     {
         var subFolderPath = Path.GetDirectoryName(filePath) ?? string.Empty;
         var fileName = Path.GetFileName(filePath) ?? throw new InvalidOperationException($"File name cannot be null or empty. File path: {filePath}");
@@ -51,8 +48,6 @@ public sealed partial class FileStorageService(
         {
             LogFileNotFound(logger, fileName, directoryFullPath);
         }
-
-        return Task.CompletedTask;
     }
 
     public Task<byte[]> ReadAsync(string filePath, CancellationToken cancellationToken = default)

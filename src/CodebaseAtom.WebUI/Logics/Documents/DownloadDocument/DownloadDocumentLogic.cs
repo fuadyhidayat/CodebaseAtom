@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 
-public sealed class DownloadDocumentLogic(DatabaseService databaseService, IFileStorageService fileStorageService)
+public sealed class DownloadDocumentLogic(DatabaseService databaseService, FileStorageService fileStorageService)
 {
     public async Task<DownloadDocumentOutput> Handle(DownloadDocumentInput input, CancellationToken cancellationToken = default)
     {

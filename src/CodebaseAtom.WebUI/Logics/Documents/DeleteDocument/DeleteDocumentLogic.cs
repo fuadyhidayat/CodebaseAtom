@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
 
-public sealed class DeleteDocumentLogic(DatabaseService databaseService, IFileStorageService fileStorageService)
+public sealed class DeleteDocumentLogic(DatabaseService databaseService, FileStorageService fileStorageService)
 {
     public async Task Handle(DeleteDocumentInput input, CancellationToken cancellationToken = default)
     {
@@ -11,7 +11,7 @@ public sealed class DeleteDocumentLogic(DatabaseService databaseService, IFileSt
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Document, DomainDisplayTextFor.Id, input.DocumentId);
 
-        await fileStorageService.DeleteAsync(document.FilePath, cancellationToken);
+        fileStorageService.Delete(document.FilePath);
         _ = databaseService.Documents.Remove(document);
         _ = await databaseService.SaveChangesAsync(cancellationToken);
     }

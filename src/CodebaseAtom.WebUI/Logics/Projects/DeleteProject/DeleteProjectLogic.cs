@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Projects.DeleteProject;
 
-public sealed class DeleteProjectLogic(DatabaseService databaseService, IFileStorageService fileStorageService)
+public sealed class DeleteProjectLogic(DatabaseService databaseService, FileStorageService fileStorageService)
 {
     public async Task Handle(DeleteProjectInput input, CancellationToken cancellationToken = default)
     {
@@ -15,7 +15,7 @@ public sealed class DeleteProjectLogic(DatabaseService databaseService, IFileSto
 
         foreach (var document in project.Documents)
         {
-            await fileStorageService.DeleteAsync(document.FilePath, cancellationToken);
+            fileStorageService.Delete(document.FilePath);
         }
 
         databaseService.Documents.RemoveRange(project.Documents);
