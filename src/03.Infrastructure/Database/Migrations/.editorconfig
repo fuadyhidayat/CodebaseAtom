@@ -1,8 +1,0 @@
-[*]
-generated_code = true
-
-# Ignore EF / migration style noise
-dotnet_diagnostic.IDE0005.severity = none
-dotnet_diagnostic.IDE0161.severity = none
-dotnet_diagnostic.IDE0058.severity = none
-dotnet_diagnostic.CA1707.severity = none

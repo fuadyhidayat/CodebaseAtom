@@ -1,8 +1,0 @@
-root = false
-
-# Override rules that do not apply correctly to this project layer.
-[*.cs]
-
-# CA1034: C# 14 extension member blocks (extension(...) { }) are misidentified as nested public types by the analyzer.
-# This is a false positive from the new language syntax; suppress until the analyzer is updated.
-dotnet_diagnostic.CA1034.severity = none

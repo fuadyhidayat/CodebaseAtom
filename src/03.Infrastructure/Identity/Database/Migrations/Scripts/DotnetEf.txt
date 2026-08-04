@@ -1,3 +1,0 @@
-dotnet ef migrations add M001_InitialSchema --context IdentityDatabaseContext --project 03.Infrastructure --startup-project 05.WebUI --output-dir Identity/Database/Migrations
-
-dotnet ef database update --context IdentityDatabaseContext --project 03.Infrastructure --startup-project 05.WebUI
