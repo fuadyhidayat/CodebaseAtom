@@ -5,3 +5,4 @@ The second line should be left blank
 The third line should provide a more detailed description of the changes, including any relevant context or background information. Use the bullet points to highlight key changes or features.
 The line before the footer should be left blank.
 The last line is the footer that should look like this: "AI-Assisted Generated Commit Message"
+Do not add any additional lines after the footer.
