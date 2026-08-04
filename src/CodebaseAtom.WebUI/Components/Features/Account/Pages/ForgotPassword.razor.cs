@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Text.Encodings.Web;
+using CodebaseAtom.WebUI.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using CodebaseAtom.WebUI.Infrastructure.Identity;
 
 namespace CodebaseAtom.WebUI.Components.Features.Account.Pages;
 
@@ -11,9 +10,6 @@ public partial class ForgotPassword
 {
     [Inject]
     public required UserManager<ApplicationUser> UserManager { get; init; }
-
-    [Inject]
-    public required IEmailSender<ApplicationUser> EmailSender { get; init; }
 
     private string? _message;
     private string? _resetPasswordLink;
@@ -34,8 +30,6 @@ public partial class ForgotPassword
             return;
         }
 
-        // For more information on how to enable account confirmation and password reset please
-        // visit https://go.microsoft.com/fwlink/?LinkID=532713
         var code = await UserManager.GeneratePasswordResetTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
@@ -44,10 +38,6 @@ public partial class ForgotPassword
             new Dictionary<string, object?> { ["code"] = code });
 
         _resetPasswordLink = callbackUrl;
-
-        await EmailSender.SendPasswordResetLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
-        _message = "Please check your email to reset your password.";
     }
 
     private sealed record InputModel

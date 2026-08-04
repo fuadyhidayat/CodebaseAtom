@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using CodebaseAtom.WebUI.Infrastructure.Common.Exceptions;
 using CodebaseAtom.WebUI.Infrastructure.Identity.Database;
 using CodebaseAtom.WebUI.Infrastructure.Identity.Database.Seeders;
-using CodebaseAtom.WebUI.Infrastructure.Identity.EmailSender;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Identity;
 
@@ -36,8 +35,6 @@ public static class ConfigureIdentity
         .AddEntityFrameworkStores<IdentityDatabaseContext>()
         .AddSignInManager()
         .AddDefaultTokenProviders();
-
-        _ = services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
         return services;
     }
