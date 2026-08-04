@@ -14,11 +14,21 @@
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
                 <Paper25 Class="pa-5 hover-shadow" Style="@($"border-right-width: 4px; border-right-color: {Colors.Blue.Default};")">
-                    <MudText Typo="Typo.h1" Class="mb-10 blue-text">
+                    <MudText Class="mb-2 blue-text" style="font-size: 4rem;">
                         @_item.Projects.Count
                     </MudText>
                     <MudText Typo="Typo.subtitle1">
                         Total @DomainDisplayTextFor.Projects
+                    </MudText>
+                </Paper25>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <Paper25 Class="pa-5 hover-shadow" Style="@($"border-right-width: 4px; border-right-color: {Colors.Red.Default};")">
+                    <MudText Class="mb-2 red-text" style="font-size: 4rem;">
+                        @_item.Projects.Sum(project => project.WorkItemsCount)
+                    </MudText>
+                    <MudText Typo="Typo.subtitle1">
+                        Total @DomainDisplayTextFor.WorkItems
                     </MudText>
                 </Paper25>
             </MudItem>

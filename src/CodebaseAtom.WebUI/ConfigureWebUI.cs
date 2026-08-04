@@ -9,19 +9,18 @@ public static class ConfigureWebUI
 {
     public static WebApplicationBuilder AddWebUIServices(this WebApplicationBuilder builder)
     {
+        _ = builder.Services.AddCurrentUserCascadingValue();
         _ = builder.Services.AddMudServices();
+        _ = builder.Services.AddApexCharts();
         _ = builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
-        _ = builder.Services.AddApexCharts(apexChartsServiceOptions =>
-        {
-            apexChartsServiceOptions.GlobalOptions = new ApexChartBaseOptions
-            {
-                Theme = new Theme { Palette = PaletteType.Palette6 }
-            };
-        });
+        return builder;
+    }
 
-        _ = builder.Services.AddCascadingValue(serviceProvider =>
+    public static IServiceCollection AddCurrentUserCascadingValue(this IServiceCollection services)
+    {
+        _ = services.AddCascadingValue(serviceProvider =>
         {
             var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
             var httpContext = httpContextAccessor.HttpContext;
@@ -53,6 +52,6 @@ public static class ConfigureWebUI
             };
         });
 
-        return builder;
+        return services;
     }
 }
