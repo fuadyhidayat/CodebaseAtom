@@ -11,13 +11,13 @@
                     <GridDefault>
                         <MudItem xs="12">
                             <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="Enter the project title"
+                                              Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title}")"
                                               @bind-Value="_input.Title"
                                               For="@(() => _input.Title)" />
                         </MudItem>
                         <MudItem xs="12">
                             <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
-                                                Placeholder="Enter the project description"
+                                                Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description}")"
                                                 Lines="3"
                                                 MaxLines="5"
                                                 @bind-Value="_input.Description"

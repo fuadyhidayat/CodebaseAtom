@@ -11,7 +11,7 @@
                     <GridDefault>
                         <MudItem xs="12" sm="6">
                             <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="@($"Enter {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
+                                              Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
                                               @bind-Value="Model.Title"
                                               For="@(() => Model.Title)" />
                         </MudItem>
@@ -26,7 +26,7 @@
                         </MudItem>
                         <MudItem xs="12">
                             <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
-                                                Placeholder="@($"Enter {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
+                                                Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
                                                 Lines="3"
                                                 MaxLines="5"
                                                 @bind-Value="Model.Description"

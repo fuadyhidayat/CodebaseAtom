@@ -11,14 +11,14 @@
                     <GridDefault>
                         <MudItem xs="12" sm="6">
                             <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="@($"Enter {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
+                                              Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
                                               @bind-Value="_input.Title"
                                               For="@(() => _input.Title)" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
                             <MudDatePicker Label="@DomainDisplayTextFor.Deadline"
                                            @bind-Date="DeadlineDateTime"
-                                           DateFormat="dd/MM/yyyy"
+                                           DateFormat="d MMMM yyyy"
                                            Required="true"
                                            Variant="Variant.Outlined"
                                            RequiredError="@($"{DomainDisplayTextFor.Deadline} is required")"
@@ -26,7 +26,7 @@
                         </MudItem>
                         <MudItem xs="12">
                             <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
-                                                Placeholder="@($"Enter {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
+                                                Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
                                                 Lines="3"
                                                 MaxLines="5"
                                                 @bind-Value="_input.Description"

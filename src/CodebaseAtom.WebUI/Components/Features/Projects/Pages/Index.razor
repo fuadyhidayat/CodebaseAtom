@@ -25,22 +25,22 @@
             <HeaderContent>
                 <MudTh>
                     <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
-                        Title
+                        @DomainDisplayTextFor.Title
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
                     <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Description)">
-                        Description
+                        @DomainDisplayTextFor.Description
                     </MudTableSortLabel>
                 </MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Title">
+                <MudTd DataLabel="@DomainDisplayTextFor.Title">
                     <MudLink Href="@ProjectsRouteFor.ProjectDetails(context.Id)">
                         <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
                     </MudLink>
                 </MudTd>
-                <MudTd DataLabel="Description">
+                <MudTd DataLabel="@DomainDisplayTextFor.Description">
                     <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
                 </MudTd>
             </RowTemplate>

@@ -1,7 +1,7 @@
 @using ApexCharts
 @using CodebaseAtom.WebUI.Logics.Statistics.GetStatistic
 
-<MudText Typo="Typo.h5">Documents Count</MudText>
+<MudText Typo="Typo.h5">@DomainDisplayTextFor.Documents Count</MudText>
 <ApexChart TItem="ProjectDto" Height="400" Options="_options">
     <ApexPointSeries TItem="ProjectDto"
                      Items="Projects"

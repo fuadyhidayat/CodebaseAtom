@@ -10,14 +10,14 @@
                     <DataAnnotationsValidator />
                     <GridDefault>
                         <MudItem xs="12">
-                            <TextFieldDefault Label="Title"
-                                              Placeholder="Enter the project title"
+                            <TextFieldDefault Label="@DomainDisplayTextFor.Title"
+                                              Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title}")"
                                               @bind-Value="Model.Title"
                                               For="@(() => Model.Title)" />
                         </MudItem>
                         <MudItem xs="12">
-                            <TextFieldMultiline Label="Description"
-                                                Placeholder="Enter the project description"
+                            <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
+                                                Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description}")"
                                                 Lines="3"
                                                 MaxLines="5"
                                                 @bind-Value="Model.Description"

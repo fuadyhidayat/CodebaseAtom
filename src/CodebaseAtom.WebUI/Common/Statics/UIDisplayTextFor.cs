@@ -9,18 +9,13 @@ public static class UIDisplayTextFor
     public const string Action = nameof(Action);
     public const string Login = nameof(Login);
     public const string Logout = nameof(Logout);
+    public const string Reset = nameof(Reset);
     public const string Yes = nameof(Yes);
     public const string No = nameof(No);
 
     public const string Profile = "Profile";
     public const string MySession = "My Session";
 
-    public const string New = nameof(New);
-    public const string Info = nameof(Info);
-    public const string General = nameof(General);
-    public const string GeneralInfo = $"{General} {Info}";
-    public const string Personal = nameof(Personal);
-    public const string PersonalInfo = $"{Personal} {Info}";
     public const string Statistics = nameof(Statistics);
 
     public const string Authorize = nameof(Authorize);
@@ -112,7 +107,6 @@ public static class UIDisplayTextFor
     public const string Sent = nameof(Sent);
     public const string Receive = nameof(Receive);
     public const string Received = nameof(Received);
-    public const string Reset = nameof(Reset);
 
     public const string Access = nameof(Access);
     public const string Denied = nameof(Denied);

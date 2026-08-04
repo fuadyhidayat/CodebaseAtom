@@ -11,13 +11,13 @@
                     <GridDefault>
                         <MudItem xs="12">
                             <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="@($"Enter {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
+                                              Placeholder="@($"Enter the {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
                                               @bind-Value="Model.Title"
                                               For="@(() => Model.Title)" />
                         </MudItem>
                         <MudItem xs="12">
                             <TextFieldDefault Label="@DomainDisplayTextFor.FileName"
-                                              Placeholder="@($"Enter {DomainDisplayTextFor.Document} {DomainDisplayTextFor.FileName}")"
+                                              Placeholder="@($"Enter the {DomainDisplayTextFor.Document} {DomainDisplayTextFor.FileName}")"
                                               @bind-Value="Model.FileNameWithoutExtension"
                                               AdornmentText="@Model.FileExtension"
                                               Adornment="Adornment.End"
