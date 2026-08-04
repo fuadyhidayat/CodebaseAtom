@@ -9,7 +9,7 @@ public static class ConfigureInfrastructure
 {
     public static WebApplicationBuilder AddInfrastructure(this WebApplicationBuilder builder)
     {
-        builder.AddSerilogLogging();
+        _ = builder.AddSerilogLogging();
         _ = builder.Services.AddApplicationOptions(builder.Configuration);
         _ = builder.Services.AddCurrentUserService();
         _ = builder.Services.AddDatabaseContext(builder.Configuration);

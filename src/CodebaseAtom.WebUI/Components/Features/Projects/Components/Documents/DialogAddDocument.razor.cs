@@ -30,20 +30,20 @@ public partial class DialogAddDocument
 
     private async Task OnValidSubmitAsync()
     {
-        if (_input.File is null)
-        {
-            throw new InvalidOperationException($"{DomainDisplayTextFor.Document} file is required.");
-        }
-
-        if (_input.File.Size > MaximumValueFor.DocumentFileSize)
-        {
-            throw new FileSizeLimitValidationException($"{DomainDisplayTextFor.Document}", _input.File.Size, MaximumValueFor.DocumentFileSize);
-        }
-
         try
         {
             IsLoadingBase = true;
             ExceptionBase = null;
+
+            if (_input.File is null)
+            {
+                throw new InvalidOperationException($"{DomainDisplayTextFor.Document} file is required.");
+            }
+
+            if (_input.File.Size > MaximumValueFor.DocumentFileSize)
+            {
+                throw new FileSizeLimitValidationException($"{DomainDisplayTextFor.Document}", _input.File.Size, MaximumValueFor.DocumentFileSize);
+            }
 
             var fileBytes = await _input.File.ToBytesAsync(MaximumValueFor.DocumentFileSize);
 
