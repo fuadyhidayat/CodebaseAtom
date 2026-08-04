@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
 
-public sealed class DeleteWorkItemLogic(IDatabaseService databaseService)
+public sealed class DeleteWorkItemLogic(DatabaseService databaseService)
 {
     public async Task Handle(DeleteWorkItemInput input, CancellationToken cancellationToken = default)
     {

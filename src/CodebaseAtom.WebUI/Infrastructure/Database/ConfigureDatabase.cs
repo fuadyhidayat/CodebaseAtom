@@ -12,7 +12,7 @@ public static class ConfigureDatabase
         var databaseOptions = configuration.GetRequiredSection(DatabaseOptions.SectionKey).Get<DatabaseOptions>()
             ?? throw new ConfigurationBindingFailedException(DatabaseOptions.SectionKey, typeof(DatabaseOptions));
 
-        _ = services.AddDbContext<IDatabaseService, DatabaseService>(options =>
+        _ = services.AddDbContext<DatabaseService>(options =>
         {
             _ = options.UseSqlServer(databaseOptions.ConnectionString, builder =>
             {

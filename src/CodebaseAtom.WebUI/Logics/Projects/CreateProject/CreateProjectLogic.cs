@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
-public sealed class CreateProjectLogic(IDatabaseService databaseService)
+public sealed class CreateProjectLogic(DatabaseService databaseService)
 {
     public async Task<CreateProjectOutput> Handle(CreateProjectInput input, CancellationToken cancellationToken = default)
     {

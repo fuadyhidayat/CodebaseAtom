@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
 
-public sealed class GetStatisticLogic(IDatabaseService databaseService)
+public sealed class GetStatisticLogic(DatabaseService databaseService)
 {
     public async Task<GetStatisticOutput> Handle(GetStatisticInput input, CancellationToken cancellationToken = default)
     {

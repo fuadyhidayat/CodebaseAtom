@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
-public sealed class UpdateProjectLogic(IDatabaseService databaseService)
+public sealed class UpdateProjectLogic(DatabaseService databaseService)
 {
     public async Task Handle(UpdateProjectInput input, CancellationToken cancellationToken = default)
     {

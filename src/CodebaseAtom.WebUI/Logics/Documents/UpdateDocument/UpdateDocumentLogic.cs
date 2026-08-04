@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Documents.UpdateDocument;
 
-public sealed class UpdateDocumentLogic(IDatabaseService databaseService)
+public sealed class UpdateDocumentLogic(DatabaseService databaseService)
 {
     public async Task Handle(UpdateDocumentInput input, CancellationToken cancellationToken = default)
     {

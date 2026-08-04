@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItemStatus;
 
-public sealed class UpdateWorkItemStatusLogic(IDatabaseService databaseService)
+public sealed class UpdateWorkItemStatusLogic(DatabaseService databaseService)
 {
     public async Task Handle(UpdateWorkItemStatusInput input, CancellationToken cancellationToken = default)
     {

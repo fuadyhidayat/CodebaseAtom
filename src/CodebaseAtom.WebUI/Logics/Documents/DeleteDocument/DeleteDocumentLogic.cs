@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
 
-public sealed class DeleteDocumentLogic(IDatabaseService databaseService, IFileStorageService fileStorageService)
+public sealed class DeleteDocumentLogic(DatabaseService databaseService, IFileStorageService fileStorageService)
 {
     public async Task Handle(DeleteDocumentInput input, CancellationToken cancellationToken = default)
     {

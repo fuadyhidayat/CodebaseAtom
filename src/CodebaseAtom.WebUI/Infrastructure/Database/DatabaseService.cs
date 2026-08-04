@@ -3,10 +3,8 @@ using CodebaseAtom.WebUI.Infrastructure.Database.Interceptors;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Database;
 
-public class DatabaseService(
-    DbContextOptions<DatabaseService> options,
-    AuditingSaveChangesInterceptor auditingSaveChangesInterceptor)
-    : DbContext(options), IDatabaseService
+public class DatabaseService(DbContextOptions<DatabaseService> options, AuditingSaveChangesInterceptor auditingSaveChangesInterceptor)
+    : DbContext(options)
 {
     public const string SchemaName = nameof(CodebaseAtom);
 

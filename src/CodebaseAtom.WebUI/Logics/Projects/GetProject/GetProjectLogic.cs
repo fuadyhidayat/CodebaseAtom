@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Projects.GetProject;
 
-public sealed class GetProjectLogic(IDatabaseService databaseService)
+public sealed class GetProjectLogic(DatabaseService databaseService)
 {
     public async Task<GetProjectOutput> Handle(GetProjectInput input, CancellationToken cancellationToken = default)
     {

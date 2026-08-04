@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Projects.DeleteProject;
 
-public sealed class DeleteProjectLogic(IDatabaseService databaseService, IFileStorageService fileStorageService)
+public sealed class DeleteProjectLogic(DatabaseService databaseService, IFileStorageService fileStorageService)
 {
     public async Task Handle(DeleteProjectInput input, CancellationToken cancellationToken = default)
     {
