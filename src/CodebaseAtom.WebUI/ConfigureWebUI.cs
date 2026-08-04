@@ -18,7 +18,7 @@ public static class ConfigureWebUI
         return builder;
     }
 
-    public static IServiceCollection AddCurrentUserCascadingValue(this IServiceCollection services)
+    private static IServiceCollection AddCurrentUserCascadingValue(this IServiceCollection services)
     {
         _ = services.AddCascadingValue(serviceProvider =>
         {
