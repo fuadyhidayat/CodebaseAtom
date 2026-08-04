@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
 using CodebaseAtom.WebUI.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +14,7 @@ public partial class Index
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     private ApplicationUser _applicationUser = default!;
     private IReadOnlyCollection<string> _roles = [];

@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -8,7 +9,7 @@ public partial class DialogAddProject
     public required CreateProjectLogic CreateProjectLogic { get; set; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     private readonly AddProjectModel _input = new();
 

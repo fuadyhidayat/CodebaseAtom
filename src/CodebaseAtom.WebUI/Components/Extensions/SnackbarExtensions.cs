@@ -2,7 +2,7 @@ using Severity = MudBlazor.Severity;
 
 namespace CodebaseAtom.WebUI.Components.Extensions;
 
-public static class MudBlazorExtensions
+public static class SnackbarExtensions
 {
     public static void AddSuccess(this ISnackbar snackbar, string message)
     {

@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
@@ -8,7 +9,7 @@ public partial class DialogEditWorkItem
     public required UpdateWorkItemLogic UpdateWorkItemLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     [Parameter]
     public required EditWorkItemModel Model { get; set; }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -9,7 +10,7 @@ public partial class DialogEditProject
     public required UpdateProjectLogic UpdateProjectLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     [Parameter]
     public required EditProjectModel Model { get; set; }

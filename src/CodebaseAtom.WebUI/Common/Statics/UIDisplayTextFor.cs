@@ -2,22 +2,6 @@ namespace CodebaseAtom.WebUI.Common.Statics;
 
 public static class UIDisplayTextFor
 {
-    public const string Yes = nameof(Yes);
-    public const string No = nameof(No);
-    public const string Not = nameof(Not);
-    public const string By = nameof(By);
-    public const string My = nameof(My);
-    public const string Your = nameof(Your);
-
-    public const string Date = nameof(Date);
-    public const string Time = nameof(Time);
-    public const string Timeline = nameof(Timeline);
-    public const string History = nameof(History);
-    public const string Authentication = nameof(Authentication);
-    public const string AuthenticationTime = $"{Authentication} {Time}";
-    public const string Approval = nameof(Approval);
-    public const string ApprovalHistory = $"{Approval} {History}";
-
     public const string Home = nameof(Home);
     public const string Index = nameof(Index);
     public const string About = nameof(About);
@@ -25,18 +9,11 @@ public static class UIDisplayTextFor
     public const string Action = nameof(Action);
     public const string Login = nameof(Login);
     public const string Logout = nameof(Logout);
+    public const string Yes = nameof(Yes);
+    public const string No = nameof(No);
 
     public const string Profile = "Profile";
     public const string MySession = "My Session";
-    public const string MultiFactorAuthentication = "Multi-Factor Authentication";
-    public const string Configure = "Configure";
-
-    public const string Get = nameof(Get);
-    public const string Post = nameof(Post);
-    public const string Posted = nameof(Posted);
-    public const string Put = nameof(Put);
-    public const string Patch = nameof(Patch);
-    public const string Patched = nameof(Patched);
 
     public const string New = nameof(New);
     public const string Info = nameof(Info);
@@ -50,24 +27,15 @@ public static class UIDisplayTextFor
     public const string Authorized = nameof(Authorized);
     public const string Authorization = nameof(Authorization);
 
-    public const string Claim = nameof(Claim);
-    public const string Claims = nameof(Claims);
-    public const string MyClaims = $"{My} {Claims}";
-
     public const string Role = nameof(Role);
     public const string Roles = nameof(Roles);
-    public const string MyRoles = $"{My} {Roles}";
-
-    public const string Permission = nameof(Permission);
-    public const string Permissions = nameof(Permissions);
-    public const string MyPermissions = $"{My} {Permissions}";
 
     public const string Create = nameof(Create);
     public const string Created = nameof(Created);
-    public const string CreatedBy = $"{Created} {By}";
+    public const string CreatedBy = $"{Created} By";
     public const string Modify = nameof(Modify);
     public const string Modified = nameof(Modified);
-    public const string ModifiedBy = $"{Modified} {By}";
+    public const string ModifiedBy = $"{Modified} By";
 
     public const string Retrieve = nameof(Retrieve);
     public const string Retrieved = nameof(Retrieved);
@@ -144,63 +112,11 @@ public static class UIDisplayTextFor
     public const string Sent = nameof(Sent);
     public const string Receive = nameof(Receive);
     public const string Received = nameof(Received);
-    public const string Find = nameof(Find);
-    public const string Found = nameof(Found);
-    public const string Convert = nameof(Convert);
-    public const string Converted = nameof(Converted);
+    public const string Reset = nameof(Reset);
 
-    public const string Verification = nameof(Verification);
-    public const string VerificationCode = $"{Verification} Code";
-    public const string NotVerified = $"{Not} {Verified}";
     public const string Access = nameof(Access);
     public const string Denied = nameof(Denied);
     public const string AccessDenied = $"{Access} {Denied}";
-    public const string NotFound = $"{Not} {Found}";
 
-    public const string Notification = nameof(Notification);
-    public const string Active = nameof(Active);
-    public const string Inactive = nameof(Inactive);
     public const string Show = nameof(Show);
-    public const string Status = nameof(Status);
-    public const string StatusTimeline = $"{Status} {Timeline}";
-    public const string Error = nameof(Error);
-    public const string Success = nameof(Success);
-    public const string Filter = nameof(Filter);
-    public const string Filters = nameof(Filters);
-    public const string Ok = "OK";
-    public const string Undo = nameof(Undo);
-    public const string Redo = nameof(Redo);
-
-    public const string Generate = nameof(Generate);
-    public const string Reset = nameof(Reset);
-    public const string QrCode = $"QR Code";
-    public const string Timestamp = nameof(Timestamp);
-    public const string Data = nameof(Data);
-    public const string Cryptography = nameof(Cryptography);
-    public const string Cryptographic = nameof(Cryptographic);
-    public const string Ciphertext = nameof(Ciphertext);
-    public const string Plaintext = nameof(Plaintext);
-
-    public const string Parameter = nameof(Parameter);
-    public const string Parameters = nameof(Parameters);
-    public const string Property = nameof(Property);
-    public const string Properties = nameof(Properties);
-    public const string Entity = nameof(Entity);
-    public const string Entities = nameof(Entities);
-    public const string Record = nameof(Record);
-    public const string Records = nameof(Records);
-    public const string Item = nameof(Item);
-    public const string Items = nameof(Items);
-    public const string Row = nameof(Row);
-    public const string Rows = nameof(Rows);
-    public const string Key = nameof(Key);
-    public const string Keys = nameof(Keys);
-    public const string Value = nameof(Value);
-    public const string Values = nameof(Values);
-
-    public const string On = nameof(On);
-    public const string All = nameof(All);
-    public const string Clear = nameof(Clear);
-    public const string SelectAll = $"{Select} {All}";
-    public const string ClearAll = $"{Clear} {All}";
 }

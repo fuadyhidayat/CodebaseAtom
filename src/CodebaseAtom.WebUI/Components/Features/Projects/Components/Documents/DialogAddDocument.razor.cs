@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -10,7 +11,7 @@ public partial class DialogAddDocument
     public required CreateDocumentLogic CreateDocumentLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }

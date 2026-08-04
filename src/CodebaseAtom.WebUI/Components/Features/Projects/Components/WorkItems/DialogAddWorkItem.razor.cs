@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
@@ -8,7 +9,7 @@ public partial class DialogAddWorkItem
     public required CreateWorkItemLogic CreateWorkItemLogic { get; set; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }

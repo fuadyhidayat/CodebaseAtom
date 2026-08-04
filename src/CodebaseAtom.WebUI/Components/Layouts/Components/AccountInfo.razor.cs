@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using Microsoft.AspNetCore.Components.Routing;
 
 namespace CodebaseAtom.WebUI.Components.Layouts.Components;
@@ -5,7 +6,7 @@ namespace CodebaseAtom.WebUI.Components.Layouts.Components;
 public sealed partial class AccountInfo
 {
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     private string? _currentUrl;
     private string _loginRoute = AccountRouteFor.Login();

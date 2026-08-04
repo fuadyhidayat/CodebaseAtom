@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
 using CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
 using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
@@ -23,7 +24,7 @@ public partial class TabPanelWorkItems
     public required DeleteWorkItemLogic DeleteWorkItemLogic { get; set; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     [Parameter, EditorRequired]
     public Guid ProjectId { get; set; }

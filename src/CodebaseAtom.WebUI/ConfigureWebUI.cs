@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using ApexCharts;
+using CodebaseAtom.WebUI.Common.Models;
 using MudBlazor.Services;
 
 namespace CodebaseAtom.WebUI;
@@ -44,7 +45,7 @@ public static class ConfigureWebUI
 
             var usernameClaim = httpContext.User.FindFirst(ClaimTypes.Name);
 
-            return new CurrentUserModel
+            return new CurrentUser
             {
                 UserId = userId,
                 Username = usernameClaim is null ? "unknown" : usernameClaim.Value,

@@ -1,3 +1,4 @@
+using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.Documents.UpdateDocument;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -8,7 +9,7 @@ public partial class DialogEditDocument
     public required UpdateDocumentLogic UpdateDocumentLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    private CurrentUser? CurrentUser { get; set; }
 
     [Parameter]
     public required EditDocumentModel Model { get; set; }

@@ -1,6 +1,6 @@
-namespace CodebaseAtom.WebUI;
+namespace CodebaseAtom.WebUI.Common.Models;
 
-public sealed record CurrentUserModel
+public sealed record CurrentUser
 {
     public required Guid UserId { get; init; }
     public required string Username { get; init; }
