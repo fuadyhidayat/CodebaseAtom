@@ -5,7 +5,7 @@ namespace CodebaseAtom.WebUI.Components.Layouts.Components;
 public sealed partial class AccountInfo
 {
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; } = default!;
+    private CurrentUserModel? CurrentUser { get; set; }
 
     private string? _currentUrl;
     private string _loginRoute = AccountRouteFor.Login();

@@ -10,7 +10,7 @@ public partial class DialogChangePassword
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
     [Parameter]
-    public required ApplicationUser ApplicationUser { get; set; } = default!;
+    public required ApplicationUser ApplicationUser { get; set; }
 
     private readonly InputModel _input = new();
 

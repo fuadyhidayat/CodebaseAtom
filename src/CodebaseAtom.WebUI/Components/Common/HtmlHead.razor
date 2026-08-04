@@ -2,7 +2,7 @@
 
 @if (string.IsNullOrWhiteSpace(Title))
 {
-    <PageTitle>@ApplicationOptionsProvider.Value.ApplicationName hoho</PageTitle>
+    <PageTitle>@ApplicationOptionsProvider.Value.ApplicationName</PageTitle>
 }
 else
 {
@@ -12,5 +12,5 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public required string Title { get; init; } = default!;
+    public string Title { get; init; }
 }

@@ -10,9 +10,6 @@ public partial class Login
     [Inject]
     public required SignInManager<ApplicationUser> SignInManager { get; init; }
 
-    private EditContext _editContext = default!;
-    private string _errorMessage = string.Empty;
-
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
@@ -21,6 +18,9 @@ public partial class Login
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
+
+    private EditContext _editContext = default!;
+    private string _errorMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
