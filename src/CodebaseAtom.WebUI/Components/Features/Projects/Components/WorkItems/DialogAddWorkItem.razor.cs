@@ -7,6 +7,9 @@ public partial class DialogAddWorkItem
     [Inject]
     public required CreateWorkItemLogic CreateWorkItemLogic { get; set; }
 
+    [CascadingParameter]
+    private CurrentUserModel? CurrentUser { get; set; }
+
     [Parameter]
     public required Guid ProjectId { get; set; }
 
@@ -20,6 +23,13 @@ public partial class DialogAddWorkItem
 
     private async Task OnValidSubmitAsync()
     {
+        if (CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+
+            return;
+        }
+
         try
         {
             IsLoadingBase = true;
@@ -29,7 +39,8 @@ public partial class DialogAddWorkItem
                 ProjectId = ProjectId,
                 Title = _input.Title,
                 Description = _input.Description,
-                Deadline = _input.Deadline
+                Deadline = _input.Deadline,
+                CreatedBy = CurrentUser.UserId
             };
 
             _ = await CreateWorkItemLogic.Handle(input);

@@ -10,6 +10,8 @@ public sealed class UpdateWorkItemStatusLogic(DatabaseService databaseService)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Id, input.WorkItemId);
 
         workItem.Status = input.NewStatus;
+        workItem.Modified = DateTimeOffset.Now;
+        workItem.ModifiedBy = input.ModifiedBy;
 
         _ = await databaseService.SaveChangesAsync(cancellationToken);
     }

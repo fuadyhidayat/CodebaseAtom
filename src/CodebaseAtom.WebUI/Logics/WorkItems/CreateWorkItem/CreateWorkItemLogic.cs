@@ -11,7 +11,8 @@ public sealed class CreateWorkItemLogic(DatabaseService databaseService)
             Title = input.Title,
             Description = input.Description,
             Deadline = input.Deadline,
-            Status = WorkItemStatus.NotStarted
+            Status = WorkItemStatus.NotStarted,
+            CreatedBy = input.CreatedBy
         };
 
         _ = await databaseService.WorkItems.AddAsync(workItem, cancellationToken);

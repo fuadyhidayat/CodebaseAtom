@@ -11,6 +11,8 @@ public sealed class UpdateDocumentLogic(DatabaseService databaseService)
 
         document.Title = input.Title;
         document.FileName = $"{input.FileNameWithoutExtension}{Path.GetExtension(document.FileName)}";
+        document.Modified = DateTimeOffset.Now;
+        document.ModifiedBy = input.ModifiedBy;
 
         _ = await databaseService.SaveChangesAsync(cancellationToken);
     }

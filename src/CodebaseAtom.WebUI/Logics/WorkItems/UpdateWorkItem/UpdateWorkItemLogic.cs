@@ -12,6 +12,8 @@ public sealed class UpdateWorkItemLogic(DatabaseService databaseService)
         workItem.Title = input.Title;
         workItem.Description = input.Description;
         workItem.Deadline = input.Deadline;
+        workItem.Modified = DateTimeOffset.Now;
+        workItem.ModifiedBy = input.ModifiedBy;
 
         _ = await databaseService.SaveChangesAsync(cancellationToken);
     }

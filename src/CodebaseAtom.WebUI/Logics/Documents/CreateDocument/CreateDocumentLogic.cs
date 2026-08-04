@@ -12,7 +12,8 @@ public sealed class CreateDocumentLogic(DatabaseService databaseService, IFileSt
             Title = input.Title,
             FileName = input.FileName,
             FileContentType = input.ContentType,
-            FileSize = input.FileSize
+            FileSize = input.FileSize,
+            CreatedBy = input.CreatedBy
         };
 
         _ = await databaseService.Documents.AddAsync(document, cancellationToken);

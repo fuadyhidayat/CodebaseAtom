@@ -7,11 +7,21 @@ public partial class DialogEditDocument
     [Inject]
     public required UpdateDocumentLogic UpdateDocumentLogic { get; init; }
 
+    [CascadingParameter]
+    private CurrentUserModel? CurrentUser { get; set; }
+
     [Parameter]
     public required EditDocumentModel Model { get; set; }
 
     private async Task OnValidSubmitAsync()
     {
+        if (CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+
+            return;
+        }
+
         try
         {
             IsLoadingBase = true;
@@ -20,7 +30,8 @@ public partial class DialogEditDocument
             {
                 DocumentId = Model.DocumentId,
                 Title = Model.Title,
-                FileNameWithoutExtension = Model.FileNameWithoutExtension
+                FileNameWithoutExtension = Model.FileNameWithoutExtension,
+                ModifiedBy = CurrentUser.UserId
             };
 
             await UpdateDocumentLogic.Handle(input);

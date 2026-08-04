@@ -7,6 +7,9 @@ public partial class DialogEditWorkItem
     [Inject]
     public required UpdateWorkItemLogic UpdateWorkItemLogic { get; init; }
 
+    [CascadingParameter]
+    private CurrentUserModel? CurrentUser { get; set; }
+
     [Parameter]
     public required EditWorkItemModel Model { get; set; }
 
@@ -18,6 +21,13 @@ public partial class DialogEditWorkItem
 
     private async Task OnValidSubmitAsync()
     {
+        if (CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+
+            return;
+        }
+
         try
         {
             IsLoadingBase = true;
@@ -27,7 +37,8 @@ public partial class DialogEditWorkItem
                 WorkItemId = Model.WorkItemId,
                 Title = Model.Title,
                 Description = Model.Description,
-                Deadline = Model.Deadline
+                Deadline = Model.Deadline,
+                ModifiedBy = CurrentUser.UserId
             };
 
             await UpdateWorkItemLogic.Handle(input);

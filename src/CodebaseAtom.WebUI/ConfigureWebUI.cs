@@ -1,6 +1,6 @@
+using System.Security.Claims;
 using ApexCharts;
 using MudBlazor.Services;
-using CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 
 namespace CodebaseAtom.WebUI;
 
@@ -22,9 +22,34 @@ public static class ConfigureWebUI
 
         _ = builder.Services.AddCascadingValue(serviceProvider =>
         {
-            var currentUserService = serviceProvider.GetRequiredService<ICurrentUserService>();
+            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+            var httpContext = httpContextAccessor.HttpContext;
 
-            return currentUserService.GetCurrentUserAsync().GetAwaiter().GetResult();
+            if (httpContext is null)
+            {
+                return null;
+            }
+
+            var userIdClaim = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim is null)
+            {
+                return null;
+            }
+
+            if (!Guid.TryParse(userIdClaim.Value, out var userId))
+            {
+                throw new InvalidOperationException($"Invalid user ID format: {userIdClaim.Value}");
+            }
+
+            var usernameClaim = httpContext.User.FindFirst(ClaimTypes.Name);
+
+            return new CurrentUserModel
+            {
+                UserId = userId,
+                Username = usernameClaim is null ? "unknown" : usernameClaim.Value,
+                Roles = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList()
+            };
         });
 
         return builder;

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components.Routing;
-using CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 
 namespace CodebaseAtom.WebUI.Components.Layouts.Components;
 

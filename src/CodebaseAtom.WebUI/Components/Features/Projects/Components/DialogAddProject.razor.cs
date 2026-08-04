@@ -7,10 +7,20 @@ public partial class DialogAddProject
     [Inject]
     public required CreateProjectLogic CreateProjectLogic { get; set; }
 
+    [CascadingParameter]
+    private CurrentUserModel? CurrentUser { get; set; }
+
     private readonly AddProjectModel _input = new();
 
     private async Task OnValidSubmitAsync()
     {
+        if (CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+
+            return;
+        }
+
         try
         {
             IsLoadingBase = true;
@@ -19,6 +29,7 @@ public partial class DialogAddProject
             {
                 Title = _input.Title,
                 Description = _input.Description,
+                CreatedBy = CurrentUser.UserId
             };
 
             _ = await CreateProjectLogic.Handle(input);

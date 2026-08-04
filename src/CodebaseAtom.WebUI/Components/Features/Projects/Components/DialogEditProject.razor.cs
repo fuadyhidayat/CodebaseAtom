@@ -8,11 +8,21 @@ public partial class DialogEditProject
     [Inject]
     public required UpdateProjectLogic UpdateProjectLogic { get; init; }
 
+    [CascadingParameter]
+    private CurrentUserModel? CurrentUser { get; set; }
+
     [Parameter]
     public required EditProjectModel Model { get; set; }
 
     private async Task OnValidSubmitAsync()
     {
+        if (CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+
+            return;
+        }
+
         try
         {
             IsLoadingBase = true;
@@ -21,7 +31,8 @@ public partial class DialogEditProject
             {
                 ProjectId = Model.ProjectId,
                 Title = Model.Title,
-                Description = Model.Description
+                Description = Model.Description,
+                ModifiedBy = CurrentUser.UserId
             };
 
             await UpdateProjectLogic.Handle(input);

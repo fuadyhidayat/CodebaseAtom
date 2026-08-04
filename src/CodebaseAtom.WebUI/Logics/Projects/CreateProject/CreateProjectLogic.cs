@@ -16,7 +16,8 @@ public sealed class CreateProjectLogic(DatabaseService databaseService)
         var project = new Project
         {
             Title = input.Title,
-            Description = input.Description
+            Description = input.Description,
+            CreatedBy = input.CreatedBy
         };
 
         _ = await databaseService.Projects.AddAsync(project, cancellationToken);

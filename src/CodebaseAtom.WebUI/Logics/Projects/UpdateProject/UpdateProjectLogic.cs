@@ -20,6 +20,8 @@ public sealed class UpdateProjectLogic(DatabaseService databaseService)
 
         project.Title = input.Title;
         project.Description = input.Description;
+        project.Modified = DateTimeOffset.Now;
+        project.ModifiedBy = input.ModifiedBy;
 
         _ = await databaseService.SaveChangesAsync(cancellationToken);
     }

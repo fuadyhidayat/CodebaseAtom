@@ -22,6 +22,9 @@ public partial class TabPanelWorkItems
     [Inject]
     public required DeleteWorkItemLogic DeleteWorkItemLogic { get; set; }
 
+    [CascadingParameter]
+    private CurrentUserModel? CurrentUser { get; set; }
+
     [Parameter, EditorRequired]
     public Guid ProjectId { get; set; }
 
@@ -172,6 +175,13 @@ public partial class TabPanelWorkItems
 
     private async Task UpdateWorkItemStatus(WorkItemModel workItem)
     {
+        if (CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+
+            return;
+        }
+
         try
         {
             IsLoadingBase = true;
@@ -179,7 +189,8 @@ public partial class TabPanelWorkItems
             var input = new UpdateWorkItemStatusInput
             {
                 WorkItemId = workItem.Id,
-                NewStatus = workItem.Status
+                NewStatus = workItem.Status,
+                ModifiedBy = CurrentUser.UserId
             };
 
             await UpdateWorkItemStatusLogic.Handle(input);

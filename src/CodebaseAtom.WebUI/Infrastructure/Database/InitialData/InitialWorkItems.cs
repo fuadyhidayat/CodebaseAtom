@@ -1,3 +1,5 @@
+using CodebaseAtom.WebUI.Infrastructure.Identity.Database.InitialData;
+
 namespace CodebaseAtom.WebUI.Infrastructure.Database.InitialData;
 
 public static class InitialWorkItems
@@ -9,7 +11,8 @@ public static class InitialWorkItems
         Title = "Requirements Gathering",
         Description = "Gathering requirements for the HRIS project",
         Deadline = new DateOnly(2026, 7, 31),
-        Status = WorkItemStatus.InProgress
+        Status = WorkItemStatus.InProgress,
+        CreatedBy = InitialUsers.Administrator.Id
     };
 
     public static readonly WorkItem HrisAnalysisAndDesign = new()
@@ -19,7 +22,8 @@ public static class InitialWorkItems
         Title = "Analysis and Design",
         Description = "Analyzing and designing the HRIS project",
         Deadline = new DateOnly(2026, 8, 31),
-        Status = WorkItemStatus.NotStarted
+        Status = WorkItemStatus.NotStarted,
+        CreatedBy = InitialUsers.Administrator.Id
     };
 
     public static readonly WorkItem DataWarehousePrepareInfrastructure = new()
@@ -29,7 +33,8 @@ public static class InitialWorkItems
         Title = "Prepare Infrastructure",
         Description = "Preparing infrastructure for the Data Warehouse project",
         Deadline = new DateOnly(2026, 7, 23),
-        Status = WorkItemStatus.Done
+        Status = WorkItemStatus.Done,
+        CreatedBy = InitialUsers.Administrator.Id
     };
 
     public static readonly WorkItem DataWarehouseDevelopReport = new()
@@ -39,7 +44,8 @@ public static class InitialWorkItems
         Title = "Develop Report",
         Description = "Developing reports for the Data Warehouse project",
         Deadline = new DateOnly(2026, 8, 9),
-        Status = WorkItemStatus.InProgress
+        Status = WorkItemStatus.InProgress,
+        CreatedBy = InitialUsers.Administrator.Id
     };
 
     public static IReadOnlyCollection<WorkItem> All =>

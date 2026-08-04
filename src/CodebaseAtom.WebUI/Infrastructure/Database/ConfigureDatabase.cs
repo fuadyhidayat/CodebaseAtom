@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using CodebaseAtom.WebUI.Infrastructure.Common.Exceptions;
-using CodebaseAtom.WebUI.Infrastructure.Database.Interceptors;
 using CodebaseAtom.WebUI.Infrastructure.Database.Seeders;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Database;
@@ -25,7 +24,6 @@ public static class ConfigureDatabase
             _ = options.ConfigureWarnings(wcb => wcb.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
         }, ServiceLifetime.Transient);
 
-        _ = services.AddTransient<AuditingSaveChangesInterceptor>();
         _ = services.AddTransient<DatabaseMigrator>();
         _ = services.AddTransient<InitialDataSeeder>();
 

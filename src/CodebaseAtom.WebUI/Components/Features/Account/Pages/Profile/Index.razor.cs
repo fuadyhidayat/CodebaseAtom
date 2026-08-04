@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Identity;
-using CodebaseAtom.WebUI.Infrastructure.CurrentUser;
-using CodebaseAtom.WebUI.Infrastructure.Identity;
 using CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
+using CodebaseAtom.WebUI.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile;
 
@@ -14,12 +13,25 @@ public partial class Index
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
     [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; } = default!;
+    private CurrentUserModel? CurrentUser { get; set; }
 
     private ApplicationUser _applicationUser = default!;
     private IReadOnlyCollection<string> _roles = [];
 
-    protected async Task LoadApplicationUserAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        LoadBreadcrumbs();
+        await LoadApplicationUserAsync();
+    }
+
+    protected override void LoadBreadcrumbs()
+    {
+        ClearBreadcrumbs();
+        AddBreadcrumb(HomeBreadcrumbFor.Index);
+        AddBreadcrumb(ComponentsBreadcrumbFor.Active(UIDisplayTextFor.Profile));
+    }
+
+    private async Task LoadApplicationUserAsync()
     {
         try
         {
@@ -38,31 +50,8 @@ public partial class Index
         }
         catch (Exception exception)
         {
-            Console.WriteLine($"------ FUFUFUFU ------- An error occurred while loading the application user: {exception.Message}");
-
             ExceptionBase = exception;
         }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            await LoadApplicationUserAsync();
-        }
-        catch (Exception exception)
-        {
-            ExceptionBase = exception;
-        }
-
-        LoadBreadcrumbs();
-    }
-
-    protected override void LoadBreadcrumbs()
-    {
-        ClearBreadcrumbs();
-        AddBreadcrumb(HomeBreadcrumbFor.Index);
-        AddBreadcrumb(ComponentsBreadcrumbFor.Active(UIDisplayTextFor.Profile));
     }
 
     private async Task ShowDialogEditProfile()
@@ -78,6 +67,7 @@ public partial class Index
 
         if (result is not null && !result.Canceled)
         {
+            await LoadApplicationUserAsync();
         }
     }
 

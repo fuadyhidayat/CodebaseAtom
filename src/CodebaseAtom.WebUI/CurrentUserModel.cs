@@ -1,4 +1,4 @@
-namespace CodebaseAtom.WebUI.Infrastructure.CurrentUser;
+namespace CodebaseAtom.WebUI;
 
 public sealed record CurrentUserModel
 {
