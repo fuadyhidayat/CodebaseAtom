@@ -1,0 +1,59 @@
+@page "/Projects"
+@inherits PageBase
+
+<HtmlHead Title="@DomainDisplayTextFor.Projects" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<MudStack Row="true"
+          Justify="Justify.SpaceBetween"
+          AlignItems="AlignItems.Baseline">
+    <PageHeader Title="@DomainDisplayTextFor.Projects" />
+    <AuthorizeView Roles="@RoleNameFor.Administrator">
+        <Authorized>
+            <ButtonAdd EntityType="@DomainDisplayTextFor.Project" OnClick="ShowDialogAddProject" />
+        </Authorized>
+    </AuthorizeView>
+</MudStack>
+<ErrorViewer Exception="ExceptionBase" />
+<LoadingLinear IsVisible="IsLoadingBase" />
+@if (_items is not null)
+{
+    <MudStack Spacing="4">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Class="align-self-end">
+            <TextFieldSearch @bind-Value="_searchKeyword" />
+        </MudStack>
+        <TableDefault Items="_items" Loading="IsLoadingBase" Filter="FilterItems">
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
+                        Title
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Description)">
+                        Description
+                    </MudTableSortLabel>
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Title">
+                    <MudLink Href="@ProjectsRouteFor.ProjectDetails(context.Id)">
+                        <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
+                    </MudLink>
+                </MudTd>
+                <MudTd DataLabel="Description">
+                    <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudPaper Elevation="0" Class="pa-5">
+                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
+                        There are no Projects matching the selected filters. Please adjust your search criteria and try again.
+                    </MudAlert>
+                </MudPaper>
+            </NoRecordsContent>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </TableDefault>
+    </MudStack>
+}

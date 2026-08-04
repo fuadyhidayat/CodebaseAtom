@@ -1,0 +1,11 @@
+@if (_errorMessages.Any())
+{
+    <MudStack Class="@CssClass">
+        @foreach (var errorMessage in _errorMessages)
+        {
+            <MudAlert Variant="@Variant" Severity="Severity.Error">
+                @errorMessage
+            </MudAlert>
+        }
+    </MudStack>
+}

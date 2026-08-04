@@ -1,0 +1,21 @@
+namespace CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
+
+public sealed class UpdateWorkItemLogic(IDatabaseService databaseService)
+    : ILogic<UpdateWorkItemInput, Unit>
+{
+    public async Task<Unit> Handle(UpdateWorkItemInput input, CancellationToken cancellationToken = default)
+    {
+        var workItem = await databaseService.WorkItems
+            .Where(workItem => workItem.Id == input.WorkItemId)
+            .FirstOrDefaultAsync(cancellationToken)
+            ?? throw new EntityNotFoundException(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Id, input.WorkItemId);
+
+        workItem.Title = input.Title;
+        workItem.Description = input.Description;
+        workItem.Deadline = input.Deadline;
+
+        _ = await databaseService.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
+    }
+}

@@ -1,0 +1,35 @@
+@page "/MySession"
+
+@inherits PageBase
+@attribute [Authorize]
+
+<HtmlHead Title="@UIDisplayTextFor.MySession" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="@UIDisplayTextFor.MySession" />
+<ErrorViewer Exception="ExceptionBase" />
+
+<AuthorizeView>
+    <Authorized>
+        <HorizontalTabs>
+            <MudTabPanel Text="Session Claims" BadgeData="context.User.Claims.Count()">
+                <SimpleTableDefault>
+                    <thead>
+                        <tr>
+                            <th>Claim Type</th>
+                            <th>Claim Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var claim in context.User.Claims.OrderBy(x => x.Type))
+                        {
+                            <tr>
+                                <td>@claim.Type</td>
+                                <td>@claim.Value</td>
+                            </tr>
+                        }
+                    </tbody>
+                </SimpleTableDefault>
+            </MudTabPanel>
+        </HorizontalTabs>
+    </Authorized>
+</AuthorizeView>

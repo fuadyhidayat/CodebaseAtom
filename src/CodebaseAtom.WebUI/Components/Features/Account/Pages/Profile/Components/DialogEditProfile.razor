@@ -1,0 +1,34 @@
+@inherits DialogBase
+
+<MudDialog>
+    <DialogContent>
+        <MudStack Class="mb-5">
+            <ErrorViewer Exception="ExceptionBase" />
+
+            @if (_input is not null)
+            {
+                <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
+                    <DataAnnotationsValidator />
+                    <GridDefault>
+                        <MudItem xs="12">
+                            <TextFieldDefault Label="Display Name"
+                                              Placeholder="Enter your display name"
+                                              @bind-Value="_input.DisplayName"
+                                              For="@(() => _input.DisplayName)" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <TextFieldDefault Label="Email"
+                                              Placeholder="Enter your email"
+                                              @bind-Value="_input.NewEmail"
+                                              For="@(() => _input.NewEmail)" />
+                        </MudItem>
+                    </GridDefault>
+                    <BottomButtonPanel>
+                        <ButtonCancel OnClick="Cancel" Disabled="@IsLoadingBase" />
+                        <ButtonConfirm ButtonType="ButtonType.Submit" />
+                    </BottomButtonPanel>
+                </EditForm>
+            }
+        </MudStack>
+    </DialogContent>
+</MudDialog>

@@ -1,0 +1,38 @@
+@implements IDisposable
+@inherits AppComponentBase
+
+<AuthorizeView>
+    <Authorized>
+        <MudStack Row="true" AlignItems="AlignItems.Center">
+            <MudMenu Variant="Variant.Text"
+                     Color="Color.Inherit"
+                     Class="no-wrap"
+                     StartIcon="@Icons.Material.Filled.Person"
+                     Label="@_username"
+                     EndIcon="@Icons.Material.Filled.KeyboardArrowDown"
+                     AnchorOrigin="Origin.BottomRight"
+                     TransformOrigin="Origin.TopRight"
+                     data-testid="menu-currentuser">
+                <MudMenuItem Href="@AccountProfileRouteFor.Index"
+                             Icon="@Icons.Material.Filled.Badge">
+                    Profile
+                </MudMenuItem>
+            </MudMenu>
+            <form action="@AccountRouteFor.Logout"
+                  @formname="FormLogout"
+                  data-enhance="false"
+                  method="post">
+                <AntiforgeryToken />
+                <input type="hidden" name="ReturnUrl" value="@_currentUrl" />
+                <ButtonLogout ButtonType="ButtonType.Submit" />
+            </form>
+        </MudStack>
+    </Authorized>
+    <NotAuthorized>
+        <MudStack Row="true" AlignItems="AlignItems.Center">
+            <MudLink Href="@_loginRoute" Color="Color.Inherit">
+                Login
+            </MudLink>
+        </MudStack>
+    </NotAuthorized>
+</AuthorizeView>

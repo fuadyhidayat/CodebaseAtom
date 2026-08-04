@@ -1,0 +1,34 @@
+@inherits DialogBase
+
+<MudDialog>
+    <DialogContent>
+        <MudStack Spacing="4" Class="mb-3">
+            <ErrorViewer Exception="ExceptionBase" />
+            @if (Model is not null)
+            {
+                <EditForm Model="Model" OnValidSubmit="OnValidSubmitAsync">
+                    <DataAnnotationsValidator />
+                    <GridDefault>
+                        <MudItem xs="12">
+                            <TextFieldDefault Label="@DomainDisplayTextFor.Title"
+                                              Placeholder="@($"Enter {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
+                                              @bind-Value="Model.Title"
+                                              For="@(() => Model.Title)" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <TextFieldDefault Label="@DomainDisplayTextFor.FileName"
+                                              Placeholder="@($"Enter {DomainDisplayTextFor.Document} {DomainDisplayTextFor.FileName}")"
+                                              @bind-Value="Model.FileNameWithoutExtension"
+                                              AdornmentText="@Model.FileExtension"
+                                              Adornment="Adornment.End"
+                                              For="@(() => Model.FileNameWithoutExtension)" />
+                        </MudItem>
+                    </GridDefault>
+                    <BottomButtonPanel>
+                        <ButtonSave ButtonType="ButtonType.Submit" />
+                    </BottomButtonPanel>
+                </EditForm>
+            }
+        </MudStack>
+    </DialogContent>
+</MudDialog>

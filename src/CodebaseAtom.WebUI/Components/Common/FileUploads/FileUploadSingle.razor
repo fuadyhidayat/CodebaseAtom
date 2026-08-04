@@ -1,0 +1,24 @@
+@inherits AppComponentBase
+
+<MudFileUpload DragAndDrop="@DragAndDrop"
+               Accept="@Accept"
+               Disabled="_disabled"
+               OnFilesChanged="OnFilesChanged"
+               @bind-Files="_file">
+    <SelectedTemplate />
+</MudFileUpload>
+@if (_file is not null)
+{
+    <MudChip T="string"
+             Color="Color.Info"
+             Variant="Variant.Text"
+             Class="mx-0"
+             Label="true">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+            <b>@_file.Name</b> (@_file.Size.ToReadableFileSize())
+            <MudIconButton Icon="@Icons.Material.Filled.Clear"
+                           OnClick="RemoveFile"
+                           Size="Size.Small" />
+        </MudStack>
+    </MudChip>
+}

@@ -1,0 +1,17 @@
+<MudText Typo="Typo.h1" Class="@CssClass" Style="@Style">@Title</MudText>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; init; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public int MarginBottom { get; init; } = 5;
+
+    private string CssClass => string.Join(" ", $"mb-{MarginBottom}", Class).Trim();
+}

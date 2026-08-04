@@ -1,0 +1,121 @@
+@page "/Examples/ErrorHandling"
+@inherits PageBase
+
+<HtmlHead Title="@ExamplesDisplayTextFor.ErrorHandling" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="@ExamplesDisplayTextFor.ErrorHandling" />
+<HorizontalTabs>
+    <MudTabPanel Text="With ErrorViewer">
+        <MudText Typo="Typo.body1">
+            Klik hingga Current Count menjadi <b>@_maximumCount</b>.
+            Setelah itu klik lagi hingga menyebabkan error dan
+            aplikasi akan menampilkan komponen <code>ErrorViewer</code>.
+            <br />
+            Komponen <code>ErrorViewer</code> dideklarasikan di bawah tulisan ini.
+        </MudText>
+        <ErrorViewer Exception="ExceptionBase" Variant="Variant.Filled" />
+        <FieldDefault Label="Current Count" Class="mt-5">
+            @_currentCountWithErrorViewer
+        </FieldDefault>
+        <MudStack Row="true" Class="mt-5">
+            <ButtonPrimary OnClick="IncrementCountWithErrorViewer"
+                           StartIcon="@MudBlazor.Icons.Material.Filled.AdsClick"
+                           Disabled="@(ExceptionBase is not null)">
+                Click me
+            </ButtonPrimary>
+            <ButtonReset OnClick="Reset" />
+        </MudStack>
+    </MudTabPanel>
+    <MudTabPanel Text="Without ErrorViewer">
+        <MudText Typo="Typo.body1">
+            Klik hingga Current Count menjadi <b>@_maximumCount</b>.
+            Setelah itu klik lagi hingga menyebabkan error dan
+            aplikasi akan menampilkan komponen <code>BlazorErrorUI</code>.
+            <br />
+            Komponen <code>BlazorErrorUI</code> dideklarasikan pada file App.razor dan
+            kita <strong>tidak dapat</strong> mengganti isi tulisannya dengan pesan yang lebih jelas.
+            <br />
+            Komponen <code>BlazorErrorUI</code> akan mem-<i>block</i> halaman aplikasi
+            sehingga user harus melakukan <i>refresh</i> untuk melanjutkan menggunakan aplikasi.
+        </MudText>
+        <FieldDefault Label="Current Count" Class="mt-5">
+            @_currentCountWithoutErrorViewer
+        </FieldDefault>
+        <MudStack Row="true" Class="mt-5">
+            <ButtonPrimary OnClick="IncrementCountWithoutErrorViewer"
+                           StartIcon="@MudBlazor.Icons.Material.Filled.AdsClick">
+                Click me
+            </ButtonPrimary>
+            <ButtonReset OnClick="Reset" />
+        </MudStack>
+    </MudTabPanel>
+    <MudTabPanel Text="With ErrorBoundary but without ErrorContent">
+        <ErrorBoundary>
+            <ChildContent>
+                <MudText Typo="Typo.body1">
+                    Klik hingga Current Count menjadi <b>@_maximumCount</b>.
+                    Setelah itu klik lagi hingga menyebabkan error dan
+                    aplikasi akan mengganti isi di dalam <code>ErrorBoundary</code> dengan pesan error.
+                    <br />
+                    Anda dapat mengatur isi pesan error pada komponen <code>ErrorContent</code> yang ada di dalam <code>ErrorBoundary</code>.
+                    <br />
+                    Jika tidak ada komponen <code>ErrorContent</code> maka isi pesan error akan menampilkan pesan default.
+                    <br />
+                    Pesan default ada pada file <code>error-boundary.css</code> dan dapat diubah sesuai kebutuhan.
+                </MudText>
+                <FieldDefault Label="Current Count" Class="mt-5">
+                    @_currentCountWithoutErrorViewer
+                </FieldDefault>
+                <MudStack Row="true" Class="mt-5">
+                    <ButtonPrimary OnClick="IncrementCountWithoutErrorViewer"
+                                   StartIcon="@MudBlazor.Icons.Material.Filled.AdsClick">
+                        Click me
+                    </ButtonPrimary>
+                    <ButtonReset OnClick="Reset" />
+                </MudStack>
+            </ChildContent>
+        </ErrorBoundary>
+    </MudTabPanel>
+    <MudTabPanel Text="With ErrorBoundary and ErrorContent">
+        <ErrorBoundary>
+            <ChildContent>
+                <MudText Typo="Typo.body1">
+                    Klik hingga Current Count menjadi <b>@_maximumCount</b>.
+                    Setelah itu klik lagi hingga menyebabkan error dan
+                    aplikasi akan mengganti isi di dalam <code>ErrorBoundary</code> dengan pesan error.
+                    <br />
+                    Anda dapat mengatur isi pesan error pada komponen <code>ErrorContent</code> yang ada di dalam <code>ErrorBoundary</code>.
+                    <br />
+                    Jika tidak ada komponen <code>ErrorContent</code> maka isi pesan error akan menampilkan pesan default.
+                    <br />
+                    Pesan default ada pada file <code>error-boundary.css</code> dan dapat diubah sesuai kebutuhan.
+                </MudText>
+                <FieldDefault Label="Current Count" Class="mt-5">
+                    @_currentCountWithoutErrorViewer
+                </FieldDefault>
+                <MudStack Row="true" Class="mt-5">
+                    <ButtonPrimary OnClick="IncrementCountWithoutErrorViewer"
+                                   StartIcon="@MudBlazor.Icons.Material.Filled.AdsClick">
+                        Click me
+                    </ButtonPrimary>
+                    <ButtonReset OnClick="Reset" />
+                </MudStack>
+            </ChildContent>
+            <ErrorContent>
+                <Paper25 Outlined="true">
+                    <MudStack AlignItems="AlignItems.Start">
+                        <MudText Typo="Typo.h6" Class="mb-2">
+                            Oops! Something went wrong.
+                        </MudText>
+                        <MudText Typo="Typo.body1" Class="mb-2">
+                            Don't worry. Please click the <b>Refresh</b> button to refresh the page.
+                        </MudText>
+                        <ButtonRefresh Href="javascript:window.location.reload();">
+                            Refresh
+                        </ButtonRefresh>
+                    </MudStack>
+                </Paper25>
+            </ErrorContent>           
+        </ErrorBoundary>
+    </MudTabPanel>
+</HorizontalTabs>

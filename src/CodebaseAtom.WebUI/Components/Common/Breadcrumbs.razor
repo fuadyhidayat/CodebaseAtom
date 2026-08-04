@@ -1,0 +1,23 @@
+<MudStack Row="true"
+          Justify="Justify.SpaceBetween"
+          AlignItems="AlignItems.Center"
+          Class="mb-3">
+    @if (Items.Any())
+    {
+        <MudBreadcrumbs Items="Items" />
+    }
+    else
+    {
+        <MudSpacer />
+    }
+    <MudChip T="string"
+             Label="true"
+             Size="Size.Small">
+        @DateTimeOffset.Now.ToDisplayText(DateFormatFor.LongDate)
+    </MudChip>
+</MudStack>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<BreadcrumbItem> Items { get; set; }
+}

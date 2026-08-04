@@ -1,0 +1,14 @@
+@page "/NotFound"
+@attribute [AllowAnonymous]
+@layout LayoutMain
+
+<MudStack AlignItems="AlignItems.Center" Class="pt-10">
+    <div class="text-center">
+        <MudText Typo="Typo.h1">Not Found</MudText>
+        <MudText Typo="Typo.subtitle1">Sorry, the page or the content you're looking for does not exist.</MudText>
+    </div>
+    <div>
+        <img src="img/not-found.png" alt="Not Found" style="max-width: 400px;" />
+    </div>
+    <DivHistoryBack />
+</MudStack>

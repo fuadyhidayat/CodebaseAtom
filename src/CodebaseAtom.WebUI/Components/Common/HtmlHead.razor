@@ -1,0 +1,16 @@
+@inject IOptions<ApplicationOptions> ApplicationOptionsProvider
+
+@if (string.IsNullOrWhiteSpace(Title))
+{
+    <PageTitle>@ApplicationOptionsProvider.Value.ApplicationName hoho</PageTitle>
+}
+else
+{
+    <PageTitle>@Title | @ApplicationOptionsProvider.Value.ApplicationName</PageTitle>
+}
+
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Title { get; init; } = default!;
+}

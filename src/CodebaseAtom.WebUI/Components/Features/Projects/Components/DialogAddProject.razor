@@ -1,0 +1,34 @@
+@inherits DialogBase
+
+<MudDialog>
+    <DialogContent>
+        <MudStack Spacing="4" Class="mb-3">
+            <ErrorViewer Exception="ExceptionBase" />
+            @if (_input is not null)
+            {
+                <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
+                    <DataAnnotationsValidator />
+                    <GridDefault>
+                        <MudItem xs="12">
+                            <TextFieldDefault Label="@DomainDisplayTextFor.Title"
+                                              Placeholder="Enter the project title"
+                                              @bind-Value="_input.Title"
+                                              For="@(() => _input.Title)" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
+                                                Placeholder="Enter the project description"
+                                                Lines="3"
+                                                MaxLines="5"
+                                                @bind-Value="_input.Description"
+                                                For="@(() => _input.Description)" />
+                        </MudItem>
+                    </GridDefault>
+                    <BottomButtonPanel>
+                        <ButtonSave ButtonType="ButtonType.Submit" />
+                    </BottomButtonPanel>
+                </EditForm>
+            }
+        </MudStack>
+    </DialogContent>
+</MudDialog>

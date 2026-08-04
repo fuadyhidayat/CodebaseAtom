@@ -1,0 +1,42 @@
+@page "/Account/Profile"
+
+@inherits PageBase
+
+<HtmlHead Title="Profile" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="Profile" />
+@if (_applicationUser is not null)
+{
+    <TopButtonPanel>
+        <ButtonEdit OnClick="ShowDialogEditProfile">
+            Edit Profile
+        </ButtonEdit>
+        <ButtonEdit OnClick="ShowDialogChangePassword">
+            Change Password
+        </ButtonEdit>
+    </TopButtonPanel>
+    <PageSection>
+        <GridDefault>
+            <MudItem xs="12" sm="6">
+                <FieldDefault Label="Username">
+                    @_applicationUser.UserName
+                </FieldDefault>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <FieldDefault Label="Email">
+                    @_applicationUser.Email
+                </FieldDefault>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <FieldDefault Label="Display Name">
+                    @_applicationUser.DisplayName
+                </FieldDefault>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <FieldDefault Label="Roles">
+                    @(_roles.Any() ? string.Join(", ", _roles) : "No Roles")
+                </FieldDefault>
+            </MudItem>
+        </GridDefault>
+    </PageSection>
+}

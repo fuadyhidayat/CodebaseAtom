@@ -1,0 +1,41 @@
+@using System.Net.Http
+@using System.Net.Http.Json
+@using CodebaseAtom.WebUI.Infrastructure.Options
+@using CodebaseAtom.WebUI.Logics.Common.Extensions
+@using CodebaseAtom.WebUI
+@using CodebaseAtom.WebUI.Common.Statics
+@using CodebaseAtom.WebUI.Components
+@using CodebaseAtom.WebUI.Components.Common
+@using CodebaseAtom.WebUI.Components.Common.Abstracts
+@using CodebaseAtom.WebUI.Components.Common.ButtonPanels
+@using CodebaseAtom.WebUI.Components.Common.Buttons
+@using CodebaseAtom.WebUI.Components.Common.ChipSets
+@using CodebaseAtom.WebUI.Components.Common.DatePickers
+@using CodebaseAtom.WebUI.Components.Common.Errors
+@using CodebaseAtom.WebUI.Components.Common.Fields
+@using CodebaseAtom.WebUI.Components.Common.FileUploads
+@using CodebaseAtom.WebUI.Components.Common.Grids
+@using CodebaseAtom.WebUI.Components.Common.Links
+@using CodebaseAtom.WebUI.Components.Common.Loadings
+@using CodebaseAtom.WebUI.Components.Common.NavGroups
+@using CodebaseAtom.WebUI.Components.Common.NumericFields
+@using CodebaseAtom.WebUI.Components.Common.Papers
+@using CodebaseAtom.WebUI.Components.Common.Selects
+@using CodebaseAtom.WebUI.Components.Common.Tables
+@using CodebaseAtom.WebUI.Components.Common.Tabs
+@using CodebaseAtom.WebUI.Components.Common.TextFields
+@using CodebaseAtom.WebUI.Components.Layouts
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.JSInterop
+@using MudBlazor
+
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+@attribute [Authorize]

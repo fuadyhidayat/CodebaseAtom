@@ -1,0 +1,36 @@
+/* HorizontalTabs */
+
+.horizontal-tabs-tab-header
+{
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--mud-palette-lines-default);
+}
+
+.horizontal-tabs-tab-buttons
+{
+    letter-spacing: 0;
+    min-width: auto !important;
+    padding: 0 20px;
+}
+
+    .horizontal-tabs-tab-buttons .mud-badge-wrapper,
+    .horizontal-tabs-tab-buttons .mud-badge
+    {
+        position: static;
+    }
+
+.horizontal-tabs-active-tab
+{
+    font-weight: bold;
+}
+
+.horizontal-tabs-tab-panel
+{
+    padding: 20px;
+}
+
+.horizontal-tabs-tab-header-transparentx
+{
+    border-radius: 0 !important;
+    background-color: transparent !important;
+}

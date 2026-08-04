@@ -1,0 +1,140 @@
+@inherits AppComponentBase
+
+<MudStack>
+    <MudStack Row="true"
+              Justify="Justify.SpaceBetween"
+              AlignItems="AlignItems.Start">
+        <MudButtonGroup Color="Color.Primary"
+                        Variant="Variant.Outlined"
+                        Size="Size.Small">
+            <MudStack Class="px-5 border rounded-tl rounded-bl mud-border-primary" Justify="Justify.Center">
+                <MudText Class="text-bold">
+                    @if (_isKanbanView)
+                    {
+                        <span>Kanban View</span>
+                    }
+                    else
+                    {
+                        <span>Table View</span>
+                    }
+                </MudText>
+            </MudStack>
+            <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Style="align-self: auto;">
+                <MudMenuItem OnClick="() => _isKanbanView = true" Disabled="@_isKanbanView">Switch to Kanban View</MudMenuItem>
+                <MudMenuItem OnClick="() => _isKanbanView = false" Disabled="@(!_isKanbanView)">Switch to Table View</MudMenuItem>
+            </MudMenu>
+        </MudButtonGroup>
+        <ButtonAdd EntityType="@DomainDisplayTextFor.WorkItem" OnClick="ShowDialogAddWorkItem" />
+    </MudStack>
+
+    @if (_isKanbanView)
+    {
+        <MudDropContainer T="WorkItemModel"
+                          @ref="_kanban"
+                          Items="@_items"
+                          Class="d-flex flex-row"
+                          ItemsSelector="@((item, column) => item.Status.ToString() == column)"
+                          ItemDropped="HandleItemDropped">
+            <ChildContent>
+                <MudStack Row="true">
+                    @foreach (var column in Columns)
+                    {
+                        <MudPaper Outlined="true"
+                                  Width="360px"
+                                  MinHeight="400px"
+                                  Class="d-flex flex-column px-3 mud-background-gray">
+                            <MudToolBar Gutters="false" Class="mb-6">
+                                <MudText Typo="Typo.h5" Class="my-auto">
+                                    @column.Name
+                                </MudText>
+                                <MudSpacer />
+                                <MudBadge Color="Color.Primary"
+                                          Overlap="true"
+                                          Class="mr-2"
+                                          Content="@_items.Count(x => x.Status == column)" />
+                            </MudToolBar>
+                            <MudDropZone T="WorkItemModel"
+                                         Class="flex-grow-1"
+                                         Identifier="@column.ToString()" />
+                        </MudPaper>
+                    }
+                </MudStack>
+            </ChildContent>
+            <ItemRenderer>
+                <MudPaper Outlined="true"
+                          Class="mb-3 pa-3 mud-ripple"
+                          Style="cursor: grab;">
+                    <MudText Typo="Typo.h5" Class="mb-5">
+                        @context.Title
+                    </MudText>
+                    <MudText Typo="Typo.body2" Class="mud-text-secondary">
+                        @context.Description
+                    </MudText>
+                    <MudDivider Class="my-3" />
+                    <MudStack Row="true"
+                              Justify="Justify.SpaceBetween"
+                              AlignItems="AlignItems.Baseline">
+                        <MudText Typo="Typo.body2" Class="mud-text-secondary">
+                            @DomainDisplayTextFor.Deadline: @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                        </MudText>
+                        <MudStack Row="true" Justify="Justify.FlexEnd">
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                           Size="Size.Small"
+                                           OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           Size="Size.Small"
+                                           OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                        </MudStack>
+                    </MudStack>
+                </MudPaper>
+            </ItemRenderer>
+        </MudDropContainer>
+    }
+    else
+    {
+        <SimpleTableDefault>
+            <thead>
+                <tr>
+                    <th>
+                        @DomainDisplayTextFor.Title
+                    </th>
+                    <th>
+                        @DomainDisplayTextFor.Description
+                    </th>
+                    <th class="text-center">
+                        @DomainDisplayTextFor.Deadline
+                    </th>
+                    <th class="text-center">
+                        @DomainDisplayTextFor.Status
+                    </th>
+                    <th class="text-center">
+                        @UIDisplayTextFor.Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var workItem in _items)
+                {
+                    <tr>
+                        <td>
+                            @workItem.Title
+                        </td>
+                        <td>
+                            @workItem.Description
+                        </td>
+                        <td class="text-center">
+                            @workItem.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                        </td>
+                        <td class="text-center">
+                            @workItem.Status.Name
+                        </td>
+                        <td class="text-center">
+                            <ButtonEdit OnClick="@(() => ShowDialogEditWorkItem(workItem))" />
+                            <ButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(workItem))" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </SimpleTableDefault>
+    }
+</MudStack>

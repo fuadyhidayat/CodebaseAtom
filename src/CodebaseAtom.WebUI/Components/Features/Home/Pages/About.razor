@@ -1,0 +1,79 @@
+@page "/About"
+@using System.Runtime.InteropServices
+
+@inherits PageBase
+
+<HtmlHead Title="@UIDisplayTextFor.About" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="@UIDisplayTextFor.About" />
+<MudStack>
+    <MudPaper Outlined="true" Class="pa-4 gray lighten-5">
+        <MudText Typo="Typo.body1">
+            This is a sample application built with ASP.NET Core and Blazor, demonstrating the use of various features and components.
+            <br />
+            It provides information about the application, its version, build date, environment, and system information.
+        </MudText>
+    </MudPaper>
+    <PageSection SectionTitle="System Information">
+        <SimpleTableDefault Style="width: max-content;">
+            <tbody>
+                <tr>
+                    <td class="text-bold">
+                        Application Name
+                    </td>
+                    <td>
+                        @ApplicationOptionsProvider.Value.ApplicationName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-bold">
+                        Application Version
+                    </td>
+                    <td>
+                        @CommonValueFor.SemanticVersion
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-bold">
+                        Application Last Build
+                    </td>
+                    <td>
+                        @CommonValueFor.AssemblyLastBuild.ToDisplayText(DateTimeFormatFor.LongDateTime)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-bold">
+                        Environment Name
+                    </td>
+                    <td>
+                        @CommonValueFor.EnvironmentName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-bold">
+                        Operating System
+                    </td>
+                    <td>
+                        @RuntimeInformation.OSDescription
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-bold">
+                        Framework Version
+                    </td>
+                    <td>
+                        @RuntimeInformation.FrameworkDescription
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-bold">
+                        Time Zone
+                    </td>
+                    <td>
+                        @TimeZoneInfo.Local.DisplayName
+                    </td>
+                </tr>
+            </tbody>
+        </SimpleTableDefault>
+    </PageSection>
+</MudStack>

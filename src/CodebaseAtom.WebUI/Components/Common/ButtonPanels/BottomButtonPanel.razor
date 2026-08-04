@@ -1,0 +1,34 @@
+<MudStack Row="Row"
+          Spacing="Spacing"
+          Justify="Justify"
+          AlignItems="AlignItems"
+          Wrap="Wrap.Wrap"
+          Class="@CssClass"
+          Style="@Style">
+    @ChildContent
+</MudStack>
+
+@code {
+    [Parameter]
+    public bool Row { get; set; } = true;
+
+    [Parameter]
+    public int Spacing { get; set; } = 4;
+
+    [Parameter]
+    public Justify Justify { get; set; } = Justify.FlexEnd;
+
+    [Parameter]
+    public AlignItems AlignItems { get; set; } = AlignItems.Center;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string CssClass => string.Join(" ", "mt-5", Class).Trim();
+}

@@ -1,0 +1,28 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
+    <!-- Run all .NET code analysis rules (CA1000–CA5405) on every build. -->
+    <AnalysisMode>All</AnalysisMode>
+    <!-- Run IDE code style rules (IDE0001–IDE2006) on every build, not just inside the IDE. -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!-- Treat all compiler warnings as errors so no warning silently slips through. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- Required for IDE0005 (remove unnecessary usings) to work during build. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Suppress CS1591: missing XML doc comment — we enforce code style but not XML docs on every member. -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <!-- Enable NuGet package auditing -->
+    <NuGetAudit>true</NuGetAudit>
+    <!-- Audit both top-level and transitive packages -->
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <!-- Set threshold (low, moderate, high, or critical) -->
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+</Project>

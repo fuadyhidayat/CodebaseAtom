@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/_etc/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/.github/">
+    <File Path=".github/copilot-instructions.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/CodebaseAtom.WebUI/CodebaseAtom.WebUI.csproj" Id="f9422910-94ba-4a91-8b1d-f9d1699d2316" />
+  </Folder>
+</Solution>

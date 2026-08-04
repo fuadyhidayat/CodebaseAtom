@@ -1,0 +1,27 @@
+<Paper25 Class="@CssClass" Style="@Style">
+    @if (!string.IsNullOrWhiteSpace(SectionTitle))
+    {
+        <MudText Typo="Typo.h3" Class="mb-5" Color="Color.Primary">
+            @SectionTitle
+        </MudText>
+    }
+    <MudStack Spacing="3">
+        @ChildContent
+    </MudStack>
+</Paper25>
+
+@code {
+    [Parameter]
+    public string? SectionTitle { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string CssClass => string.Join(" ", "pa-4", Class).Trim();
+}

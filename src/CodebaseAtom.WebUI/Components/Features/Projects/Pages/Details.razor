@@ -1,0 +1,39 @@
+@page "/Projects/Details/{ProjectId:guid}"
+@using CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents
+@using CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems
+@inherits PageBase
+
+<HtmlHead Title="@DomainDisplayTextFor.ProjectDetails" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<ErrorViewer Exception="ExceptionBase" />
+<LoadingLinear IsVisible="IsLoadingBase" />
+
+@if (_item is not null)
+{
+    <MudStack>
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Baseline">
+            <PageHeader Title="@_item.Title" />
+            <AuthorizeView Roles="@RoleNameFor.Administrator">
+                <Authorized>
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <ButtonEdit OnClick="ShowDialogEditProject" />
+                        <ButtonDelete OnClick="ShowDialogDeleteProject" />
+                    </MudStack>
+                </Authorized>
+            </AuthorizeView>
+        </MudStack>
+        <MudPaper Outlined="true" Class="pa-4 gray lighten-5">
+            <MudText Typo="Typo.body1">
+                @_item.Description
+            </MudText>
+        </MudPaper>
+        <HorizontalTabs>
+            <MudTabPanel Text="@DomainDisplayTextFor.WorkItems">
+                <TabPanelWorkItems ProjectId="@ProjectId" />
+            </MudTabPanel>
+            <MudTabPanel Text="@DomainDisplayTextFor.Documents">
+                <TabPanelDocuments ProjectId="@ProjectId" />
+            </MudTabPanel>
+        </HorizontalTabs>
+    </MudStack>
+}

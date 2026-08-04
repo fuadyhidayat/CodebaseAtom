@@ -1,0 +1,24 @@
+@inherits AppComponentBase
+
+<MudFileUpload DragAndDrop="@DragAndDrop"
+               Accept="@Accept"
+               OnFilesChanged="OnFilesChanged"
+               @bind-Files="_files">
+    <SelectedTemplate />
+</MudFileUpload>
+@foreach (var file in _files)
+{
+    <MudChip T="string"
+             Color="Color.Info"
+             Variant="Variant.Text"
+             Class="mx-0"
+             Label="true">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+            <b>@file.Name</b> (@file.Size.ToReadableFileSize())
+            <MudIconButton Icon="@Icons.Material.Filled.Clear"
+                           OnClick="() => RemoveFile(file)"
+                           Size="Size.Small" />
+        </MudStack>
+    </MudChip>
+}
+

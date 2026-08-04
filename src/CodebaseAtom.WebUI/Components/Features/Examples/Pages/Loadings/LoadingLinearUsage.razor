@@ -1,0 +1,14 @@
+@page "/Examples/Loadings/LoadingLinear"
+@inherits PageBase
+
+<HtmlHead Title="@ExamplesDisplayTextFor.LoadingLinear" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="@ExamplesDisplayTextFor.LoadingLinear" />
+<LoadingLinear IsVisible="@IsLoadingBase" />
+<Paper25>
+    <ButtonPrimary OnClick="ShowLoading"
+                   StartIcon="@Icons.Material.Filled.Slideshow"
+                   Disabled="IsLoadingBase">
+        @UIDisplayTextFor.Show @ExamplesDisplayTextFor.LoadingLinear
+    </ButtonPrimary>
+</Paper25>

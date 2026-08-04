@@ -1,0 +1,21 @@
+@inject IOptions<ApplicationOptions> ApplicationOptionsProvider
+
+<footer class="footer">
+    <MudStack Row="true">
+        <div>
+            Copyright © @DateTime.Now.Year - @ApplicationOptionsProvider.Value.CompanyName
+        </div>
+        <MudDivider Vertical="true" FlexItem="true" />
+        <div>
+            Version @CommonValueFor.SemanticVersion
+        </div>
+        <MudDivider Vertical="true" FlexItem="true" />
+        <div>
+            Environment: @CommonValueFor.EnvironmentName
+        </div>
+        <MudDivider Vertical="true" FlexItem="true" />
+        <div>
+            Last Build: @CommonValueFor.AssemblyLastBuild.ToDisplayText(DateTimeFormatFor.LongDateTime)
+        </div>
+    </MudStack>
+</footer>

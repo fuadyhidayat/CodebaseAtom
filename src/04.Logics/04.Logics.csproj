@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Vioren.CodebaseExpress.Logics</RootNamespace>
+    <AssemblyName>Vioren.CodebaseExpress.Logics</AssemblyName>
+  </PropertyGroup>
+</Project>

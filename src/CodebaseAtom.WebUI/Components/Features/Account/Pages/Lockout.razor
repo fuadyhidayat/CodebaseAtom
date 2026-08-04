@@ -1,0 +1,16 @@
+@page "/Account/Lockout"
+
+@layout LayoutLogin
+@attribute [AllowAnonymous]
+
+<HtmlHead Title="Locked out" />
+<MudStack Spacing="5" AlignItems="AlignItems.Center" Class="mt-5">
+    <MudText Typo="Typo.h2" Color="Color.Error">
+        This account has been locked out.
+    </MudText>
+    <MudText Typo="Typo.h4">
+        Please contact the <span class="mud-primary-text">administrator</span> or try to
+        <MudLink Href="@AccountRouteFor.Login()" Underline="Underline.Always">login</MudLink>
+        again later.
+    </MudText>
+</MudStack>
