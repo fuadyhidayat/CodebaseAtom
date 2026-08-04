@@ -1,9 +1,8 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
 
 public sealed class DeleteWorkItemLogic(IDatabaseService databaseService)
-    : ILogic<DeleteWorkItemInput, Unit>
 {
-    public async Task<Unit> Handle(DeleteWorkItemInput input, CancellationToken cancellationToken = default)
+    public async Task Handle(DeleteWorkItemInput input, CancellationToken cancellationToken = default)
     {
         var workItem = await databaseService.WorkItems
             .Where(workItem => workItem.Id == input.WorkItemId)
@@ -12,7 +11,5 @@ public sealed class DeleteWorkItemLogic(IDatabaseService databaseService)
 
         _ = databaseService.WorkItems.Remove(workItem);
         _ = await databaseService.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

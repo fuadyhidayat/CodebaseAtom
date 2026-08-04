@@ -1,7 +1,7 @@
-using Microsoft.JSInterop;
 using CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
 using CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 using CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
+using Microsoft.JSInterop;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
 
@@ -11,13 +11,13 @@ public partial class TabPanelDocuments
     public required IDialogService DialogService { get; init; }
 
     [Inject]
-    public required ILogic<GetDocumentsInput, GetDocumentsOutput> GetDocumentsLogic { get; set; }
+    public required GetDocumentsLogic GetDocumentsLogic { get; set; }
 
     [Inject]
-    public required ILogic<DeleteDocumentInput, Unit> DeleteDocumentLogic { get; set; }
+    public required DeleteDocumentLogic DeleteDocumentLogic { get; set; }
 
     [Inject]
-    public required ILogic<DownloadDocumentInput, DownloadDocumentOutput> DownloadDocumentLogic { get; set; }
+    public required DownloadDocumentLogic DownloadDocumentLogic { get; set; }
 
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
@@ -162,28 +162,32 @@ public partial class TabPanelDocuments
 
         if (dialogResult is true)
         {
-            try
-            {
-                IsLoadingBase = true;
-                ExceptionBase = null;
+            await DeleteDocument(item.Id);
+        }
+    }
 
-                var input = new DeleteDocumentInput
-                {
-                    DocumentId = item.Id
-                };
+    private async Task DeleteDocument(Guid documentId)
+    {
+        try
+        {
+            IsLoadingBase = true;
+            ExceptionBase = null;
 
-                _ = await DeleteDocumentLogic.Handle(input);
+            var input = new DeleteDocumentInput
+            {
+                DocumentId = documentId
+            };
 
-                await LoadItems();
-            }
-            catch (Exception exception)
-            {
-                ExceptionBase = exception;
-            }
-            finally
-            {
-                IsLoadingBase = false;
-            }
+            await DeleteDocumentLogic.Handle(input);
+            await LoadItems();
+        }
+        catch (Exception exception)
+        {
+            ExceptionBase = exception;
+        }
+        finally
+        {
+            IsLoadingBase = false;
         }
     }
 

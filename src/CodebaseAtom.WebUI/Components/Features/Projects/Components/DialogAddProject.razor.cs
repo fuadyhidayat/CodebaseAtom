@@ -5,7 +5,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Projects.Components;
 public partial class DialogAddProject
 {
     [Inject]
-    public required ILogic<CreateProjectInput, CreateProjectOutput> CreateProjectLogic { get; set; }
+    public required CreateProjectLogic CreateProjectLogic { get; set; }
 
     private readonly AddProjectModel _input = new();
 

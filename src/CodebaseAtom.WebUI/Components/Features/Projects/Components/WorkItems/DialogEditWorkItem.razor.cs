@@ -5,7 +5,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
 public partial class DialogEditWorkItem
 {
     [Inject]
-    public required ILogic<UpdateWorkItemInput, Unit> UpdateWorkItemLogic { get; init; }
+    public required UpdateWorkItemLogic UpdateWorkItemLogic { get; init; }
 
     [Parameter]
     public required EditWorkItemModel Model { get; set; }
@@ -30,7 +30,7 @@ public partial class DialogEditWorkItem
                 Deadline = Model.Deadline
             };
 
-            _ = await UpdateWorkItemLogic.Handle(input);
+            await UpdateWorkItemLogic.Handle(input);
 
             Snackbar.AddSuccess($"The {DomainDisplayTextFor.WorkItem} has been updated successfully.");
 

@@ -1,9 +1,8 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 
 public sealed class UpdateWorkItemLogic(IDatabaseService databaseService)
-    : ILogic<UpdateWorkItemInput, Unit>
 {
-    public async Task<Unit> Handle(UpdateWorkItemInput input, CancellationToken cancellationToken = default)
+    public async Task Handle(UpdateWorkItemInput input, CancellationToken cancellationToken = default)
     {
         var workItem = await databaseService.WorkItems
             .Where(workItem => workItem.Id == input.WorkItemId)
@@ -15,7 +14,5 @@ public sealed class UpdateWorkItemLogic(IDatabaseService databaseService)
         workItem.Deadline = input.Deadline;
 
         _ = await databaseService.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

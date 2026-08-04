@@ -13,7 +13,6 @@ global using CodebaseAtom.WebUI.Domain.Statics;
 global using CodebaseAtom.WebUI.Infrastructure.Authorization.Statics;
 global using CodebaseAtom.WebUI.Infrastructure.Database;
 global using CodebaseAtom.WebUI.Infrastructure.Options;
-global using CodebaseAtom.WebUI.Logics.Common;
 global using CodebaseAtom.WebUI.Logics.Common.Exceptions;
 global using CodebaseAtom.WebUI.Logics.Common.Extensions;
 global using AccountProfileRouteFor = CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Statics.RouteFor;

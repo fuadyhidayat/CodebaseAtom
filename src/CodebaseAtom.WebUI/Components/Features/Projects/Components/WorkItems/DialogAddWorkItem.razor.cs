@@ -5,7 +5,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
 public partial class DialogAddWorkItem
 {
     [Inject]
-    public required ILogic<CreateWorkItemInput, CreateWorkItemOutput> CreateWorkItemLogic { get; set; }
+    public required CreateWorkItemLogic CreateWorkItemLogic { get; set; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }

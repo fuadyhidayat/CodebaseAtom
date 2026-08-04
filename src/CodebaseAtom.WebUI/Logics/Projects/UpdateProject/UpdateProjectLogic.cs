@@ -1,9 +1,8 @@
 namespace CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
 public sealed class UpdateProjectLogic(IDatabaseService databaseService)
-    : ILogic<UpdateProjectInput, Unit>
 {
-    public async Task<Unit> Handle(UpdateProjectInput input, CancellationToken cancellationToken = default)
+    public async Task Handle(UpdateProjectInput input, CancellationToken cancellationToken = default)
     {
         var project = await databaseService.Projects
             .Where(project => project.Id == input.ProjectId)
@@ -23,7 +22,5 @@ public sealed class UpdateProjectLogic(IDatabaseService databaseService)
         project.Description = input.Description;
 
         _ = await databaseService.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

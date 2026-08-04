@@ -1,7 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
 
 public sealed class GetWorkItemsLogic(IDatabaseService databaseService)
-    : ILogic<GetWorkItemsInput, GetWorkItemsOutput>
 {
     public async Task<GetWorkItemsOutput> Handle(GetWorkItemsInput input, CancellationToken cancellationToken = default)
     {

@@ -2,7 +2,6 @@ namespace CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
 
 
 public sealed class CreateWorkItemLogic(IDatabaseService databaseService)
-    : ILogic<CreateWorkItemInput, CreateWorkItemOutput>
 {
     public async Task<CreateWorkItemOutput> Handle(CreateWorkItemInput input, CancellationToken cancellationToken = default)
     {

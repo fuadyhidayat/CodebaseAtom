@@ -2,12 +2,9 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
 
-public sealed class DeleteDocumentLogic(
-    IDatabaseService databaseService,
-    IFileStorageService fileStorageService)
-    : ILogic<DeleteDocumentInput, Unit>
+public sealed class DeleteDocumentLogic(IDatabaseService databaseService, IFileStorageService fileStorageService)
 {
-    public async Task<Unit> Handle(DeleteDocumentInput input, CancellationToken cancellationToken = default)
+    public async Task Handle(DeleteDocumentInput input, CancellationToken cancellationToken = default)
     {
         var document = await databaseService.Documents
             .Where(document => document.Id == input.DocumentId)
@@ -17,7 +14,5 @@ public sealed class DeleteDocumentLogic(
         await fileStorageService.DeleteAsync(document.FilePath, cancellationToken);
         _ = databaseService.Documents.Remove(document);
         _ = await databaseService.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }

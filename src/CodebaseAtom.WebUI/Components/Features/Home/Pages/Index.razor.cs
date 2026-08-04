@@ -5,7 +5,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Home.Pages;
 public partial class Index
 {
     [Inject]
-    public required ILogic<GetStatisticInput, GetStatisticOutput> GetStatisticLogic { get; set; }
+    public required GetStatisticLogic GetStatisticLogic { get; set; }
 
     private GetStatisticOutput _item = default!;
 

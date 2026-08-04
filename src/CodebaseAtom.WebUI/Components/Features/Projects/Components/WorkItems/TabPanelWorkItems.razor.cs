@@ -11,16 +11,16 @@ public partial class TabPanelWorkItems
     public required IDialogService DialogService { get; init; }
 
     [Inject]
-    public required ILogic<GetWorkItemsInput, GetWorkItemsOutput> GetWorkItemsLogic { get; set; }
+    public required GetWorkItemsLogic GetWorkItemsLogic { get; set; }
 
     [Inject]
-    public required ILogic<UpdateWorkItemInput, Unit> UpdateWorkItemLogic { get; set; }
+    public required UpdateWorkItemLogic UpdateWorkItemLogic { get; set; }
 
     [Inject]
-    public required ILogic<UpdateWorkItemStatusInput, Unit> UpdateWorkItemStatusLogic { get; set; }
+    public required UpdateWorkItemStatusLogic UpdateWorkItemStatusLogic { get; set; }
 
     [Inject]
-    public required ILogic<DeleteWorkItemInput, Unit> DeleteWorkItemLogic { get; set; }
+    public required DeleteWorkItemLogic DeleteWorkItemLogic { get; set; }
 
     [Parameter, EditorRequired]
     public Guid ProjectId { get; set; }
@@ -119,27 +119,31 @@ public partial class TabPanelWorkItems
 
         if (dialogResult is true)
         {
-            try
-            {
-                IsLoadingBase = true;
+            await DeleteWorkItem(item.Id);
+        }
+    }
 
-                var input = new DeleteWorkItemInput
-                {
-                    WorkItemId = item.Id
-                };
+    private async Task DeleteWorkItem(Guid workItemId)
+    {
+        try
+        {
+            IsLoadingBase = true;
 
-                _ = await DeleteWorkItemLogic.Handle(input);
+            var input = new DeleteWorkItemInput
+            {
+                WorkItemId = workItemId
+            };
 
-                await LoadItems();
-            }
-            catch (Exception exception)
-            {
-                ExceptionBase = exception;
-            }
-            finally
-            {
-                IsLoadingBase = false;
-            }
+            await DeleteWorkItemLogic.Handle(input);
+            await LoadItems();
+        }
+        catch (Exception exception)
+        {
+            ExceptionBase = exception;
+        }
+        finally
+        {
+            IsLoadingBase = false;
         }
     }
 
@@ -158,10 +162,10 @@ public partial class TabPanelWorkItems
 
             if (index is not -1)
             {
-                var updatedTask = _items[index] with { Status = newStatus };
-                _items[index] = updatedTask;
+                var updatedWorkItem = _items[index] with { Status = newStatus };
+                _items[index] = updatedWorkItem;
 
-                await UpdateWorkItemStatus(updatedTask);
+                await UpdateWorkItemStatus(updatedWorkItem);
             }
         }
     }
@@ -178,8 +182,7 @@ public partial class TabPanelWorkItems
                 NewStatus = workItem.Status
             };
 
-            _ = await UpdateWorkItemStatusLogic.Handle(input);
-
+            await UpdateWorkItemStatusLogic.Handle(input);
             await LoadItems();
         }
         catch (Exception exception)

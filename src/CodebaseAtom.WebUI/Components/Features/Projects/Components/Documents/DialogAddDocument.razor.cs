@@ -7,7 +7,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
 public partial class DialogAddDocument
 {
     [Inject]
-    public required ILogic<CreateDocumentInput, CreateDocumentOutput> CreateDocumentLogic { get; init; }
+    public required CreateDocumentLogic CreateDocumentLogic { get; init; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }

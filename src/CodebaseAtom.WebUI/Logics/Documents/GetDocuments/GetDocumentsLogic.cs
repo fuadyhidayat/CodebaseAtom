@@ -1,7 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
 
 public sealed class GetDocumentsLogic(IDatabaseService databaseService)
-    : ILogic<GetDocumentsInput, GetDocumentsOutput>
 {
     public async Task<GetDocumentsOutput> Handle(GetDocumentsInput input, CancellationToken cancellationToken = default)
     {

@@ -5,7 +5,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
 public partial class DialogEditDocument
 {
     [Inject]
-    public required ILogic<UpdateDocumentInput, Unit> UpdateDocumentLogic { get; init; }
+    public required UpdateDocumentLogic UpdateDocumentLogic { get; init; }
 
     [Parameter]
     public required EditDocumentModel Model { get; set; }
@@ -23,7 +23,7 @@ public partial class DialogEditDocument
                 FileNameWithoutExtension = Model.FileNameWithoutExtension
             };
 
-            _ = await UpdateDocumentLogic.Handle(input);
+            await UpdateDocumentLogic.Handle(input);
 
             Snackbar.AddSuccess($"The {DomainDisplayTextFor.Document} has been updated successfully.");
 

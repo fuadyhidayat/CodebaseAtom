@@ -1,4 +1,3 @@
-using CodebaseAtom.WebUI.Logics.Common.Behaviors;
 using CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 using CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
 using CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
@@ -22,28 +21,25 @@ public static class ConfigureLogics
 {
     public static IServiceCollection AddLogics(this IServiceCollection services)
     {
-        _ = services.AddTransient(typeof(ILogicBehavior<,>), typeof(LoggingBehavior<,>));
-        _ = services.AddTransient(typeof(ILogicBehavior<,>), typeof(PerformanceBehavior<,>));
+        _ = services.AddTransient<GetProjectsLogic>();
+        _ = services.AddTransient<GetProjectLogic>();
+        _ = services.AddTransient<CreateProjectLogic>();
+        _ = services.AddTransient<UpdateProjectLogic>();
+        _ = services.AddTransient<DeleteProjectLogic>();
 
-        _ = services.AddLogicWithPipeline<GetProjectsLogic, GetProjectsInput, GetProjectsOutput>();
-        _ = services.AddLogicWithPipeline<GetProjectLogic, GetProjectInput, GetProjectOutput>();
-        _ = services.AddLogicWithPipeline<CreateProjectLogic, CreateProjectInput, CreateProjectOutput>();
-        _ = services.AddLogicWithPipeline<UpdateProjectLogic, UpdateProjectInput, Unit>();
-        _ = services.AddLogicWithPipeline<DeleteProjectLogic, DeleteProjectInput, Unit>();
+        _ = services.AddTransient<GetWorkItemsLogic>();
+        _ = services.AddTransient<CreateWorkItemLogic>();
+        _ = services.AddTransient<UpdateWorkItemLogic>();
+        _ = services.AddTransient<UpdateWorkItemStatusLogic>();
+        _ = services.AddTransient<DeleteWorkItemLogic>();
 
-        _ = services.AddLogicWithPipeline<GetWorkItemsLogic, GetWorkItemsInput, GetWorkItemsOutput>();
-        _ = services.AddLogicWithPipeline<CreateWorkItemLogic, CreateWorkItemInput, CreateWorkItemOutput>();
-        _ = services.AddLogicWithPipeline<UpdateWorkItemLogic, UpdateWorkItemInput, Unit>();
-        _ = services.AddLogicWithPipeline<UpdateWorkItemStatusLogic, UpdateWorkItemStatusInput, Unit>();
-        _ = services.AddLogicWithPipeline<DeleteWorkItemLogic, DeleteWorkItemInput, Unit>();
+        _ = services.AddTransient<GetDocumentsLogic>();
+        _ = services.AddTransient<DownloadDocumentLogic>();
+        _ = services.AddTransient<CreateDocumentLogic>();
+        _ = services.AddTransient<UpdateDocumentLogic>();
+        _ = services.AddTransient<DeleteDocumentLogic>();
 
-        _ = services.AddLogicWithPipeline<GetDocumentsLogic, GetDocumentsInput, GetDocumentsOutput>();
-        _ = services.AddLogicWithPipeline<CreateDocumentLogic, CreateDocumentInput, CreateDocumentOutput>();
-        _ = services.AddLogicWithPipeline<UpdateDocumentLogic, UpdateDocumentInput, Unit>();
-        _ = services.AddLogicWithPipeline<DeleteDocumentLogic, DeleteDocumentInput, Unit>();
-        _ = services.AddLogicWithPipeline<DownloadDocumentLogic, DownloadDocumentInput, DownloadDocumentOutput>();
-
-        _ = services.AddLogicWithPipeline<GetStatisticLogic, GetStatisticInput, GetStatisticOutput>();
+        _ = services.AddTransient<GetStatisticLogic>();
 
         return services;
     }

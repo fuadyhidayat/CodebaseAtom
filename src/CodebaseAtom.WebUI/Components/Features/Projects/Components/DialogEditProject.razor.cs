@@ -6,7 +6,7 @@ namespace CodebaseAtom.WebUI.Components.Features.Projects.Components;
 public partial class DialogEditProject
 {
     [Inject]
-    public required ILogic<UpdateProjectInput, Unit> UpdateProjectLogic { get; init; }
+    public required UpdateProjectLogic UpdateProjectLogic { get; init; }
 
     [Parameter]
     public required EditProjectModel Model { get; set; }
@@ -24,7 +24,7 @@ public partial class DialogEditProject
                 Description = Model.Description
             };
 
-            _ = await UpdateProjectLogic.Handle(input);
+            await UpdateProjectLogic.Handle(input);
 
             Snackbar.AddSuccess($"The {DomainDisplayTextFor.Project} has been updated successfully.");
 

@@ -9,7 +9,7 @@ public partial class Index
     public required IDialogService DialogService { get; init; }
 
     [Inject]
-    public required ILogic<GetProjectsInput, GetProjectsOutput> GetProjectsLogic { get; set; }
+    public required GetProjectsLogic GetProjectsLogic { get; set; }
 
     private string _searchKeyword = string.Empty;
 

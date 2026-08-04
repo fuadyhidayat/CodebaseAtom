@@ -10,10 +10,10 @@ public partial class Details
     public required IDialogService DialogService { get; init; }
 
     [Inject]
-    public required ILogic<GetProjectInput, GetProjectOutput> GetProjectLogic { get; set; }
+    public required GetProjectLogic GetProjectLogic { get; set; }
 
     [Inject]
-    public required ILogic<DeleteProjectInput, Unit> DeleteProjectLogic { get; set; }
+    public required DeleteProjectLogic DeleteProjectLogic { get; set; }
 
     [Parameter]
     public Guid ProjectId { get; init; }
@@ -106,7 +106,7 @@ public partial class Details
                     ProjectId = _item.Id
                 };
 
-                _ = await DeleteProjectLogic.Handle(input);
+                await DeleteProjectLogic.Handle(input);
 
                 NavigationManager.NavigateTo(ProjectsRouteFor.Index, forceLoad: true);
             }
