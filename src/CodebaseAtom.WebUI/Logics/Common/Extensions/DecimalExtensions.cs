@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace CodebaseAtom.WebUI.Logics.Common.Extensions;
 
 public static class DecimalExtensions

@@ -1,144 +1,138 @@
 
 # Codebase Atom
 
-Project pembelajaran untuk pemula yang ingin memahami dasar-dasar pemrograman dengan .NET, C#, dan ASP.NET (Blazor). Project ini dibuat sebagai contoh aplikasi web berbasis Blazor dengan fitur sederhana: manajemen proyek, work item, upload/download dokumen, statistik/diagram, dan autentikasi menggunakan ASP.NET Identity.
+Repo ini adalah contoh aplikasi web berbasis Blazor yang dibuat untuk pembelajaran pemula tentang .NET, C#, ASP.NET Core (Razor/Blazor) dan pola sederhana pada aplikasi web.
 
-Proyek ini cocok untuk dipelajari oleh yang baru mulai belajar .NET karena memisahkan concern menjadi beberapa lapisan (UI / Logics / Infrastructure) dan menggunakan library populer (MudBlazor, EF Core, Serilog, dsb.).
+Fokus utama yang bisa dipelajari dari project ini:
 
-## Teknologi utama
+- Struktur aplikasi yang memisahkan lapisan Infrastructure / Logics / UI (komponen Razor)
+- Penggunaan Entity Framework Core untuk persistence dan migrasi
+- Integrasi ASP.NET Core Identity (user/roles + seeders)
+- Pembuatan UI dengan MudBlazor dan pembuatan grafik dengan Blazor-ApexCharts
+- Upload / download file sederhana dan penggunaan service DI
 
-- .NET 10 (TargetFramework: net10.0)
-- C# (modern features / file-scoped namespaces, source generators style partials)
-- Blazor (Razor Components, server-side interactive components)
-- Entity Framework Core (SQL Server)
-- ASP.NET Core Identity
-- MudBlazor (UI component library)
-- Blazor-ApexCharts (grafik)
-- Serilog (logging)
+## Ringkasan teknis
 
-## Fitur yang ada
+- TargetFramework: `net10.0`
+- UI: Blazor (Razor Components, interactive server mode)
+- ORM: Entity Framework Core (SQL Server)
+- Auth: ASP.NET Core Identity (dengan seed user/roles)
+- UI library: MudBlazor
+- Charting: Blazor-ApexCharts
+- Logging: Serilog
 
-- Autentikasi & seed user / roles (Identity + seeders)
-- Manajemen Projects & Work Items (CRUD lewat "Logics")
-- Upload / download dokumen
-- Statistik sederhana dengan grafik
-- Struktur komponen UI yang memakai MudBlazor
+## Fitur utama
+
+- Autentikasi & autorisasi (Identity) dengan user/role yang di-seed
+- CRUD Projects dan Work Items (kanban-like status)
+- Upload / download dokumen (disimpan di `src/CodebaseAtom.WebUI/App_Data/files`)
+- Statistik / chart untuk data project
+- Contoh pola "Logics" (handler/service per fitur) untuk memisahkan business logic dari UI
 
 ## Persyaratan
 
-- .NET 10 SDK terinstal (dotnet 10.x)
-- SQL Server / LocalDB untuk database (atau jalankan SQL Server di Docker)
-- Visual Studio (atau VS Code + C# extension) direkomendasikan untuk eksplorasi kode
-- (Opsional) dotnet-ef jika ingin menjalankan migrasi manual: `dotnet tool install --global dotnet-ef`
+- .NET 10 SDK (dotnet 10.x)
+- SQL Server / LocalDB (Windows) atau jalankan SQL Server di Docker
+- (Opsional) `dotnet-ef` jika ingin mengelola migrasi secara manual
+- Editor: Visual Studio / VS Code + C# extension direkomendasikan
 
 ## Quick start (pengembangan)
 
-1. Clone repository ini.
-2. Copy konfigurasi contoh dan sesuaikan connection string:
+1. Clone repository:
 
-   - Di macOS/Linux (bash):
+   ```bash
+   git clone <repo-url>
+   cd <repo-folder>
+   ```
 
-     ```bash
-     cp src/CodebaseAtom.WebUI/appsettings.Example.json src/CodebaseAtom.WebUI/appsettings.Development.json
-     ```
+2. Konfigurasi environment:
 
-   - Di PowerShell (Windows):
+   - Project menyediakan `src/CodebaseAtom.WebUI/appsettings.Example.json` sebagai contoh konfigurasi.
+   - Jika belum ada, buat `src/CodebaseAtom.WebUI/appsettings.Development.json` dengan menyalin file contoh, atau langsung edit file `appsettings.Development.json` yang sudah ada.
 
-     ```powershell
-     Copy-Item .\src\CodebaseAtom.WebUI\appsettings.Example.json .\src\CodebaseAtom.WebUI\appsettings.Development.json
-     ```
+   contoh (bash):
 
-3. Buka `src/CodebaseAtom.WebUI/appsettings.Development.json` dan atur:
+   ```bash
+   cp src/CodebaseAtom.WebUI/appsettings.Example.json src/CodebaseAtom.WebUI/appsettings.Development.json
+   ```
 
-   - `Database.ConnectionString` — contoh LocalDB (Windows):
+   contoh (PowerShell):
+
+   ```powershell
+   Copy-Item .\src\CodebaseAtom.WebUI\appsettings.Example.json .\src\CodebaseAtom.WebUI\appsettings.Development.json
+   ```
+
+   - Buka `src/CodebaseAtom.WebUI/appsettings.Development.json` dan sesuaikan `Database.ConnectionString` dan `Identity.ConnectionString`.
+   - Nilai default pada contoh menggunakan LocalDB (Windows):
 
      ```text
      Server=(LocalDB)\MSSQLLocalDB;Database=CodebaseAtom;Trusted_Connection=True;
      ```
 
-   - Atau gunakan SQL Server di Docker (cross-platform):
+   - Jika menggunakan Docker (cross-platform), jalankan SQL Server container:
 
      ```bash
      docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Your_password123" -p 1433:1433 --name codebaseatom-mssql -d mcr.microsoft.com/mssql/server:2022-latest
      ```
 
-     Connection string contoh untuk Docker:
+     Contoh connection string untuk Docker:
 
      ```text
      Server=localhost,1433;Database=CodebaseAtom;User Id=sa;Password=Your_password123;TrustServerCertificate=True;
      ```
 
-   - `Identity.DefaultPasswordForInitialUsers` — password default untuk user yang di-seed (contoh: `Password@123`).
+   - Password untuk user yang di-seed diatur pada `Identity.DefaultPasswordForInitialUsers` di `appsettings.Development.json` (contoh default: `Password@123`).
 
-4. Jalankan aplikasi (dari root repo atau mana pun):
+3. Jalankan aplikasi:
 
    ```bash
    dotnet run --project src/CodebaseAtom.WebUI
    ```
 
-   Aplikasi akan menjalankan migrasi database dan men-seed data awal otomatis pada startup (InitializeIdentityDatabase dan InitializeDatabase dipanggil di Program.cs).
+   Pada startup aplikasi akan menjalankan migrasi database dan men-seed data awal otomatis (Identity + data aplikasi).
 
-5. Buka browser ke alamat yang dicetak di konsol (umumnya https://localhost:5001 atau alamat yang disediakan oleh Kestrel).
+4. Buka browser ke alamat yang dicetak pada console (biasanya `https://localhost:5001` atau alamat yang ditampilkan oleh Kestrel).
 
-6. Login dengan user yang di-seed:
+5. Login dengan user yang di-seed (default):
 
    - Username: `admin`
-   - Password: nilai dari `Identity:DefaultPasswordForInitialUsers` di `appsettings.Development.json` (default pada contoh: `Password@123`).
+   - Password: cek `Identity:DefaultPasswordForInitialUsers` pada `appsettings.Development.json` (default pada contoh: `Password@123`).
 
-## Migrasi manual (opsional)
+## Migrasi EF Core (opsional)
 
-Jika ingin menjalankan migrasi EF Core secara manual (butuh dotnet-ef):
+Jika Anda ingin mengelola migrasi secara manual gunakan `dotnet-ef` (tool global) dan jalankan dari folder project atau sertakan `--project`/`--startup-project` sesuai kebutuhan.
+
+Contoh (menambahkan migration untuk DatabaseService):
 
 ```bash
-# Tambah migration (jika membuat perubahan model)
-dotnet ef migrations add M001_InitialSchema --context DatabaseService --output-dir Infrastructure/Database/Migrations
-
-# Update database
-dotnet ef database update --context DatabaseService
-
-# Untuk identity context
-dotnet ef migrations add M001_InitialSchema --context IdentityDatabaseContext --output-dir Infrastructure/Identity/Database/Migrations
-dotnet ef database update --context IdentityDatabaseContext
+dotnet ef migrations add M001_InitialSchema --project src/CodebaseAtom.WebUI --context DatabaseService --output-dir Infrastructure/Database/Migrations
+dotnet ef database update --project src/CodebaseAtom.WebUI --context DatabaseService
 ```
 
-Script contoh juga tersedia di folder migrations (`Scripts/DotnetEf.txt`).
+Untuk Identity context gunakan `IdentityDatabaseContext` sebagai `--context`.
 
-## Struktur proyek (ringkasan)
+Catatan: project sudah otomatis menjalankan migrasi saat startup, jadi langkah manual biasanya tidak diperlukan kecuali Anda mengembangkan skema DB.
 
-- src/CodebaseAtom.WebUI
-  - Components/ — komponen Blazor yang dapat dipakai ulang (Common, Features, Layouts)
-  - Logics/ — lapisan logika aplikasi (pattern input/output/logic dipakai di banyak fitur)
-  - Infrastructure/ — konfigurasi infra: Database (EF Core), Identity, FileStorage, Logging (Serilog), Options
-  - Program.cs / Configure* files — entry point dan konfigurasi dependency injection
-  - appsettings*.json — konfigurasi contoh
+## Struktur kode (singkat)
 
-## Untuk dipelajari / eksperimen
+- `src/CodebaseAtom.WebUI/Program.cs` — entry point, konfigurasi pipeline dan pemanggilan initializer
+- `src/CodebaseAtom.WebUI/Infrastructure/` — konfigurasi logging, database, identity, file storage
+- `src/CodebaseAtom.WebUI/Logics/` — handler / service untuk business logic (dipisahkan dari UI)
+- `src/CodebaseAtom.WebUI/Components/` — komponen Blazor (Features, Common, Layouts)
+- `src/CodebaseAtom.WebUI/App_Data/` — penyimpanan file yang di-upload (contoh file termasuk di repo)
 
-1. Mulai dari `Program.cs` dan `ConfigureInfrastructure.cs` untuk memahami bagaimana service di-wire up.
-2. Baca `ConfigureIdentity.cs` dan folder `Infrastructure/Identity` untuk melihat integrasi Identity + EF Core + seeders.
-3. Telusuri `Logics/` untuk pola pemisahan Input / Logic / Output — cocok untuk belajar arsitektur sederhana.
-4. Lihat `Components/Features` untuk contoh pembuatan UI menggunakan MudBlazor dan cara membuat komponen yang reusable.
-5. Coba ganti provider database ke SQLite untuk pengembangan lokal tanpa instalasi SQL Server (eksperimen ini bagus untuk pemula).
+## Tips untuk pemula
 
-## Catatan & troubleshooting
-
-- Project di-set untuk strict build (analyzers + TreatWarningsAsErrors = true). Jika build gagal karena peringatan analyzers, Anda bisa sementara menonaktifkan `TreatWarningsAsErrors` di `CodebaseAtom.WebUI.csproj` saat belajar.
-- LocalDB hanya tersedia di Windows. Jika Anda bekerja di macOS/Linux gunakan Docker SQL Server atau ubah ke SQLite.
-- Jika port HTTPS sudah dipakai, perhatikan alamat yang dicetak saat `dotnet run`.
-
-## Library & referensi
-
-- MudBlazor — https://mudblazor.com
-- Blazor-ApexCharts — https://github.com/charlielito/blazor-apexcharts
-- Serilog — https://serilog.net
-- EF Core — https://docs.microsoft.com/ef/core
+- Jika build gagal karena aturan analyser, periksa `CodebaseAtom.WebUI.csproj` (project di-set untuk TreatWarningsAsErrors = true). Untuk belajar Anda bisa sementara menonaktifkannya.
+- LocalDB hanya tersedia di Windows. Gunakan Docker atau ganti provider ke SQLite bila diperlukan untuk pengembangan cross-platform.
+- Mulai eksplorasi dari `Program.cs`, `Infrastructure/ConfigureInfrastructure.cs`, `Logics/` dan `Components/Features/Projects` untuk memahami alur data dari UI ke DB.
 
 ## Kontribusi
 
-Silakan buka issue atau pull request jika ingin menambahkan fitur pembelajaran, memperbaiki penjelasan, atau menyediakan script setup yang lebih mudah (mis. Docker-compose untuk SQL Server + appsettings otomatis).
+Silakan buka issue atau pull request untuk menambahkan materi pembelajaran, perbaikan dokumentasi, atau contoh setup (mis. docker-compose). Project ini didesain sebagai contoh pembelajaran — kontribusi yang membuatnya lebih ramah-pemula sangat diterima.
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah MIT License. Lihat file `LICENSE` di root repository untuk teks lengkap lisensi.
+Repo ini dilisensikan di bawah MIT License — lihat file `LICENSE` untuk detail.
 
 Copyright (c) 2026 Vioren Informatika Teknologi

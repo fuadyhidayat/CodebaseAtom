@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace CodebaseAtom.WebUI.Domain.Entities;
 
 public sealed class Document : FileEntity

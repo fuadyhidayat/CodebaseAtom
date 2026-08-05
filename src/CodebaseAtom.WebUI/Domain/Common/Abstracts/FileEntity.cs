@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Domain.Common.Abstracts;
 
-public abstract class FileEntity : ModifiableEntity
+public abstract class FileEntity : BaseEntity
 {
     public required string FileName { get; set; }
     public required string FileContentType { get; init; }

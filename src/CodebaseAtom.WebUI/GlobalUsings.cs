@@ -1,3 +1,4 @@
+global using System.Globalization;
 global using CodebaseAtom.WebUI.Common.Statics;
 global using CodebaseAtom.WebUI.Components.Extensions;
 global using CodebaseAtom.WebUI.Domain.Common.Abstracts;

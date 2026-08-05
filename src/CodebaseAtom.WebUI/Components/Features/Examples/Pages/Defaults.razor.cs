@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Security.Cryptography;
 
 namespace CodebaseAtom.WebUI.Components.Features.Examples.Pages;

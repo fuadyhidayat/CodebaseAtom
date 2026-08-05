@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Domain.Entities;
 
-public sealed class WorkItem : ModifiableEntity
+public sealed class WorkItem : BaseEntity
 {
     public required Guid ProjectId { get; init; }
     public Project Project { get; init; } = default!;

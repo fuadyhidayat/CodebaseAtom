@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Domain.Entities;
 
-public sealed class Project : ModifiableEntity
+public sealed class Project : BaseEntity
 {
     public required string Title { get; set; }
     public required string Description { get; set; }
