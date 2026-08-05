@@ -3,14 +3,8 @@ using CodebaseAtom.WebUI.Infrastructure.Identity.Database.InitialData;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Identity.Database.Seeders;
 
-public sealed partial class UserSeeder(
-    UserManager<ApplicationUser> userManager,
-    IOptions<IdentityOptions> identityOptionsProvider,
-    ILogger<UserSeeder> logger)
+public sealed class UserSeeder(UserManager<ApplicationUser> userManager, IOptions<IdentityOptions> identityOptionsProvider)
 {
-    [LoggerMessage(Level = LogLevel.Information, Message = "Seeding data {entityType} {entityName}...")]
-    private static partial void LogSeeding(ILogger logger, string entityType, string entityName);
-
     public async Task SeedUsers()
     {
         foreach (var initialUser in InitialUsers.All)
@@ -39,8 +33,6 @@ public sealed partial class UserSeeder(
 
         if (result.Succeeded)
         {
-            LogSeeding(logger, nameof(ApplicationUser), user.UserName);
-
             await AssignRolesToUser(user, initialUser.Roles.Select(role => role.Name));
         }
     }
@@ -51,14 +43,7 @@ public sealed partial class UserSeeder(
         {
             if (!await userManager.IsInRoleAsync(applicationUser, role))
             {
-                var result = await userManager.AddToRoleAsync(applicationUser, role);
-
-                if (result.Succeeded)
-                {
-                    var info = $"{applicationUser.UserName} - {role}";
-
-                    LogSeeding(logger, nameof(IdentityUserRole<>), info);
-                }
+                _ = await userManager.AddToRoleAsync(applicationUser, role);
             }
         }
     }

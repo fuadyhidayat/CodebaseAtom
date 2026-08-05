@@ -1,19 +1,10 @@
 namespace CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
-public sealed partial class FileStorageService(IOptions<FileStorageOptions> fileStorageOptions, ILogger<FileStorageService> logger)
+public sealed class FileStorageService(IOptions<FileStorageOptions> optionsProvider)
 {
-    private readonly string _folderPath = Path.IsPathRooted(fileStorageOptions.Value.FolderPath)
-        ? fileStorageOptions.Value.FolderPath
-        : Path.Combine(Directory.GetCurrentDirectory(), fileStorageOptions.Value.FolderPath);
-
-    [LoggerMessage(Level = LogLevel.Information, Message = "File {fileName} in directory {directoryFullPath} is successfully created.")]
-    private static partial void LogFileCreated(ILogger logger, string fileName, string directoryFullPath);
-
-    [LoggerMessage(Level = LogLevel.Information, Message = "File {fileName} in directory {directoryFullPath} is successfully deleted.")]
-    private static partial void LogFileDeleted(ILogger logger, string fileName, string directoryFullPath);
-
-    [LoggerMessage(Level = LogLevel.Warning, Message = "File {fileName} in directory {directoryFullPath} was not found.")]
-    private static partial void LogFileNotFound(ILogger logger, string fileName, string directoryFullPath);
+    private readonly string _folderPath = Path.IsPathRooted(optionsProvider.Value.FolderPath)
+        ? optionsProvider.Value.FolderPath
+        : Path.Combine(Directory.GetCurrentDirectory(), optionsProvider.Value.FolderPath);
 
     public async Task CreateAsync(string filePath, byte[] content, CancellationToken cancellationToken = default)
     {
@@ -27,8 +18,6 @@ public sealed partial class FileStorageService(IOptions<FileStorageOptions> file
         var fullFilePath = Path.Combine(directoryFullPath, fileName);
         using var fileStream = File.Create(fullFilePath);
         await fileStream.WriteAsync(content.AsMemory(0, content.Length), cancellationToken);
-
-        LogFileCreated(logger, fileName, directoryFullPath);
     }
 
     public void Delete(string filePath)
@@ -42,11 +31,6 @@ public sealed partial class FileStorageService(IOptions<FileStorageOptions> file
         if (File.Exists(fullFilePath))
         {
             File.Delete(fullFilePath);
-            LogFileDeleted(logger, fileName, directoryFullPath);
-        }
-        else
-        {
-            LogFileNotFound(logger, fileName, directoryFullPath);
         }
     }
 

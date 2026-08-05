@@ -2,19 +2,14 @@ using CodebaseAtom.WebUI.Infrastructure.Database.InitialData;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Database.Seeders;
 
-public sealed partial class InitialDataSeeder(DatabaseService databaseContext, ILogger<InitialDataSeeder> logger)
+public sealed class InitialDataSeeder(DatabaseService databaseContext)
 {
-    [LoggerMessage(Level = LogLevel.Information, Message = "Seeding data {entityType} {entityName}...")]
-    private static partial void LogSeedingData(ILogger logger, string entityType, string entityName);
-
     public async Task SeedInitialData()
     {
         foreach (var project in InitialProjects.All)
         {
             if (!await databaseContext.Projects.AnyAsync(x => x.Id == project.Id))
             {
-                LogSeedingData(logger, nameof(Project), project.Title);
-
                 _ = await databaseContext.Projects.AddAsync(project);
             }
         }
@@ -23,8 +18,6 @@ public sealed partial class InitialDataSeeder(DatabaseService databaseContext, I
         {
             if (!await databaseContext.WorkItems.AnyAsync(x => x.Id == workItem.Id))
             {
-                LogSeedingData(logger, nameof(WorkItem), workItem.Title);
-
                 _ = await databaseContext.WorkItems.AddAsync(workItem);
             }
         }
