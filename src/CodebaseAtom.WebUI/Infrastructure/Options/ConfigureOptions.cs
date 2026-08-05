@@ -4,7 +4,7 @@ public static class ConfigureOptions
 {
     public static IServiceCollection AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        _ = services.Configure<ApplicationOptions>(configuration.GetRequiredSection("Application"));
+        _ = services.Configure<ApplicationOptions>(configuration.GetRequiredSection(ApplicationOptions.SectionKey));
 
         return services;
     }
