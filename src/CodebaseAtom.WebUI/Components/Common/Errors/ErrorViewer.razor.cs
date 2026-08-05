@@ -23,6 +23,22 @@ public partial class ErrorViewer
             return;
         }
 
-        _errorMessages = Exception.GetAllErrorMessages();
+        _errorMessages = GetAllErrorMessages(Exception);
+    }
+
+    private static List<string> GetAllErrorMessages(Exception exception)
+    {
+        var errorMessages = new List<string>();
+
+        var current = exception;
+
+        while (current is not null)
+        {
+            errorMessages.Add(current.Message);
+
+            current = current.InnerException;
+        }
+
+        return errorMessages;
     }
 }
