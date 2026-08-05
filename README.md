@@ -129,7 +129,7 @@ Catatan: project sudah otomatis menjalankan migrasi saat startup, jadi langkah m
 
 ## Kontribusi
 
-Silakan buka issue atau pull request untuk menambahkan materi pembelajaran, perbaikan dokumentasi, atau contoh setup (mis. docker-compose). Project ini didesain sebagai contoh pembelajaran — kontribusi yang membuatnya lebih ramah-pemula sangat diterima.
+Silakan buka issue atau pull request untuk menambahkan materi pembelajaran, perbaikan dokumentasi, atau contoh setup (mis. docker-compose). Project ini didesain sebagai contoh pembelajaran — kami sangat menerima kontribusi yang membuat solution ini semakin beginner-friendly.
 
 ## Lisensi
 
