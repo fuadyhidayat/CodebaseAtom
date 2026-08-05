@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Common.Exceptions;
 
-public class EntityAlreadyExistsException : Exception
+public sealed class EntityAlreadyExistsException : Exception
 {
     public EntityAlreadyExistsException() : base() { }
 

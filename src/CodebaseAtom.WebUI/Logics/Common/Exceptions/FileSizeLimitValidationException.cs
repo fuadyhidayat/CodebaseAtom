@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Common.Exceptions;
 
-public class FileSizeLimitValidationException : Exception
+public sealed class FileSizeLimitValidationException : Exception
 {
     public FileSizeLimitValidationException() : base() { }
 
