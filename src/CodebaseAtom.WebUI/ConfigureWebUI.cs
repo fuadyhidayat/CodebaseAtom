@@ -42,12 +42,10 @@ public static class ConfigureWebUI
                 throw new InvalidOperationException($"Invalid user ID format: {userIdClaim.Value}");
             }
 
-            var usernameClaim = httpContext.User.FindFirst(ClaimTypes.Name);
-
             return new CurrentUser
             {
                 UserId = userId,
-                Username = usernameClaim is null ? "unknown" : usernameClaim.Value,
+                Username = httpContext.User.FindFirst(ClaimTypes.Name)?.Value ?? "unknown",
                 Roles = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList()
             };
         });
