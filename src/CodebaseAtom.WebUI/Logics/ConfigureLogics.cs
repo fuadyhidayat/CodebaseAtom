@@ -19,28 +19,28 @@ namespace CodebaseAtom.WebUI.Logics;
 
 public static class ConfigureLogics
 {
-    public static IServiceCollection AddLogics(this IServiceCollection services)
+    public static WebApplicationBuilder AddLogics(this WebApplicationBuilder builder)
     {
-        _ = services.AddTransient<GetProjectsLogic>();
-        _ = services.AddTransient<GetProjectLogic>();
-        _ = services.AddTransient<CreateProjectLogic>();
-        _ = services.AddTransient<UpdateProjectLogic>();
-        _ = services.AddTransient<DeleteProjectLogic>();
+        _ = builder.Services.AddTransient<GetProjectsLogic>();
+        _ = builder.Services.AddTransient<GetProjectLogic>();
+        _ = builder.Services.AddTransient<CreateProjectLogic>();
+        _ = builder.Services.AddTransient<UpdateProjectLogic>();
+        _ = builder.Services.AddTransient<DeleteProjectLogic>();
 
-        _ = services.AddTransient<GetWorkItemsLogic>();
-        _ = services.AddTransient<CreateWorkItemLogic>();
-        _ = services.AddTransient<UpdateWorkItemLogic>();
-        _ = services.AddTransient<UpdateWorkItemStatusLogic>();
-        _ = services.AddTransient<DeleteWorkItemLogic>();
+        _ = builder.Services.AddTransient<GetWorkItemsLogic>();
+        _ = builder.Services.AddTransient<CreateWorkItemLogic>();
+        _ = builder.Services.AddTransient<UpdateWorkItemLogic>();
+        _ = builder.Services.AddTransient<UpdateWorkItemStatusLogic>();
+        _ = builder.Services.AddTransient<DeleteWorkItemLogic>();
 
-        _ = services.AddTransient<GetDocumentsLogic>();
-        _ = services.AddTransient<DownloadDocumentLogic>();
-        _ = services.AddTransient<CreateDocumentLogic>();
-        _ = services.AddTransient<UpdateDocumentLogic>();
-        _ = services.AddTransient<DeleteDocumentLogic>();
+        _ = builder.Services.AddTransient<GetDocumentsLogic>();
+        _ = builder.Services.AddTransient<DownloadDocumentLogic>();
+        _ = builder.Services.AddTransient<CreateDocumentLogic>();
+        _ = builder.Services.AddTransient<UpdateDocumentLogic>();
+        _ = builder.Services.AddTransient<DeleteDocumentLogic>();
 
-        _ = services.AddTransient<GetStatisticLogic>();
+        _ = builder.Services.AddTransient<GetStatisticLogic>();
 
-        return services;
+        return builder;
     }
 }

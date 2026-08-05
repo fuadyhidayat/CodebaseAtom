@@ -7,7 +7,7 @@ using CodebaseAtom.WebUI.Logics;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddInfrastructure();
-builder.Services.AddLogics();
+builder.AddLogics();
 builder.AddWebUIServices();
 
 var app = builder.Build();
