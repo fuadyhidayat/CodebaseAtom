@@ -1,7 +1,7 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
 
 
-public sealed class CreateWorkItemLogic(DatabaseService databaseService)
+public sealed class CreateWorkItemLogic(DatabaseContext databaseContext)
 {
     public async Task<CreateWorkItemOutput> Handle(CreateWorkItemInput input, CancellationToken cancellationToken = default)
     {
@@ -15,8 +15,8 @@ public sealed class CreateWorkItemLogic(DatabaseService databaseService)
             CreatedBy = input.CreatedBy
         };
 
-        _ = await databaseService.WorkItems.AddAsync(workItem, cancellationToken);
-        _ = await databaseService.SaveChangesAsync(cancellationToken);
+        _ = await databaseContext.WorkItems.AddAsync(workItem, cancellationToken);
+        _ = await databaseContext.SaveChangesAsync(cancellationToken);
 
         return new CreateWorkItemOutput { Id = workItem.Id };
     }

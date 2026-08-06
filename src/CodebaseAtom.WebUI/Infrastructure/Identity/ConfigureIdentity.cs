@@ -60,7 +60,6 @@ public static class ConfigureIdentity
             _ = options.ConfigureWarnings(wcb => wcb.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
         }, ServiceLifetime.Transient);
 
-        _ = services.AddScoped<IdentityDatabaseMigrator>();
         _ = services.AddTransient<RoleSeeder>();
         _ = services.AddTransient<UserSeeder>();
     }
@@ -70,8 +69,8 @@ public static class ConfigureIdentity
         using var serviceScope = app.Services.CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
 
-        var identityDatabaseMigrator = serviceProvider.GetRequiredService<IdentityDatabaseMigrator>();
-        await identityDatabaseMigrator.Migrate();
+        var identityDatabaseContext = serviceProvider.GetRequiredService<IdentityDatabaseContext>();
+        await identityDatabaseContext.Database.MigrateAsync();
 
         var roleSeeder = serviceProvider.GetRequiredService<RoleSeeder>();
         await roleSeeder.SeedRoles();

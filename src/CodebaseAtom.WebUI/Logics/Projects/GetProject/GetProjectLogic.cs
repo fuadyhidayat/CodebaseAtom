@@ -1,10 +1,10 @@
 namespace CodebaseAtom.WebUI.Logics.Projects.GetProject;
 
-public sealed class GetProjectLogic(DatabaseService databaseService)
+public sealed class GetProjectLogic(DatabaseContext databaseContext)
 {
     public async Task<GetProjectOutput> Handle(GetProjectInput input, CancellationToken cancellationToken = default)
     {
-        var item = await databaseService.Projects
+        var item = await databaseContext.Projects
             .AsNoTracking()
             .Where(project => project.Id == input.Id)
             .Select(project => new ProjectDto

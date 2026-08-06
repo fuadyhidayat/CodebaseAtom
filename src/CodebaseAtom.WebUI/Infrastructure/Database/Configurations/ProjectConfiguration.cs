@@ -7,7 +7,7 @@ public sealed class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {
     public void Configure(EntityTypeBuilder<Project> builder)
     {
-        _ = builder.ToTable(nameof(DatabaseService.Projects));
+        _ = builder.ToTable(nameof(DatabaseContext.Projects));
 
         _ = builder.Property(entity => entity.Title)
             .HasColumnType(ColumnTypeFor.Nvarchar(MaximumLengthFor.Title));

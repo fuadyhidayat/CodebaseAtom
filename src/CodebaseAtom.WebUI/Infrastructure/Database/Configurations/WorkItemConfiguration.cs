@@ -7,7 +7,7 @@ public sealed class WorkItemConfiguration : IEntityTypeConfiguration<WorkItem>
 {
     public void Configure(EntityTypeBuilder<WorkItem> builder)
     {
-        _ = builder.ToTable(nameof(DatabaseService.WorkItems));
+        _ = builder.ToTable(nameof(DatabaseContext.WorkItems));
 
         _ = builder.Property(entity => entity.Title)
             .HasColumnType(ColumnTypeFor.Nvarchar(MaximumLengthFor.Title));

@@ -1,10 +1,10 @@
 namespace CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
 
-public sealed class GetWorkItemsLogic(DatabaseService databaseService)
+public sealed class GetWorkItemsLogic(DatabaseContext databaseContext)
 {
     public async Task<GetWorkItemsOutput> Handle(GetWorkItemsInput input, CancellationToken cancellationToken = default)
     {
-        var items = await databaseService.WorkItems
+        var items = await databaseContext.WorkItems
             .AsNoTracking()
             .Where(workItem => workItem.ProjectId == input.ProjectId)
             .Select(workItem => new WorkItemDto

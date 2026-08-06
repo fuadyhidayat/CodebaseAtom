@@ -11,12 +11,12 @@ public static class ConfigureDatabase
         var databaseOptions = configuration.GetRequiredSection(DatabaseOptions.SectionKey).Get<DatabaseOptions>()
             ?? throw new ConfigurationBindingFailedException(DatabaseOptions.SectionKey, typeof(DatabaseOptions));
 
-        _ = services.AddDbContext<DatabaseService>(options =>
+        _ = services.AddDbContext<DatabaseContext>(options =>
         {
             _ = options.UseSqlServer(databaseOptions.ConnectionString, builder =>
             {
-                _ = builder.MigrationsAssembly(typeof(DatabaseService).Assembly.FullName);
-                _ = builder.MigrationsHistoryTable("__EFMigrationsHistory", DatabaseService.SchemaName);
+                _ = builder.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName);
+                _ = builder.MigrationsHistoryTable("__EFMigrationsHistory", DatabaseContext.SchemaName);
                 _ = builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             });
 
@@ -24,7 +24,6 @@ public static class ConfigureDatabase
             _ = options.ConfigureWarnings(wcb => wcb.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
         }, ServiceLifetime.Transient);
 
-        _ = services.AddTransient<DatabaseMigrator>();
         _ = services.AddTransient<InitialDataSeeder>();
 
         return services;
@@ -35,8 +34,8 @@ public static class ConfigureDatabase
         using var serviceScope = app.Services.CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
 
-        var databaseMigrator = serviceProvider.GetRequiredService<DatabaseMigrator>();
-        await databaseMigrator.Migrate();
+        var databaseContext = serviceProvider.GetRequiredService<DatabaseContext>();
+        await databaseContext.Database.MigrateAsync();
 
         var initialDataSeeder = serviceProvider.GetRequiredService<InitialDataSeeder>();
         await initialDataSeeder.SeedInitialData();

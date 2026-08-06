@@ -1,10 +1,10 @@
 namespace CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
-public sealed class CreateProjectLogic(DatabaseService databaseService)
+public sealed class CreateProjectLogic(DatabaseContext databaseContext)
 {
     public async Task<CreateProjectOutput> Handle(CreateProjectInput input, CancellationToken cancellationToken = default)
     {
-        var anyProjectWithTheSameTitle = await databaseService.Projects
+        var anyProjectWithTheSameTitle = await databaseContext.Projects
             .Where(project => project.Title == input.Title)
             .AnyAsync(cancellationToken);
 
@@ -20,8 +20,8 @@ public sealed class CreateProjectLogic(DatabaseService databaseService)
             CreatedBy = input.CreatedBy
         };
 
-        _ = await databaseService.Projects.AddAsync(project, cancellationToken);
-        _ = await databaseService.SaveChangesAsync(cancellationToken);
+        _ = await databaseContext.Projects.AddAsync(project, cancellationToken);
+        _ = await databaseContext.SaveChangesAsync(cancellationToken);
 
         return new CreateProjectOutput { Id = project.Id };
     }

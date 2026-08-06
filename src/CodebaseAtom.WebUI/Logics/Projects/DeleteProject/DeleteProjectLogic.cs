@@ -2,11 +2,11 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Projects.DeleteProject;
 
-public sealed class DeleteProjectLogic(DatabaseService databaseService, FileStorageService fileStorageService)
+public sealed class DeleteProjectLogic(DatabaseContext databaseContext, FileStorageService fileStorageService)
 {
     public async Task Handle(DeleteProjectInput input, CancellationToken cancellationToken = default)
     {
-        var project = await databaseService.Projects
+        var project = await databaseContext.Projects
             .Where(project => project.Id == input.ProjectId)
             .Include(project => project.WorkItems)
             .Include(project => project.Documents)
@@ -18,9 +18,9 @@ public sealed class DeleteProjectLogic(DatabaseService databaseService, FileStor
             fileStorageService.Delete(document.FilePath);
         }
 
-        databaseService.Documents.RemoveRange(project.Documents);
-        databaseService.WorkItems.RemoveRange(project.WorkItems);
-        _ = databaseService.Projects.Remove(project);
-        _ = await databaseService.SaveChangesAsync(cancellationToken);
+        databaseContext.Documents.RemoveRange(project.Documents);
+        databaseContext.WorkItems.RemoveRange(project.WorkItems);
+        _ = databaseContext.Projects.Remove(project);
+        _ = await databaseContext.SaveChangesAsync(cancellationToken);
     }
 }

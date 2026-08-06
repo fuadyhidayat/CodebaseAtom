@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Database;
 
-public class DatabaseService(DbContextOptions<DatabaseService> options)
+public class DatabaseContext(DbContextOptions<DatabaseContext> options)
     : DbContext(options)
 {
     public const string SchemaName = nameof(CodebaseAtom);

@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.Database.InitialData;
 
 namespace CodebaseAtom.WebUI.Infrastructure.Database.Seeders;
 
-public sealed class InitialDataSeeder(DatabaseService databaseContext)
+public sealed class InitialDataSeeder(DatabaseContext databaseContext)
 {
     public async Task SeedInitialData()
     {

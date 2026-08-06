@@ -1,10 +1,10 @@
 namespace CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
 
-public sealed class GetStatisticLogic(DatabaseService databaseService)
+public sealed class GetStatisticLogic(DatabaseContext databaseContext)
 {
     public async Task<GetStatisticOutput> Handle(GetStatisticInput input, CancellationToken cancellationToken = default)
     {
-        var query = databaseService.Projects
+        var query = databaseContext.Projects
            .AsNoTracking()
            .Select(project => new ProjectDto
            {

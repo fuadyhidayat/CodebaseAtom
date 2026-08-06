@@ -1,10 +1,10 @@
 namespace CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
 
-public sealed class GetDocumentsLogic(DatabaseService databaseService)
+public sealed class GetDocumentsLogic(DatabaseContext databaseContext)
 {
     public async Task<GetDocumentsOutput> Handle(GetDocumentsInput input, CancellationToken cancellationToken = default)
     {
-        var items = await databaseService.Documents
+        var items = await databaseContext.Documents
             .AsNoTracking()
             .Where(document => document.ProjectId == input.ProjectId)
             .Select(document => new DocumentDto

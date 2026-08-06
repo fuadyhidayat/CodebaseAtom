@@ -1,10 +1,10 @@
 namespace CodebaseAtom.WebUI.Logics.Documents.UpdateDocument;
 
-public sealed class UpdateDocumentLogic(DatabaseService databaseService)
+public sealed class UpdateDocumentLogic(DatabaseContext databaseContext)
 {
     public async Task Handle(UpdateDocumentInput input, CancellationToken cancellationToken = default)
     {
-        var document = await databaseService.Documents
+        var document = await databaseContext.Documents
             .Where(document => document.Id == input.DocumentId)
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Document, DomainDisplayTextFor.Id, input.DocumentId);
@@ -14,6 +14,6 @@ public sealed class UpdateDocumentLogic(DatabaseService databaseService)
         document.Modified = DateTimeOffset.Now;
         document.ModifiedBy = input.ModifiedBy;
 
-        _ = await databaseService.SaveChangesAsync(cancellationToken);
+        _ = await databaseContext.SaveChangesAsync(cancellationToken);
     }
 }

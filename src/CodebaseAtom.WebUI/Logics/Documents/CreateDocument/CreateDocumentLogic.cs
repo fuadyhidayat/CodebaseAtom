@@ -2,7 +2,7 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
-public sealed class CreateDocumentLogic(DatabaseService databaseService, FileStorageService fileStorageService)
+public sealed class CreateDocumentLogic(DatabaseContext databaseContext, FileStorageService fileStorageService)
 {
     public async Task<CreateDocumentOutput> Handle(CreateDocumentInput input, CancellationToken cancellationToken = default)
     {
@@ -16,12 +16,12 @@ public sealed class CreateDocumentLogic(DatabaseService databaseService, FileSto
             CreatedBy = input.CreatedBy
         };
 
-        _ = await databaseService.Documents.AddAsync(document, cancellationToken);
+        _ = await databaseContext.Documents.AddAsync(document, cancellationToken);
 
         var fileBytes = input.FileContent.ToArray();
 
         await fileStorageService.CreateAsync(document.FilePath, fileBytes, cancellationToken);
-        _ = await databaseService.SaveChangesAsync(cancellationToken);
+        _ = await databaseContext.SaveChangesAsync(cancellationToken);
 
         return new CreateDocumentOutput
         {

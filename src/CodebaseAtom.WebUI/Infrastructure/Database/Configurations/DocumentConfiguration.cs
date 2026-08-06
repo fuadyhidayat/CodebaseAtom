@@ -8,7 +8,7 @@ public sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
     public void Configure(EntityTypeBuilder<Document> builder)
     {
-        _ = builder.ToTable(nameof(DatabaseService.Documents));
+        _ = builder.ToTable(nameof(DatabaseContext.Documents));
 
         builder.ConfigureFileProperties();
 

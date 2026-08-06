@@ -2,11 +2,11 @@ using CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 
-public sealed class DownloadDocumentLogic(DatabaseService databaseService, FileStorageService fileStorageService)
+public sealed class DownloadDocumentLogic(DatabaseContext databaseContext, FileStorageService fileStorageService)
 {
     public async Task<DownloadDocumentOutput> Handle(DownloadDocumentInput input, CancellationToken cancellationToken = default)
     {
-        var document = await databaseService.Documents
+        var document = await databaseContext.Documents
             .Where(d => d.Id == input.DocumentId)
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Document, DomainDisplayTextFor.Id, input.DocumentId);
