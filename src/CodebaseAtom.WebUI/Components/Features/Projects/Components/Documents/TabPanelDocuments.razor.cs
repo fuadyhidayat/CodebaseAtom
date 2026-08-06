@@ -112,9 +112,9 @@ public partial class TabPanelDocuments
 
             await JsRuntime.InvokeVoidAsync(
                 "downloadFileFromStream",
-                output.File.FileName,
-                output.File.FileContentType,
-                output.File.FileContent.ToArray()
+                output.Item.FileName,
+                output.Item.FileContentType,
+                output.Item.FileContent.ToArray()
             );
         }
         catch (Exception exception)

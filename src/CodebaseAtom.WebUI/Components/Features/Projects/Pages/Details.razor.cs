@@ -50,7 +50,11 @@ public partial class Details
                 Id = output.Item.Id,
                 Title = output.Item.Title,
                 Description = output.Item.Description,
-                CreatedAt = output.Item.CreatedAt
+                CreatedAt = output.Item.CreatedAt,
+                CreatedBy = output.Item.CreatedBy,
+                CreatedByUsername = output.Item.CreatedByUsername,
+                CreatedByEmail = output.Item.CreatedByEmail,
+                CreatedByDisplayName = output.Item.CreatedByDisplayName
             };
         }
         catch (Exception exception)
@@ -127,5 +131,9 @@ public partial class Details
         public required string Title { get; init; }
         public required string Description { get; init; }
         public required DateTimeOffset CreatedAt { get; init; }
+        public required Guid CreatedBy { get; init; }
+        public required string CreatedByUsername { get; init; }
+        public required string CreatedByEmail { get; init; }
+        public required string CreatedByDisplayName { get; init; }
     }
 }

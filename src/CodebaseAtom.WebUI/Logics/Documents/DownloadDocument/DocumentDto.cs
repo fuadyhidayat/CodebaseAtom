@@ -1,6 +1,6 @@
 namespace CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 
-public sealed record DocumentFileDto
+public sealed record DocumentDto
 {
     public required string FileName { get; init; }
     public required string FileContentType { get; init; }

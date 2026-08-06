@@ -107,7 +107,7 @@ public static class ThemeFor
         {
             FontFamily = _fontFamily,
             FontWeight = "400",
-            FontSize = "0.850rem",
+            FontSize = "0.800rem",
             LineHeight = "1.6"
         },
         Button = new ButtonTypography

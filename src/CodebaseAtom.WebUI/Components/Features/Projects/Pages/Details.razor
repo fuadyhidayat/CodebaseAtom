@@ -26,6 +26,12 @@
             <MudText Typo="Typo.body1">
                 @_item.Description
             </MudText>
+            <MudText Typo="Typo.body2" Class="mt-5 gray-text">
+                @UIDisplayTextFor.Created at @_item.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
+                <MudTooltip Text="@($"{_item.CreatedByUsername} ({_item.CreatedByEmail})")">
+                    by @_item.CreatedByDisplayName
+                </MudTooltip>
+            </MudText>
         </MudPaper>
         <HorizontalTabs>
             <MudTabPanel Text="@DomainDisplayTextFor.WorkItems">

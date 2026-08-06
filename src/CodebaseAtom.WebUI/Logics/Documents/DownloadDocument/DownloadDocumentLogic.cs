@@ -15,7 +15,7 @@ public sealed class DownloadDocumentLogic(DatabaseContext databaseContext, FileS
 
         return new DownloadDocumentOutput
         {
-            File = new DocumentFileDto
+            Item = new DocumentDto
             {
                 FileName = document.FileName,
                 FileContentType = document.FileContentType,
