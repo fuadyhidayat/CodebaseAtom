@@ -1,4 +1,5 @@
-[*]
+[*.cs]
+# Suppress: EC112
 generated_code = true
 
 # Ignore EF / migration style noise
