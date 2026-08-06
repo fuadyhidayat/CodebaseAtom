@@ -17,14 +17,6 @@ indent_size = 2
 [*.json]
 indent_size = 2
 
-# ## IDE-only Rules ##
-
-# ### JSON001: Invalid JSON pattern
-dotnet_diagnostic.JSON001.severity = error
-
-# ### JSON002: Probable JSON string detected
-dotnet_diagnostic.JSON002.severity = error
-
 # C# files
 [*.cs]
 
