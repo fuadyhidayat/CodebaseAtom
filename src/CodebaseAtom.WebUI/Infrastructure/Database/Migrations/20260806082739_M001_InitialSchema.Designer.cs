@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodebaseAtom.WebUI.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(DatabaseService))]
-    [Migration("20260804122926_M001_InitialSchema")]
+    [Migration("20260806082739_M001_InitialSchema")]
     partial class M001_InitialSchema
     {
         /// <inheritdoc />
