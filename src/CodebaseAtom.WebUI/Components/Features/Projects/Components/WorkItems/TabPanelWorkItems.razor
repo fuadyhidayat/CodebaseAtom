@@ -95,6 +95,9 @@
         <SimpleTableDefault>
             <thead>
                 <tr>
+                    <th class="text-center">
+                        <MudCheckBox T="bool" />
+                    </th>
                     <th>
                         @DomainDisplayTextFor.Title
                     </th>
@@ -116,6 +119,9 @@
                 @foreach (var workItem in _items)
                 {
                     <tr>
+                        <td class="text-center">
+                            <MudCheckBox T="bool" />
+                        </td>
                         <td>
                             @workItem.Title
                         </td>
