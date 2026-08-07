@@ -7,7 +7,7 @@ using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItemStatus;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
 
-public partial class TabPanelWorkItems
+public partial class TabContentWorkItems
 {
     [Inject]
     public required IDialogService DialogService { get; init; }
@@ -37,7 +37,7 @@ public partial class TabPanelWorkItems
     private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
     private List<WorkItemModel> _items = new();
     private HashSet<WorkItemModel> _selectedItems = new();
-    private bool _isKanbanView = true;
+    private bool _isKanbanView;
 
     protected override async Task OnParametersSetAsync()
     {

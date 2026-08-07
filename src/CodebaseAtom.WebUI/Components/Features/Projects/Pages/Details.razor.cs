@@ -124,16 +124,16 @@ public partial class Details
             }
         }
     }
+}
 
-    private sealed record ProjectModel
-    {
-        public required Guid Id { get; init; }
-        public required string Title { get; init; }
-        public required string Description { get; init; }
-        public required DateTimeOffset CreatedAt { get; init; }
-        public required Guid CreatedBy { get; init; }
-        public required string CreatedByUsername { get; init; }
-        public required string CreatedByEmail { get; init; }
-        public required string CreatedByDisplayName { get; init; }
-    }
+public sealed record ProjectModel
+{
+    public required Guid Id { get; init; }
+    public required string Title { get; init; }
+    public required string Description { get; init; }
+    public required DateTimeOffset CreatedAt { get; init; }
+    public required Guid CreatedBy { get; init; }
+    public required string CreatedByUsername { get; init; }
+    public required string CreatedByEmail { get; init; }
+    public required string CreatedByDisplayName { get; init; }
 }

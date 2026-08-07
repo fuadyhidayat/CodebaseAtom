@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
 
-public partial class TabPanelDocuments
+public partial class TabContentDocuments
 {
     [Inject]
     public required IDialogService DialogService { get; init; }

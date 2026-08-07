@@ -13,6 +13,7 @@ public static class UIDisplayTextFor
     public const string Yes = nameof(Yes);
     public const string No = nameof(No);
 
+    public const string GeneralInfo = "General Info";
     public const string Profile = "Profile";
     public const string MySession = "My Session";
 

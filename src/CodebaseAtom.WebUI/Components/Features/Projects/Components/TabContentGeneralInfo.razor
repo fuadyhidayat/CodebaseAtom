@@ -1,0 +1,26 @@
+@inherits AppComponentBase
+
+<GridDefault>
+    <MudItem xs="12">
+        <FieldDefault Label="@DomainDisplayTextFor.Title">
+            @Project.Title
+        </FieldDefault>
+    </MudItem>
+    <MudItem xs="12">
+        <FieldDefault Label="@DomainDisplayTextFor.Description">
+            @Project.Description
+        </FieldDefault>
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        <FieldDefault Label="@DomainDisplayTextFor.CreatedAt">
+            @Project.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
+        </FieldDefault>
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        <FieldDefault Label="@DomainDisplayTextFor.CreatedBy">
+            <MudTooltip Text="@($"{Project.CreatedByUsername} ({Project.CreatedByEmail})")">
+                @Project.CreatedByDisplayName
+            </MudTooltip>
+        </FieldDefault>
+    </MudItem>
+</GridDefault>

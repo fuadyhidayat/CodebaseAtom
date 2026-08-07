@@ -1,4 +1,5 @@
 @page "/Projects/Details/{ProjectId:guid}"
+@using CodebaseAtom.WebUI.Components.Features.Projects.Components
 @using CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents
 @using CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems
 @inherits PageBase
@@ -22,23 +23,15 @@
                 </Authorized>
             </AuthorizeView>
         </MudStack>
-        <MudPaper Outlined="true" Class="pa-4 gray lighten-5">
-            <MudText Typo="Typo.body1">
-                @_item.Description
-            </MudText>
-            <MudText Typo="Typo.body2" Class="mt-5 gray-text">
-                @UIDisplayTextFor.Created at @_item.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
-                <MudTooltip Text="@($"{_item.CreatedByUsername} ({_item.CreatedByEmail})")">
-                    by @_item.CreatedByDisplayName
-                </MudTooltip>
-            </MudText>
-        </MudPaper>
         <HorizontalTabs>
+            <MudTabPanel Text="@UIDisplayTextFor.GeneralInfo">
+                <TabContentGeneralInfo Project="_item" />
+            </MudTabPanel>
             <MudTabPanel Text="@DomainDisplayTextFor.WorkItems">
-                <TabPanelWorkItems ProjectId="@ProjectId" />
+                <TabContentWorkItems ProjectId="@ProjectId" />
             </MudTabPanel>
             <MudTabPanel Text="@DomainDisplayTextFor.Documents">
-                <TabPanelDocuments ProjectId="@ProjectId" />
+                <TabContentDocuments ProjectId="@ProjectId" />
             </MudTabPanel>
         </HorizontalTabs>
     </MudStack>
