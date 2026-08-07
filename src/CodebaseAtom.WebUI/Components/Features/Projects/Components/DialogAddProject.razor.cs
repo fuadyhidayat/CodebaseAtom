@@ -48,10 +48,10 @@ public partial class DialogAddProject
             IsLoadingBase = false;
         }
     }
-}
 
-public sealed record AddProjectModel
-{
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    private sealed record AddProjectModel
+    {
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+    }
 }
