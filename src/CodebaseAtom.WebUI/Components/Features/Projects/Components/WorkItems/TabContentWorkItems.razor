@@ -133,8 +133,8 @@
                     @context.Status.Name
                 </MudTd>
                 <MudTd DataLabel="@UIDisplayTextFor.Action" class="text-center">
-                    <ButtonEdit OnClick="@(() => ShowDialogEditWorkItem(context))" />
-                    <ButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteForever" OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
                 </MudTd>
             </RowTemplate>
         </TableDefault>

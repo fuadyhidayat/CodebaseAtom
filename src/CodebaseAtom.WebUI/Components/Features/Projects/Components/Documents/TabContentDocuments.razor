@@ -41,12 +41,7 @@
                     <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
                 </MudTd>
                 <MudTd DataLabel="@DomainDisplayTextFor.FileName">
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <MudText>
-                            <MudHighlighter Text="@context.FileName" HighlightedText="@_searchKeyword" />
-                        </MudText>
-                        <ButtonDownload OnClick="@(() => HandleDownloadDocument(context))" />
-                    </MudStack>
+                    <MudHighlighter Text="@context.FileName" HighlightedText="@_searchKeyword" />
                 </MudTd>
                 <MudTd DataLabel="@DomainDisplayTextFor.FileSize" Class="text-center">
                     @context.FileSize.ToReadableFileSize()
@@ -55,8 +50,9 @@
                     @context.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
                 </MudTd>
                 <MudTd DataLabel="@UIDisplayTextFor.Action" Class="text-center">
-                    <ButtonEdit OnClick="@(() => ShowDialogEditDocument(context))" />
-                    <ButtonDelete OnClick="@(() => ShowDialogDeleteDocument(context))" />
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Download" OnClick="@(() => HandleDownloadDocument(context))" />
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => ShowDialogEditDocument(context))" />
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteForever" OnClick="@(() => ShowDialogDeleteDocument(context))" />
                 </MudTd>
             </RowTemplate>
             <NoRecordsContent>
