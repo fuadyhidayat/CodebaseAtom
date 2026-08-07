@@ -4,26 +4,17 @@
     <MudStack Row="true"
               Justify="Justify.SpaceBetween"
               AlignItems="AlignItems.Start">
-        <MudButtonGroup Color="Color.Primary"
-                        Variant="Variant.Outlined"
-                        Size="Size.Small">
-            <MudStack Class="px-5 border rounded-tl rounded-bl mud-border-primary" Justify="Justify.Center">
-                <MudText Class="text-bold">
-                    @if (_isKanbanView)
-                    {
-                        <span>Kanban View</span>
-                    }
-                    else
-                    {
-                        <span>Table View</span>
-                    }
-                </MudText>
-            </MudStack>
-            <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Style="align-self: auto;">
-                <MudMenuItem OnClick="() => _isKanbanView = true" Disabled="@_isKanbanView">Switch to Kanban View</MudMenuItem>
-                <MudMenuItem OnClick="() => _isKanbanView = false" Disabled="@(!_isKanbanView)">Switch to Table View</MudMenuItem>
-            </MudMenu>
-        </MudButtonGroup>
+        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
+            <MudText>
+                Table View
+            </MudText>
+            <MudSwitch @bind-Value="_isKanbanView"
+                       ThumbIcon="@(_isKanbanView ? Icons.Material.Filled.ViewKanban : Icons.Material.Filled.TableView)"
+                       ThumbIconColor="@(_isKanbanView ? Color.Primary : Color.Secondary)" />
+            <MudText>
+                Kanban View
+            </MudText>
+        </MudStack>
         <MudStack Row="true" Spacing="1">
             @if (_selectedItems.Any())
             {

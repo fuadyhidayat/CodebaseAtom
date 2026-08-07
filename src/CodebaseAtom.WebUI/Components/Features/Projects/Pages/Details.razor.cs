@@ -54,7 +54,12 @@ public partial class Details
                 CreatedBy = output.Item.CreatedBy,
                 CreatedByUsername = output.Item.CreatedByUsername,
                 CreatedByEmail = output.Item.CreatedByEmail,
-                CreatedByDisplayName = output.Item.CreatedByDisplayName
+                CreatedByDisplayName = output.Item.CreatedByDisplayName,
+                ModifiedAt = output.Item.ModifiedAt,
+                ModifiedBy = output.Item.ModifiedBy,
+                ModifiedByUsername = output.Item.ModifiedByUsername,
+                ModifiedByEmail = output.Item.ModifiedByEmail,
+                ModifiedByDisplayName = output.Item.ModifiedByDisplayName
             };
         }
         catch (Exception exception)
@@ -136,4 +141,9 @@ public sealed record ProjectModel
     public required string CreatedByUsername { get; init; }
     public required string CreatedByEmail { get; init; }
     public required string CreatedByDisplayName { get; init; }
+    public required DateTimeOffset? ModifiedAt { get; init; }
+    public required Guid? ModifiedBy { get; init; }
+    public required string? ModifiedByUsername { get; init; }
+    public required string? ModifiedByEmail { get; init; }
+    public required string? ModifiedByDisplayName { get; init; }
 }

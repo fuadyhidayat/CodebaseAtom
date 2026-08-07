@@ -16,18 +16,41 @@ public sealed class GetProjectLogic(DatabaseContext databaseContext, UserManager
                 Title = project.Title,
                 Description = project.Description,
                 CreatedAt = project.Created,
-                CreatedBy = project.CreatedBy
+                CreatedBy = project.CreatedBy,
+                ModifiedAt = project.Modified,
+                ModifiedBy = project.ModifiedBy
             })
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Project, DomainDisplayTextFor.Id, input.Id);
 
-        var user = await userManager.FindByIdAsync(item.CreatedBy.ToString());
+        var userCreatedBy = await userManager.FindByIdAsync(item.CreatedBy.ToString());
 
-        if (user is not null)
+        if (userCreatedBy is not null)
         {
-            item.CreatedByUsername = user.UserName ?? string.Empty;
-            item.CreatedByEmail = user.Email ?? string.Empty;
-            item.CreatedByDisplayName = user.DisplayName;
+            item.CreatedByUsername = userCreatedBy.UserName ?? string.Empty;
+            item.CreatedByEmail = userCreatedBy.Email ?? string.Empty;
+            item.CreatedByDisplayName = userCreatedBy.DisplayName;
+        }
+
+        if (item.ModifiedBy.HasValue)
+        {
+            if (item.ModifiedBy.Value != item.CreatedBy)
+            {
+                var userModifiedBy = await userManager.FindByIdAsync(item.ModifiedBy.Value.ToString());
+
+                if (userModifiedBy is not null)
+                {
+                    item.ModifiedByUsername = userModifiedBy.UserName ?? string.Empty;
+                    item.ModifiedByEmail = userModifiedBy.Email ?? string.Empty;
+                    item.ModifiedByDisplayName = userModifiedBy.DisplayName;
+                }
+            }
+            else
+            {
+                item.ModifiedByUsername = item.CreatedByUsername;
+                item.ModifiedByEmail = item.CreatedByEmail;
+                item.ModifiedByDisplayName = item.CreatedByDisplayName;
+            }
         }
 
         return new GetProjectOutput { Item = item };
