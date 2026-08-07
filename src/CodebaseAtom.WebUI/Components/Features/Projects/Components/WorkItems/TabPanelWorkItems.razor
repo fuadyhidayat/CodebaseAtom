@@ -24,7 +24,13 @@
                 <MudMenuItem OnClick="() => _isKanbanView = false" Disabled="@(!_isKanbanView)">Switch to Table View</MudMenuItem>
             </MudMenu>
         </MudButtonGroup>
-        <ButtonAdd EntityType="@DomainDisplayTextFor.WorkItem" OnClick="ShowDialogAddWorkItem" />
+        <MudStack Row="true" Spacing="1">
+            @if (_selectedItems.Any())
+            {
+                <ButtonDelete EntityType="@DomainDisplayTextFor.WorkItems" OnClick="ShowDialogDeleteSelectedWorkItems" />
+            }
+            <ButtonAdd EntityType="@DomainDisplayTextFor.WorkItem" OnClick="ShowDialogAddWorkItem" />
+        </MudStack>
     </MudStack>
 
     @if (_isKanbanView)
@@ -92,55 +98,53 @@
     }
     else
     {
-        <SimpleTableDefault>
-            <thead>
-                <tr>
-                    <th class="text-center">
-                        <MudCheckBox T="bool" />
-                    </th>
-                    <th>
+        <TableDefault Items="_items"
+                      @bind-SelectedItems="_selectedItems"
+                      T="WorkItemModel"
+                      MultiSelection="true">
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Title)">
                         @DomainDisplayTextFor.Title
-                    </th>
-                    <th>
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Description)">
                         @DomainDisplayTextFor.Description
-                    </th>
-                    <th class="text-center">
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh class="text-center">
+                    <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Deadline)" InitialDirection="SortDirection.Ascending">
                         @DomainDisplayTextFor.Deadline
-                    </th>
-                    <th class="text-center">
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh class="text-center">
+                    <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Status)">
                         @DomainDisplayTextFor.Status
-                    </th>
-                    <th class="text-center">
-                        @UIDisplayTextFor.Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var workItem in _items)
-                {
-                    <tr>
-                        <td class="text-center">
-                            <MudCheckBox T="bool" />
-                        </td>
-                        <td>
-                            @workItem.Title
-                        </td>
-                        <td>
-                            @workItem.Description
-                        </td>
-                        <td class="text-center">
-                            @workItem.Deadline.ToDisplayText(DateFormatFor.LongDate)
-                        </td>
-                        <td class="text-center">
-                            @workItem.Status.Name
-                        </td>
-                        <td class="text-center">
-                            <ButtonEdit OnClick="@(() => ShowDialogEditWorkItem(workItem))" />
-                            <ButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(workItem))" />
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </SimpleTableDefault>
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh class="text-center">
+                    @UIDisplayTextFor.Action
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="@DomainDisplayTextFor.Title">
+                    @context.Title
+                </MudTd>
+                <MudTd DataLabel="@DomainDisplayTextFor.Description">
+                    @context.Description
+                </MudTd>
+                <MudTd DataLabel="@DomainDisplayTextFor.Deadline" class="text-center">
+                    @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                </MudTd>
+                <MudTd DataLabel="@DomainDisplayTextFor.Status" class="text-center">
+                    @context.Status.Name
+                </MudTd>
+                <MudTd DataLabel="@UIDisplayTextFor.Action" class="text-center">
+                    <ButtonEdit OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                    <ButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                </MudTd>
+            </RowTemplate>
+        </TableDefault>
     }
 </MudStack>

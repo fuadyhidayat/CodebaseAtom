@@ -11,6 +11,7 @@ using CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 using CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
 using CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
 using CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
+using CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItems;
 using CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
 using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItemStatus;
@@ -32,6 +33,7 @@ public static class ConfigureLogics
         _ = builder.Services.AddTransient<UpdateWorkItemLogic>();
         _ = builder.Services.AddTransient<UpdateWorkItemStatusLogic>();
         _ = builder.Services.AddTransient<DeleteWorkItemLogic>();
+        _ = builder.Services.AddTransient<DeleteWorkItemsLogic>();
 
         _ = builder.Services.AddTransient<GetDocumentsLogic>();
         _ = builder.Services.AddTransient<DownloadDocumentLogic>();

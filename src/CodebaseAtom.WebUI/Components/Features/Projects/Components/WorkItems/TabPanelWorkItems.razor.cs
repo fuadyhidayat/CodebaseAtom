@@ -1,5 +1,6 @@
 using CodebaseAtom.WebUI.Common.Models;
 using CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
+using CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItems;
 using CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
 using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 using CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItemStatus;
@@ -23,6 +24,9 @@ public partial class TabPanelWorkItems
     [Inject]
     public required DeleteWorkItemLogic DeleteWorkItemLogic { get; set; }
 
+    [Inject]
+    public required DeleteWorkItemsLogic DeleteWorkItemsLogic { get; set; }
+
     [CascadingParameter]
     private CurrentUser? CurrentUser { get; set; }
 
@@ -32,6 +36,7 @@ public partial class TabPanelWorkItems
     private MudDropContainer<WorkItemModel> _kanban = default!;
     private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
     private List<WorkItemModel> _items = new();
+    private HashSet<WorkItemModel> _selectedItems = new();
     private bool _isKanbanView = true;
 
     protected override async Task OnParametersSetAsync()
@@ -123,11 +128,11 @@ public partial class TabPanelWorkItems
 
         if (dialogResult is true)
         {
-            await DeleteWorkItem(item.Id);
+            await DeleteWorkItem(item);
         }
     }
 
-    private async Task DeleteWorkItem(Guid workItemId)
+    private async Task DeleteWorkItem(WorkItemModel workItem)
     {
         try
         {
@@ -135,10 +140,56 @@ public partial class TabPanelWorkItems
 
             var input = new DeleteWorkItemInput
             {
-                WorkItemId = workItemId
+                WorkItemId = workItem.Id
             };
 
             await DeleteWorkItemLogic.Handle(input);
+            Snackbar.AddSuccess($"{DomainDisplayTextFor.WorkItem} '{workItem.Title}' deleted successfully.");
+            await LoadItems();
+        }
+        catch (Exception exception)
+        {
+            ExceptionBase = exception;
+        }
+        finally
+        {
+            IsLoadingBase = false;
+        }
+    }
+
+    private async Task ShowDialogDeleteSelectedWorkItems()
+    {
+        if (_selectedItems.Count == 0)
+        {
+            return;
+        }
+
+        var dialogResult = await DialogService.ShowMessageBoxAsync(
+          $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.WorkItems}",
+          $"Are you sure you want to delete {_selectedItems.Count} {DomainDisplayTextFor.WorkItems}?",
+          yesText: UIDisplayTextFor.Yes,
+          noText: UIDisplayTextFor.No,
+          options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
+
+        if (dialogResult is true)
+        {
+            await DeleteWorkItems(_selectedItems.Select(x => x.Id));
+        }
+    }
+
+    private async Task DeleteWorkItems(IEnumerable<Guid> workItemIds)
+    {
+        try
+        {
+            IsLoadingBase = true;
+
+            var input = new DeleteWorkItemsInput
+            {
+                WorkItemIds = workItemIds
+            };
+
+            await DeleteWorkItemsLogic.Handle(input);
+            Snackbar.AddSuccess($"{workItemIds.Count()} {DomainDisplayTextFor.WorkItems} deleted successfully.");
             await LoadItems();
         }
         catch (Exception exception)
