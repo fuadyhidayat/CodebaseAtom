@@ -70,12 +70,12 @@ public partial class TabContentDocuments
             return true;
         }
 
-        if (item.Title.Contains(_searchKeyword))
+        if (item.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.FileName.Contains(_searchKeyword))
+        if (item.FileName.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

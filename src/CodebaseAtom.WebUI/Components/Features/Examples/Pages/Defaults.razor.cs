@@ -35,17 +35,17 @@ public partial class Defaults
             return true;
         }
 
-        if (item.Name.Contains(_searchKeyword))
+        if (item.Name.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.UnitPrice.ToDisplayText(CurrencyFormatFor.NoDecimal).Contains(_searchKeyword))
+        if (item.UnitPrice.ToDisplayText(CurrencyFormatFor.NoDecimal).Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.Stock.ToString(CultureInfo.InvariantCulture).Contains(_searchKeyword))
+        if (item.Stock.ToString(CultureInfo.InvariantCulture).Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

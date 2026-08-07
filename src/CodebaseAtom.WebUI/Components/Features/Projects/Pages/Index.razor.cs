@@ -60,12 +60,12 @@ public partial class Index
             return true;
         }
 
-        if (item.Title.Contains(_searchKeyword))
+        if (item.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.Description.Contains(_searchKeyword))
+        if (item.Description.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

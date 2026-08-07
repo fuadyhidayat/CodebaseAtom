@@ -1,11 +1,12 @@
 @inherits AppComponentBase
 
 <MudStack Spacing="5">
-    <TopButtonPanel>
+    <MudStack Row="true"
+              Justify="Justify.SpaceBetween"
+              AlignItems="AlignItems.Center">
+        <TextFieldSearch @bind-Value="_searchKeyword" Style="width: 300px;" />
+        <MudSpacer />
         <ButtonAdd EntityType="@DomainDisplayTextFor.Document" OnClick="ShowDialogAddDocument" />
-    </TopButtonPanel>
-    <MudStack Row="true" AlignItems="AlignItems.Center" Class="align-self-end">
-        <TextFieldSearch @bind-Value="_searchKeyword" />
     </MudStack>
 
     @if (_items.Any())
