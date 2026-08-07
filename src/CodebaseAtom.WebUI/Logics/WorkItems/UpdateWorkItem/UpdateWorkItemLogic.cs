@@ -12,6 +12,7 @@ public sealed class UpdateWorkItemLogic(DatabaseContext databaseContext)
         workItem.Title = input.Title;
         workItem.Description = input.Description;
         workItem.Deadline = input.Deadline;
+        workItem.Status = input.Status;
         workItem.Modified = DateTimeOffset.Now;
         workItem.ModifiedBy = input.ModifiedBy;
 

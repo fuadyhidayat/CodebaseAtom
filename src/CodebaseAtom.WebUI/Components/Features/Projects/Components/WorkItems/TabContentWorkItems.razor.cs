@@ -100,7 +100,8 @@ public partial class TabContentWorkItems
             WorkItemId = item.Id,
             Title = item.Title,
             Description = item.Description,
-            Deadline = item.Deadline
+            Deadline = item.Deadline,
+            Status = item.Status
         };
 
         var parameters = new DialogParameters
@@ -241,7 +242,7 @@ public partial class TabContentWorkItems
             var input = new UpdateWorkItemStatusInput
             {
                 WorkItemId = workItem.Id,
-                NewStatus = workItem.Status,
+                Status = workItem.Status,
                 ModifiedBy = CurrentUser.UserId
             };
 

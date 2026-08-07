@@ -50,9 +50,9 @@
                     @context.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
                 </MudTd>
                 <MudTd DataLabel="@UIDisplayTextFor.Action" Class="text-center">
-                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Download" OnClick="@(() => HandleDownloadDocument(context))" />
-                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => ShowDialogEditDocument(context))" />
-                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteForever" OnClick="@(() => ShowDialogDeleteDocument(context))" />
+                    <IconButtonDownload OnClick="@(() => HandleDownloadDocument(context))" />
+                    <IconButtonEdit OnClick="@(() => ShowDialogEditDocument(context))" />
+                    <IconButtonDelete OnClick="@(() => ShowDialogDeleteDocument(context))" />
                 </MudTd>
             </RowTemplate>
             <NoRecordsContent>

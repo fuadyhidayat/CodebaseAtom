@@ -39,6 +39,7 @@ public partial class DialogEditWorkItem
                 Title = Model.Title,
                 Description = Model.Description,
                 Deadline = Model.Deadline,
+                Status = Model.Status,
                 ModifiedBy = CurrentUser.UserId
             };
 
@@ -61,8 +62,9 @@ public partial class DialogEditWorkItem
 
 public sealed record EditWorkItemModel
 {
-    public Guid WorkItemId { get; init; }
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public DateOnly Deadline { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
+    public required Guid WorkItemId { get; init; }
+    public required string Title { get; set; }
+    public required string Description { get; set; }
+    public required DateOnly Deadline { get; set; }
+    public required WorkItemStatus Status { get; set; }
 }

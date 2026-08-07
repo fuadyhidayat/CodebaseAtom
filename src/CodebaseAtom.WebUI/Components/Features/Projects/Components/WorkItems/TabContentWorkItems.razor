@@ -92,6 +92,7 @@
     {
         <TableDefault Items="_items"
                       @bind-SelectedItems="_selectedItems"
+                      SelectOnRowClick="false"
                       T="WorkItemModel"
                       MultiSelection="true">
             <HeaderContent>
@@ -133,8 +134,8 @@
                     @context.Status.Name
                 </MudTd>
                 <MudTd DataLabel="@UIDisplayTextFor.Action" class="text-center">
-                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => ShowDialogEditWorkItem(context))" />
-                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.DeleteForever" OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                    <IconButtonEdit OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                    <IconButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
                 </MudTd>
             </RowTemplate>
         </TableDefault>
