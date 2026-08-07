@@ -15,6 +15,7 @@
                         <MudItem xs="12">
                             <TextFieldDefault Label="@DomainDisplayTextFor.Title"
                                               Placeholder="@($"Enter the {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
+                                              AutoFocus="true"
                                               @bind-Value="_input.Title"
                                               For="@(() => _input.Title)" />
                         </MudItem>
