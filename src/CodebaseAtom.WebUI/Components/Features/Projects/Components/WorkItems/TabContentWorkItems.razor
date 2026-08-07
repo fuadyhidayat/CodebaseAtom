@@ -71,16 +71,16 @@
                 <MudPaper Outlined="true"
                           Class="mb-3 pa-3 mud-ripple"
                           Style="cursor: grab;">
-                    <MudText Typo="Typo.h5" Class="mb-5">
+                    <MudText Typo="Typo.h5" Class="mb-4">
                         @context.Title
                     </MudText>
                     <MudText Typo="Typo.body2" Class="mud-text-secondary">
                         @context.Description
                     </MudText>
-                    <MudDivider Class="my-3" />
+                    <MudDivider Class="my-2" />
                     <MudStack Row="true"
                               Justify="Justify.SpaceBetween"
-                              AlignItems="AlignItems.Baseline">
+                              AlignItems="AlignItems.Center">
                         <MudText Typo="Typo.body2" Class="mud-text-secondary">
                             @DomainDisplayTextFor.Deadline: @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
                         </MudText>
