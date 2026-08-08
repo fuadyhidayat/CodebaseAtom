@@ -2,7 +2,7 @@ namespace Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 
 public sealed class CurrentUserState
 {
-    public event EventHandler? OnChange;
+    public event EventHandler? OnChanged;
 
     public CurrentUserModel? CurrentUser
     {
@@ -19,7 +19,7 @@ public sealed class CurrentUserState
 
     private void NotifyStateChanged()
     {
-        OnChange?.Invoke(this, EventArgs.Empty);
+        OnChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void SetUser(CurrentUserModel? user)

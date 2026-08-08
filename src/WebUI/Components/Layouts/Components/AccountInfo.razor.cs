@@ -18,7 +18,7 @@ public sealed partial class AccountInfo
     {
         _currentUser = await CurrentUserService.GetCurrentUserAsync();
 
-        CurrentUserState.OnChange += HandleCurrentUserChanged;
+        CurrentUserState.OnChanged += HandleCurrentUserChanged;
     }
 
     private void HandleCurrentUserChanged(object? sender, EventArgs e)
@@ -45,6 +45,6 @@ public sealed partial class AccountInfo
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
-        CurrentUserState.OnChange -= HandleCurrentUserChanged;
+        CurrentUserState.OnChanged -= HandleCurrentUserChanged;
     }
 }

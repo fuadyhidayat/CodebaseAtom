@@ -17,39 +17,39 @@ public sealed class CurrentUserService(
         }
 
         var authenticationState = await authenticationStateProvider.GetAuthenticationStateAsync();
-        var userClaim = authenticationState.User;
+        var claimsPrincipal = authenticationState.User;
 
-        if (userClaim.Identity is null || !userClaim.Identity.IsAuthenticated)
+        if (claimsPrincipal.Identity is null || !claimsPrincipal.Identity.IsAuthenticated)
         {
             return null;
         }
 
-        var userIdClaim = userClaim.FindFirst(ClaimTypes.NameIdentifier);
+        var claimUserId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier);
 
-        if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userGuid))
+        if (claimUserId is null || !Guid.TryParse(claimUserId.Value, out var userId))
         {
             return null;
         }
 
-        using var context = await identityDatabaseContextFactory.CreateDbContextAsync();
+        using var identityDatabaseContext = await identityDatabaseContextFactory.CreateDbContextAsync();
 
-        var applicationUser = await context.Users
+        var applicationUser = await identityDatabaseContext.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == userGuid);
+            .FirstOrDefaultAsync(user => user.Id == userId);
 
         if (applicationUser is null)
         {
             return null;
         }
 
-        var roleIds = await context.UserRoles
-            .Where(ur => ur.UserId == applicationUser.Id)
-            .Select(ur => ur.RoleId)
+        var roleIds = await identityDatabaseContext.UserRoles
+            .Where(userRole => userRole.UserId == applicationUser.Id)
+            .Select(userRole => userRole.RoleId)
             .ToListAsync();
 
-        var roles = await context.Roles
-            .Where(r => roleIds.Contains(r.Id))
-            .Select(r => r.Name ?? "unknown")
+        var roles = await identityDatabaseContext.Roles
+            .Where(role => roleIds.Contains(role.Id))
+            .Select(role => role.Name!)
             .ToListAsync();
 
         var currentUser = new CurrentUserModel
