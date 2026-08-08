@@ -1,9 +1,11 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 
-public sealed class UpdateWorkItemLogic(DatabaseContext databaseContext)
+public sealed class UpdateWorkItemLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
     public async Task Handle(UpdateWorkItemInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var workItem = await databaseContext.WorkItems
             .Where(workItem => workItem.Id == input.WorkItemId)
             .FirstOrDefaultAsync(cancellationToken)
@@ -13,8 +15,6 @@ public sealed class UpdateWorkItemLogic(DatabaseContext databaseContext)
         workItem.Description = input.Description;
         workItem.Deadline = input.Deadline;
         workItem.Status = input.Status;
-        workItem.Modified = DateTimeOffset.Now;
-        workItem.ModifiedBy = input.ModifiedBy;
 
         _ = await databaseContext.SaveChangesAsync(cancellationToken);
     }

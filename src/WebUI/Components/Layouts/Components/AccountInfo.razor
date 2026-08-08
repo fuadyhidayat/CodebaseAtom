@@ -8,7 +8,7 @@
                      Color="Color.Inherit"
                      Class="no-wrap"
                      StartIcon="@Icons.Material.Filled.Person"
-                     Label="@_username"
+                     Label="@($"{_currentUser?.DisplayName} ({_currentUser?.Username})")"
                      EndIcon="@Icons.Material.Filled.KeyboardArrowDown"
                      AnchorOrigin="Origin.BottomRight"
                      TransformOrigin="Origin.TopRight">

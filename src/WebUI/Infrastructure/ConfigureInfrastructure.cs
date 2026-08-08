@@ -1,4 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.FileStorage;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 

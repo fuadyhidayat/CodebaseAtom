@@ -3,7 +3,9 @@ using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.InitialData;
 
 namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.Seeders;
 
-public sealed class UserSeeder(UserManager<ApplicationUser> userManager, IOptions<IdentityOptions> identityOptionsProvider)
+public sealed class UserSeeder(
+    UserManager<ApplicationUser> userManager,
+    IOptions<IdentityOptions> identityOptionsProvider)
 {
     public async Task SeedUsers()
     {

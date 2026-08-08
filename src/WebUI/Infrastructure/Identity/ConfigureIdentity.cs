@@ -49,7 +49,7 @@ public static class ConfigureIdentity
 
         _ = services.Configure<IdentityOptions>(identityOptionsSection);
 
-        _ = services.AddDbContext<IdentityDatabaseContext>(options =>
+        _ = services.AddDbContextFactory<IdentityDatabaseContext>(options =>
         {
             _ = options.UseSqlServer(identityOptions.ConnectionString, builder =>
             {
@@ -57,13 +57,12 @@ public static class ConfigureIdentity
                 _ = builder.MigrationsHistoryTable("__EFMigrationsHistory", IdentityDatabaseContext.SchemaName);
                 _ = builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             });
-
             _ = options.ConfigureWarnings(wcb => wcb.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
             _ = options.ConfigureWarnings(wcb => wcb.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
-        }, ServiceLifetime.Transient);
+        });
 
-        _ = services.AddTransient<RoleSeeder>();
-        _ = services.AddTransient<UserSeeder>();
+        _ = services.AddScoped<RoleSeeder>();
+        _ = services.AddScoped<UserSeeder>();
     }
 
     public static async Task InitializeIdentityDatabase(this WebApplication app)
@@ -71,7 +70,10 @@ public static class ConfigureIdentity
         using var serviceScope = app.Services.CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
 
-        var identityDatabaseContext = serviceProvider.GetRequiredService<IdentityDatabaseContext>();
+
+        var identityDatabaseContextFactory = serviceProvider.GetRequiredService<IDbContextFactory<IdentityDatabaseContext>>();
+
+        await using var identityDatabaseContext = await identityDatabaseContextFactory.CreateDbContextAsync();
         await identityDatabaseContext.Database.MigrateAsync();
 
         var roleSeeder = serviceProvider.GetRequiredService<RoleSeeder>();

@@ -1,4 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -8,20 +7,10 @@ public partial class DialogAddProject
     [Inject]
     public required CreateProjectLogic CreateProjectLogic { get; set; }
 
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
-
     private readonly AddProjectModel _input = new();
 
     private async Task OnValidSubmitAsync()
     {
-        if (CurrentUser is null)
-        {
-            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
-
-            return;
-        }
-
         try
         {
             IsLoadingBase = true;
@@ -29,8 +18,7 @@ public partial class DialogAddProject
             var input = new CreateProjectInput
             {
                 Title = _input.Title,
-                Description = _input.Description,
-                CreatedBy = CurrentUser.UserId
+                Description = _input.Description
             };
 
             _ = await CreateProjectLogic.Handle(input);

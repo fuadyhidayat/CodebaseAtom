@@ -2,10 +2,14 @@ using Vioren.CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
 namespace Vioren.CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 
-public sealed class DownloadDocumentLogic(DatabaseContext databaseContext, FileStorageService fileStorageService)
+public sealed class DownloadDocumentLogic(
+    IDbContextFactory<DatabaseContext> databaseContextFactory,
+    FileStorageService fileStorageService)
 {
     public async Task<DownloadDocumentOutput> Handle(DownloadDocumentInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var document = await databaseContext.Documents
             .Where(d => d.Id == input.DocumentId)
             .SingleOrDefaultAsync(cancellationToken)

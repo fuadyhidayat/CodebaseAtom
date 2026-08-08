@@ -3,10 +3,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.GetProject;
 
-public sealed class GetProjectLogic(DatabaseContext databaseContext, UserManager<ApplicationUser> userManager)
+public sealed class GetProjectLogic(
+    IDbContextFactory<DatabaseContext> databaseContextFactory,
+    UserManager<ApplicationUser> userManager)
 {
     public async Task<GetProjectOutput> Handle(GetProjectInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var item = await databaseContext.Projects
             .AsNoTracking()
             .Where(project => project.Id == input.Id)

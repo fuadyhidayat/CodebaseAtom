@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile;
@@ -8,30 +7,23 @@ namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile;
 public partial class Index
 {
     [Inject]
+    public required CurrentUserService CurrentUserService { get; init; }
+
+    [Inject]
+    public required CurrentUserState CurrentUserState { get; init; }
+
+    [Inject]
     public required IDialogService DialogService { get; init; }
 
     [Inject]
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
-
     private ApplicationUser _applicationUser = default!;
     private IReadOnlyCollection<string> _roles = [];
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         LoadBreadcrumbs();
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        // Guard: tunggu cascading user terisi, jangan redirect di pass awal
-        if (CurrentUser is null)
-        {
-            return;
-        }
-
         await LoadApplicationUserAsync();
     }
 
@@ -46,21 +38,16 @@ public partial class Index
     {
         try
         {
-            Console.WriteLine("---- Loading application user...");
-            Console.WriteLine($"---- CurrentUser: {CurrentUser?.UserId}, Roles: {string.Join(", ", CurrentUser?.Roles ?? Array.Empty<string>())}");
+            var currentUser = await CurrentUserService.GetCurrentUserAsync();
 
-            if (CurrentUser is null)
+            if (currentUser is not null)
             {
-                NavigationManager.NavigateTo(AccountRouteFor.Login());
+                var user = await UserManager.FindByIdAsync(currentUser.UserId.ToString())
+                    ?? throw new InvalidOperationException($"User with ID '{currentUser.UserId}' not found.");
 
-                return;
+                _applicationUser = user;
+                _roles = currentUser.Roles;
             }
-
-            var user = await UserManager.FindByIdAsync(CurrentUser.UserId.ToString())
-                ?? throw new InvalidOperationException($"User with ID '{CurrentUser.UserId}' not found.");
-
-            _applicationUser = user;
-            _roles = CurrentUser.Roles;
         }
         catch (Exception exception)
         {
@@ -75,7 +62,7 @@ public partial class Index
             { x => x.ApplicationUser, _applicationUser }
         };
 
-        var dialog = await DialogService.ShowAsync<DialogEditProfile>($"{UIDisplayTextFor.Edit} {DomainDisplayTextFor.Email}", parameters);
+        var dialog = await DialogService.ShowAsync<DialogEditProfile>($"{UIDisplayTextFor.Edit} {UIDisplayTextFor.Profile}", parameters);
 
         var result = await dialog.Result;
 

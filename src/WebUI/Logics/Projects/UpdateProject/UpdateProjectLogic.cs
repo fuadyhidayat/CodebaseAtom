@@ -1,9 +1,11 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
-public sealed class UpdateProjectLogic(DatabaseContext databaseContext)
+public sealed class UpdateProjectLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
     public async Task Handle(UpdateProjectInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var project = await databaseContext.Projects
             .Where(project => project.Id == input.ProjectId)
             .SingleOrDefaultAsync(cancellationToken)
@@ -20,8 +22,6 @@ public sealed class UpdateProjectLogic(DatabaseContext databaseContext)
 
         project.Title = input.Title;
         project.Description = input.Description;
-        project.Modified = DateTimeOffset.Now;
-        project.ModifiedBy = input.ModifiedBy;
 
         _ = await databaseContext.SaveChangesAsync(cancellationToken);
     }

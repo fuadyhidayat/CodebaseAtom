@@ -1,9 +1,11 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
 
-public sealed class GetDocumentsLogic(DatabaseContext databaseContext)
+public sealed class GetDocumentsLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
     public async Task<GetDocumentsOutput> Handle(GetDocumentsInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var items = await databaseContext.Documents
             .AsNoTracking()
             .Where(document => document.ProjectId == input.ProjectId)

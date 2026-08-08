@@ -11,6 +11,7 @@ global using Vioren.CodebaseAtom.WebUI.Domain.Common.Statics;
 global using Vioren.CodebaseAtom.WebUI.Domain.Entities;
 global using Vioren.CodebaseAtom.WebUI.Domain.Enums;
 global using Vioren.CodebaseAtom.WebUI.Domain.Statics;
+global using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 global using Vioren.CodebaseAtom.WebUI.Infrastructure.Database;
 global using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Statics;
 global using Vioren.CodebaseAtom.WebUI.Infrastructure.Options;

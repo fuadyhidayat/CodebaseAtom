@@ -1,4 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItems;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
@@ -26,9 +25,6 @@ public partial class TabContentWorkItems
 
     [Inject]
     public required DeleteWorkItemsLogic DeleteWorkItemsLogic { get; set; }
-
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter, EditorRequired]
     public Guid ProjectId { get; set; }
@@ -228,13 +224,6 @@ public partial class TabContentWorkItems
 
     private async Task UpdateWorkItemStatus(WorkItemModel workItem)
     {
-        if (CurrentUser is null)
-        {
-            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
-
-            return;
-        }
-
         try
         {
             IsLoadingBase = true;
@@ -242,8 +231,7 @@ public partial class TabContentWorkItems
             var input = new UpdateWorkItemStatusInput
             {
                 WorkItemId = workItem.Id,
-                Status = workItem.Status,
-                ModifiedBy = CurrentUser.UserId
+                Status = workItem.Status
             };
 
             await UpdateWorkItemStatusLogic.Handle(input);

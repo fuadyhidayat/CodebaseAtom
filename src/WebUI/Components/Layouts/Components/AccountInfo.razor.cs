@@ -1,30 +1,30 @@
 using Microsoft.AspNetCore.Components.Routing;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Layouts.Components;
 
 public sealed partial class AccountInfo
 {
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
+    [Inject]
+    public required CurrentUserService CurrentUserService { get; init; }
+
+    [Inject]
+    public required CurrentUserState CurrentUserState { get; init; }
 
     private string? _currentUrl;
     private string _loginRoute = AccountRouteFor.Login();
-    private string _username = string.Empty;
+    private CurrentUserModel? _currentUser;
 
     protected override async Task OnInitializedAsync()
     {
-        SetupRoutes(NavigationManager.Uri);
-        NavigationManager.LocationChanged += OnLocationChanged;
+        _currentUser = await CurrentUserService.GetCurrentUserAsync();
+
+        CurrentUserState.OnChange += HandleCurrentUserChanged;
     }
 
-    protected override void OnParametersSet()
+    private void HandleCurrentUserChanged(object? sender, EventArgs e)
     {
-        if (CurrentUser is not null)
-        {
-            _username = CurrentUser.Username;
-            StateHasChanged();
-        }
+        _currentUser = CurrentUserState.CurrentUser;
+        _ = InvokeAsync(StateHasChanged);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -45,5 +45,6 @@ public sealed partial class AccountInfo
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
+        CurrentUserState.OnChange -= HandleCurrentUserChanged;
     }
 }

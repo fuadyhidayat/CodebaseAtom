@@ -22,26 +22,26 @@ public static class ConfigureLogics
 {
     public static WebApplicationBuilder AddLogics(this WebApplicationBuilder builder)
     {
-        _ = builder.Services.AddTransient<GetProjectsLogic>();
-        _ = builder.Services.AddTransient<GetProjectLogic>();
-        _ = builder.Services.AddTransient<CreateProjectLogic>();
-        _ = builder.Services.AddTransient<UpdateProjectLogic>();
-        _ = builder.Services.AddTransient<DeleteProjectLogic>();
+        _ = builder.Services.AddScoped<GetProjectsLogic>();
+        _ = builder.Services.AddScoped<GetProjectLogic>();
+        _ = builder.Services.AddScoped<CreateProjectLogic>();
+        _ = builder.Services.AddScoped<UpdateProjectLogic>();
+        _ = builder.Services.AddScoped<DeleteProjectLogic>();
 
-        _ = builder.Services.AddTransient<GetWorkItemsLogic>();
-        _ = builder.Services.AddTransient<CreateWorkItemLogic>();
-        _ = builder.Services.AddTransient<UpdateWorkItemLogic>();
-        _ = builder.Services.AddTransient<UpdateWorkItemStatusLogic>();
-        _ = builder.Services.AddTransient<DeleteWorkItemLogic>();
-        _ = builder.Services.AddTransient<DeleteWorkItemsLogic>();
+        _ = builder.Services.AddScoped<GetWorkItemsLogic>();
+        _ = builder.Services.AddScoped<CreateWorkItemLogic>();
+        _ = builder.Services.AddScoped<UpdateWorkItemLogic>();
+        _ = builder.Services.AddScoped<UpdateWorkItemStatusLogic>();
+        _ = builder.Services.AddScoped<DeleteWorkItemLogic>();
+        _ = builder.Services.AddScoped<DeleteWorkItemsLogic>();
 
-        _ = builder.Services.AddTransient<GetDocumentsLogic>();
-        _ = builder.Services.AddTransient<DownloadDocumentLogic>();
-        _ = builder.Services.AddTransient<CreateDocumentLogic>();
-        _ = builder.Services.AddTransient<UpdateDocumentLogic>();
-        _ = builder.Services.AddTransient<DeleteDocumentLogic>();
+        _ = builder.Services.AddScoped<GetDocumentsLogic>();
+        _ = builder.Services.AddScoped<DownloadDocumentLogic>();
+        _ = builder.Services.AddScoped<CreateDocumentLogic>();
+        _ = builder.Services.AddScoped<UpdateDocumentLogic>();
+        _ = builder.Services.AddScoped<DeleteDocumentLogic>();
 
-        _ = builder.Services.AddTransient<GetStatisticLogic>();
+        _ = builder.Services.AddScoped<GetStatisticLogic>();
 
         return builder;
     }

@@ -1,4 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
@@ -7,9 +6,6 @@ public partial class DialogEditWorkItem
 {
     [Inject]
     public required UpdateWorkItemLogic UpdateWorkItemLogic { get; init; }
-
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required EditWorkItemModel Model { get; set; }
@@ -22,13 +18,6 @@ public partial class DialogEditWorkItem
 
     private async Task OnValidSubmitAsync()
     {
-        if (CurrentUser is null)
-        {
-            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
-
-            return;
-        }
-
         try
         {
             IsLoadingBase = true;
@@ -39,8 +28,7 @@ public partial class DialogEditWorkItem
                 Title = Model.Title,
                 Description = Model.Description,
                 Deadline = Model.Deadline,
-                Status = Model.Status,
-                ModifiedBy = CurrentUser.UserId
+                Status = Model.Status
             };
 
             await UpdateWorkItemLogic.Handle(input);

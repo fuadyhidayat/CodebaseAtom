@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -9,9 +8,6 @@ public partial class DialogAddDocument
 {
     [Inject]
     public required CreateDocumentLogic CreateDocumentLogic { get; init; }
-
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }
@@ -34,13 +30,6 @@ public partial class DialogAddDocument
 
     private async Task OnValidSubmitAsync()
     {
-        if (CurrentUser is null)
-        {
-            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
-
-            return;
-        }
-
         try
         {
             IsLoadingBase = true;
@@ -65,8 +54,7 @@ public partial class DialogAddDocument
                 FileContent = new ReadOnlyCollection<byte>(fileBytes),
                 FileName = _input.File.Name,
                 ContentType = _input.File.ContentType,
-                FileSize = _input.File.Size,
-                CreatedBy = CurrentUser.UserId
+                FileSize = _input.File.Size
             };
 
             _ = await CreateDocumentLogic.Handle(input);

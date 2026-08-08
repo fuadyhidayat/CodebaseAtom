@@ -1,9 +1,11 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.GetProjects;
 
-public sealed class GetProjectsLogic(DatabaseContext databaseContext)
+public sealed class GetProjectsLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
     public async Task<GetProjectsOutput> Handle(GetProjectsInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var query = databaseContext.Projects
             .AsNoTracking()
             .OrderBy(project => project.Title)

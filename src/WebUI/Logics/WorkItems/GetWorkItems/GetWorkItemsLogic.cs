@@ -1,9 +1,11 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
 
-public sealed class GetWorkItemsLogic(DatabaseContext databaseContext)
+public sealed class GetWorkItemsLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
     public async Task<GetWorkItemsOutput> Handle(GetWorkItemsInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var items = await databaseContext.WorkItems
             .AsNoTracking()
             .Where(workItem => workItem.ProjectId == input.ProjectId)

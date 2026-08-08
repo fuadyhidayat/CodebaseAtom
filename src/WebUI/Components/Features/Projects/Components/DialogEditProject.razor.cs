@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -9,21 +8,11 @@ public partial class DialogEditProject
     [Inject]
     public required UpdateProjectLogic UpdateProjectLogic { get; init; }
 
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
-
     [Parameter]
     public required EditProjectModel Model { get; set; }
 
     private async Task OnValidSubmitAsync()
     {
-        if (CurrentUser is null)
-        {
-            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
-
-            return;
-        }
-
         try
         {
             IsLoadingBase = true;
@@ -32,8 +21,7 @@ public partial class DialogEditProject
             {
                 ProjectId = Model.ProjectId,
                 Title = Model.Title,
-                Description = Model.Description,
-                ModifiedBy = CurrentUser.UserId
+                Description = Model.Description
             };
 
             await UpdateProjectLogic.Handle(input);

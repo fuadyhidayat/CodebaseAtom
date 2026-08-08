@@ -22,16 +22,16 @@ public class RevalidatingIdentityAuthenticationStateProvider<TUser>
         _options = optionsAccessor.Value;
     }
 
-    protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(1);
+    protected override TimeSpan RevalidationInterval => TimeSpan.FromSeconds(10);
 
     protected override async Task<bool> ValidateAuthenticationStateAsync(AuthenticationState authenticationState, CancellationToken cancellationToken)
     {
-        Console.WriteLine("--- RevalidatingIdentityAuthenticationStateProvider: ValidateAuthenticationStateAsync called.");
+        Console.WriteLine($"--- Revalidating Identity is called on {DateTimeOffset.Now:d MMMM yyyy HH:mm:ss}.");
 
         var user = authenticationState.User;
         var userIdClaim = user.FindFirst(_options.ClaimsIdentity.UserIdClaimType);
 
-        Console.WriteLine($"--- RevalidatingIdentityAuthenticationStateProvider: User ID claim: {userIdClaim?.Value ?? "null"}");
+        Console.WriteLine($"\t User ID claim: {userIdClaim?.Value ?? "null"}");
 
         if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userId))
         {

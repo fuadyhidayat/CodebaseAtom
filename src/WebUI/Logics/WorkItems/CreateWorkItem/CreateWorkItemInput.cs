@@ -6,5 +6,4 @@ public sealed record CreateWorkItemInput
     public required string Title { get; init; }
     public required string Description { get; init; }
     public required DateOnly Deadline { get; init; }
-    public required Guid CreatedBy { get; init; }
 }

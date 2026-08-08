@@ -1,4 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.UpdateDocument;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -8,21 +7,11 @@ public partial class DialogEditDocument
     [Inject]
     public required UpdateDocumentLogic UpdateDocumentLogic { get; init; }
 
-    [CascadingParameter]
-    private CurrentUserModel? CurrentUser { get; set; }
-
     [Parameter]
     public required EditDocumentModel Model { get; set; }
 
     private async Task OnValidSubmitAsync()
     {
-        if (CurrentUser is null)
-        {
-            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
-
-            return;
-        }
-
         try
         {
             IsLoadingBase = true;
@@ -31,8 +20,7 @@ public partial class DialogEditDocument
             {
                 DocumentId = Model.DocumentId,
                 Title = Model.Title,
-                FileNameWithoutExtension = Model.FileNameWithoutExtension,
-                ModifiedBy = CurrentUser.UserId
+                FileNameWithoutExtension = Model.FileNameWithoutExtension
             };
 
             await UpdateDocumentLogic.Handle(input);

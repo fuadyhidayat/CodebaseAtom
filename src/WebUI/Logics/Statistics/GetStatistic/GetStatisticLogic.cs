@@ -1,9 +1,11 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
 
-public sealed class GetStatisticLogic(DatabaseContext databaseContext)
+public sealed class GetStatisticLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
     public async Task<GetStatisticOutput> Handle(GetStatisticInput input, CancellationToken cancellationToken = default)
     {
+        await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
+
         var query = databaseContext.Projects
            .AsNoTracking()
            .Select(project => new ProjectDto
