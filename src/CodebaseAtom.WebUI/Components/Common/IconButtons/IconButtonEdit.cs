@@ -1,10 +1,7 @@
 namespace CodebaseAtom.WebUI.Components.Common.IconButtons;
 
-public class IconButtonEdit : IconButtonBase
+public sealed class IconButtonEdit : IconButtonBase
 {
-    public IconButtonEdit()
-    {
-        Color = Color.Warning;
-        Icon = Icons.Material.Filled.Edit;
-    }
+    public override string TooltipText { get; set; } = UIDisplayTextFor.Edit;
+    public override string Icon { get; set; } = Icons.Material.Filled.Edit;
 }

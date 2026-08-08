@@ -1,10 +1,7 @@
 namespace CodebaseAtom.WebUI.Components.Common.IconButtons;
 
-public class IconButtonDelete : IconButtonBase
+public sealed class IconButtonDelete : IconButtonBase
 {
-    public IconButtonDelete()
-    {
-        Color = Color.Error;
-        Icon = Icons.Material.Filled.DeleteForever;
-    }
+    public override string TooltipText { get; set; } = UIDisplayTextFor.Delete;
+    public override string Icon { get; set; } = Icons.Material.Filled.DeleteForever;
 }
