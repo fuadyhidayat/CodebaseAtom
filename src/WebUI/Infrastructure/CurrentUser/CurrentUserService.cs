@@ -13,12 +13,8 @@ public sealed class CurrentUserService(
     {
         if (currentUserState.CurrentUser is not null)
         {
-            Console.WriteLine("--- CurrentUserService.GetCurrentUserAsync: Current user is already cached.");
-
             return currentUserState.CurrentUser;
         }
-
-        Console.WriteLine("--- CurrentUserService.GetCurrentUserAsync: Fetching current user from database.");
 
         var authenticationState = await authenticationStateProvider.GetAuthenticationStateAsync();
         var userClaim = authenticationState.User;
@@ -63,8 +59,6 @@ public sealed class CurrentUserService(
             DisplayName = applicationUser.DisplayName,
             Roles = roles
         };
-
-        Console.WriteLine($"--- CurrentUserService.GetCurrentUserAsync: Caching current user '{currentUser.Username}' with ID '{currentUser.UserId}'.");
 
         currentUserState.SetUser(currentUser);
 

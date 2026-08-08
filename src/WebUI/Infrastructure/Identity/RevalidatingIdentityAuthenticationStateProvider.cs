@@ -26,12 +26,8 @@ public class RevalidatingIdentityAuthenticationStateProvider<TUser>
 
     protected override async Task<bool> ValidateAuthenticationStateAsync(AuthenticationState authenticationState, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"--- Revalidating Identity is called on {DateTimeOffset.Now:d MMMM yyyy HH:mm:ss}.");
-
         var user = authenticationState.User;
         var userIdClaim = user.FindFirst(_options.ClaimsIdentity.UserIdClaimType);
-
-        Console.WriteLine($"\t User ID claim: {userIdClaim?.Value ?? "null"}");
 
         if (userIdClaim is null || !Guid.TryParse(userIdClaim.Value, out var userId))
         {
