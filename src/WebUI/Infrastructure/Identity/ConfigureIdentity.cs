@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.Common.Exceptions;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.Seeders;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
@@ -13,6 +14,7 @@ public static class ConfigureIdentity
         AddIdentityDatabaseContext(services, configuration);
 
         _ = services.AddCascadingAuthenticationState();
+        _ = services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 
         _ = services.AddAuthentication(options =>
         {

@@ -1,7 +1,7 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
-using Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
+using Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile;
 
@@ -14,14 +14,24 @@ public partial class Index
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     private ApplicationUser _applicationUser = default!;
     private IReadOnlyCollection<string> _roles = [];
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         LoadBreadcrumbs();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Guard: tunggu cascading user terisi, jangan redirect di pass awal
+        if (CurrentUser is null)
+        {
+            return;
+        }
+
         await LoadApplicationUserAsync();
     }
 
@@ -36,9 +46,12 @@ public partial class Index
     {
         try
         {
+            Console.WriteLine("---- Loading application user...");
+            Console.WriteLine($"---- CurrentUser: {CurrentUser?.UserId}, Roles: {string.Join(", ", CurrentUser?.Roles ?? Array.Empty<string>())}");
+
             if (CurrentUser is null)
             {
-                NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
+                NavigationManager.NavigateTo(AccountRouteFor.Login());
 
                 return;
             }

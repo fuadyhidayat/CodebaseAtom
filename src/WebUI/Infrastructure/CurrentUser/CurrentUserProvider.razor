@@ -1,0 +1,41 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject CurrentUserService CurrentUserService
+@inject CurrentUserState CurrentUserState
+
+<CascadingValue Value="CurrentUserState.User" IsFixed="false">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is not null)
+        {
+            var authenticationState = await AuthenticationStateTask;
+            var user = authenticationState.User;
+
+            if (user.Identity is not null && user.Identity.IsAuthenticated)
+            {
+                var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (userIdClaim is not null && Guid.TryParse(userIdClaim.Value, out var userId))
+                {
+                    var currentUser = await CurrentUserService.GetCurrentUserAsync(userId);
+
+                    CurrentUserState.SetUser(currentUser);
+
+                    return;
+                }
+            }
+
+            CurrentUserState.SetUser(null);
+        }
+    }
+}

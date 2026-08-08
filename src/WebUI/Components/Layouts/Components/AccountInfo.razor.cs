@@ -1,12 +1,12 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
 using Microsoft.AspNetCore.Components.Routing;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Layouts.Components;
 
 public sealed partial class AccountInfo
 {
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     private string? _currentUrl;
     private string _loginRoute = AccountRouteFor.Login();
@@ -16,10 +16,14 @@ public sealed partial class AccountInfo
     {
         SetupRoutes(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+    }
 
+    protected override void OnParametersSet()
+    {
         if (CurrentUser is not null)
         {
             _username = CurrentUser.Username;
+            StateHasChanged();
         }
     }
 

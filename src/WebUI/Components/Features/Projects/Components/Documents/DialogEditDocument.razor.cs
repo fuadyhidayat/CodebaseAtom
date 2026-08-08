@@ -1,4 +1,4 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.UpdateDocument;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -9,7 +9,7 @@ public partial class DialogEditDocument
     public required UpdateDocumentLogic UpdateDocumentLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required EditDocumentModel Model { get; set; }

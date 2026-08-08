@@ -1,4 +1,4 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
@@ -9,7 +9,7 @@ public partial class DialogEditWorkItem
     public required UpdateWorkItemLogic UpdateWorkItemLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required EditWorkItemModel Model { get; set; }

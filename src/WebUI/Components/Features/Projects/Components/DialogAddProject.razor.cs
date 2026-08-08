@@ -1,4 +1,4 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -9,7 +9,7 @@ public partial class DialogAddProject
     public required CreateProjectLogic CreateProjectLogic { get; set; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     private readonly AddProjectModel _input = new();
 

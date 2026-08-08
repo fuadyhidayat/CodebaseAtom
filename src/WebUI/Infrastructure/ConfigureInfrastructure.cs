@@ -1,3 +1,4 @@
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.FileStorage;
 using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
@@ -7,6 +8,7 @@ public static class ConfigureInfrastructure
 {
     public static WebApplicationBuilder AddInfrastructure(this WebApplicationBuilder builder)
     {
+        _ = builder.Services.AddCurrentUserService();
         _ = builder.Services.AddApplicationOptions(builder.Configuration);
         _ = builder.Services.AddDatabaseContext(builder.Configuration);
         _ = builder.Services.AddIdentityService(builder.Configuration);

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -10,7 +10,7 @@ public partial class DialogEditProject
     public required UpdateProjectLogic UpdateProjectLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required EditProjectModel Model { get; set; }

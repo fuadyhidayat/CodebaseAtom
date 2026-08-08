@@ -1,4 +1,4 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItem;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.DeleteWorkItems;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.GetWorkItems;
@@ -28,7 +28,7 @@ public partial class TabContentWorkItems
     public required DeleteWorkItemsLogic DeleteWorkItemsLogic { get; set; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter, EditorRequired]
     public Guid ProjectId { get; set; }

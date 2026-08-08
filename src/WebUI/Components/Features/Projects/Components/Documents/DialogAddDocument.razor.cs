@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -11,7 +11,7 @@ public partial class DialogAddDocument
     public required CreateDocumentLogic CreateDocumentLogic { get; init; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }

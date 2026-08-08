@@ -1,4 +1,4 @@
-using Vioren.CodebaseAtom.WebUI.Common.Models;
+using Vioren.CodebaseAtom.WebUI.Infrastructure.CurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems;
@@ -9,7 +9,7 @@ public partial class DialogAddWorkItem
     public required CreateWorkItemLogic CreateWorkItemLogic { get; set; }
 
     [CascadingParameter]
-    private CurrentUser? CurrentUser { get; set; }
+    private CurrentUserModel? CurrentUser { get; set; }
 
     [Parameter]
     public required Guid ProjectId { get; set; }
