@@ -58,7 +58,7 @@ public partial class Login
         }
     }
 
-    private void RedirectTo(string? uri, bool forceLoad = false)
+    private void RedirectTo(string? uri)
     {
         uri ??= "";
 
@@ -68,7 +68,7 @@ public partial class Login
             uri = NavigationManager.ToBaseRelativePath(uri);
         }
 
-        NavigationManager.NavigateTo(uri, forceLoad);
+        NavigationManager.NavigateTo(uri);
     }
 
     private sealed record InputModel

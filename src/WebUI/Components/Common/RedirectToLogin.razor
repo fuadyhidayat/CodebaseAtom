@@ -1,6 +1,6 @@
 @code {
     protected override void OnInitialized()
     {
-        NavigationManager.NavigateTo($"{AccountRouteFor.Login(NavigationManager.Uri)}", forceLoad: true);
+        NavigationManager.NavigateTo(AccountRouteFor.Login(NavigationManager.Uri));
     }
 }
