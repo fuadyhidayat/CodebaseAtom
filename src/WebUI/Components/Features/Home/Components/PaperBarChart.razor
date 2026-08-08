@@ -1,0 +1,12 @@
+@using ApexCharts
+@using Vioren.CodebaseAtom.WebUI.Logics.Statistics.GetStatistic
+
+<MudText Typo="Typo.h5">@DomainDisplayTextFor.WorkItems Count</MudText>
+<ApexChart TItem="ProjectDto" Height="400" Options="_options">
+    <ApexPointSeries TItem="ProjectDto"
+                     Items="Projects"
+                     Name="Work Items Count"
+                     XValue="@(e => e.Title)"
+                     YAggregate="@(e => e.Sum(e => e.WorkItemsCount))"
+                     SeriesType="SeriesType.Bar" />
+</ApexChart>

@@ -1,0 +1,90 @@
+@page "/Account/Login"
+@using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.InitialData
+
+@layout LayoutLogin
+@attribute [AllowAnonymous]
+@attribute [ExcludeFromInteractiveRouting]
+@inject IOptions<Infrastructure.Identity.IdentityOptions> IdentityOptionsProvider
+
+<HtmlHead Title="Login" />
+<MudContainer MaxWidth="MaxWidth.Small">
+    <PageHeader Title="Login" Class="text-center" />
+    <MudStack>
+        <PageSection>
+            <EditForm method="post" novalidate
+                      EditContext="_editContext"
+                      FormName="form-login"
+                      OnSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+                <GridDefault>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@nameof(Input.Username)"
+                                          Placeholder="Enter your username"
+                                          name="Input.Username"
+                                          @bind-Value="Input.Username"
+                                          For="@(() => Input.Username)" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@nameof(Input.Password)"
+                                          Placeholder="Enter your password"
+                                          InputType="InputType.Password"
+                                          name="Input.Password"
+                                          @bind-Value="Input.Password"
+                                          For="@(() => Input.Password)" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                            <input type="checkbox"
+                                   id="rememberMe"
+                                   name="Input.RememberMe"
+                                   value="true"
+                                   checked="@Input.RememberMe" />
+                            <MudText>
+                                <label for="rememberMe" style="cursor:pointer">Remember me</label>
+                            </MudText>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <ButtonLogin ButtonType="ButtonType.Submit" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+                        {
+                            <MudAlert Variant="Variant.Filled" Severity="Severity.Error">
+                                @_errorMessage
+                            </MudAlert>
+                        }
+                    </MudItem>
+                </GridDefault>
+            </EditForm>
+            <MudDivider Class="my-2" />
+            <MudStack AlignItems="AlignItems.Start">
+                <MudLink Href="@AccountRouteFor.ForgotPassword">Forgot your password?</MudLink>
+            </MudStack>
+        </PageSection>
+        <PageSection>
+            <MudAlert Severity="Severity.Info">
+                These accounts are for development purpose only
+            </MudAlert>
+            <SimpleTableDefault>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in InitialUsers.All)
+                    {
+                        <tr>
+                            <td>@user.Username</td>
+                            <td>@IdentityOptionsProvider.Value.DefaultPasswordForInitialUsers</td>
+                            <td>@user.Email</td>
+                        </tr>
+                    }
+                </tbody>
+            </SimpleTableDefault>
+        </PageSection>
+    </MudStack>
+</MudContainer>

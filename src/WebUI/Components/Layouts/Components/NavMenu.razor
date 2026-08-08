@@ -1,0 +1,16 @@
+@using Vioren.CodebaseAtom.WebUI.Components.Features.Examples.Components
+@using Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components
+
+<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="my-3 mx-7">
+    <MudImage Src="@Assets["img/logo.png"]" Alt="Logo" Class="menu-logo" />
+</MudStack>
+<MudNavMenu>
+    <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.TwoTone.Home" Href="@HomeRouteFor.Index">
+        @UIDisplayTextFor.Home
+    </MudNavLink>
+    <MenuProjects />
+    <MenuExamples />
+    <MudNavLink Href="@HomeRouteFor.About" Icon="@Icons.Material.TwoTone.Info">
+        @UIDisplayTextFor.About
+    </MudNavLink>
+</MudNavMenu>

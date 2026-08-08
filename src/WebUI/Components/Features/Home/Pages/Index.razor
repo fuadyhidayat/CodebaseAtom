@@ -1,0 +1,49 @@
+@page "/"
+@using Vioren.CodebaseAtom.WebUI.Components.Features.Home.Components
+@inherits PageBase
+
+<HtmlHead Title="@UIDisplayTextFor.Home" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="@UIDisplayTextFor.Home" />
+<ErrorViewer Exception="ExceptionBase" />
+<LoadingLinear IsVisible="IsLoadingBase" />
+
+@if (_item is not null)
+{
+    <MudStack Spacing="4">
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="3">
+                <Paper25 Class="pa-5 hover-shadow" Style="@($"border-right-width: 4px; border-right-color: {Colors.Blue.Default};")">
+                    <MudText Class="mb-2 blue-text" style="font-size: 4rem;">
+                        @_item.Projects.Count
+                    </MudText>
+                    <MudText Typo="Typo.subtitle1">
+                        Total @DomainDisplayTextFor.Projects
+                    </MudText>
+                </Paper25>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <Paper25 Class="pa-5 hover-shadow" Style="@($"border-right-width: 4px; border-right-color: {Colors.Red.Default};")">
+                    <MudText Class="mb-2 red-text" style="font-size: 4rem;">
+                        @_item.Projects.Sum(project => project.WorkItemsCount)
+                    </MudText>
+                    <MudText Typo="Typo.subtitle1">
+                        Total @DomainDisplayTextFor.WorkItems
+                    </MudText>
+                </Paper25>
+            </MudItem>
+        </MudGrid>
+        <MudGrid Spacing="2">
+            <MudItem xs="12" sm="6" Class="d-flex">
+                <Paper25 Class="pa-4 mud-height-full flex-grow-1">
+                    <PaperBarChart Projects="_item.Projects" />
+                </Paper25>
+            </MudItem>
+            <MudItem xs="12" sm="6" Class="d-flex">
+                <Paper25 Class="pa-4 mud-height-full flex-grow-1">
+                    <PaperDonutChart Projects="_item.Projects" />
+                </Paper25>
+            </MudItem>
+        </MudGrid>
+    </MudStack>
+}

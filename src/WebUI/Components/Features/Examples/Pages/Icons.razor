@@ -1,0 +1,42 @@
+@page "/Examples/Icons"
+@inherits PageBase
+@using Vioren.CodebaseAtom.WebUI.Components.Common.SvgIcons
+
+<HtmlHead Title="@ExamplesDisplayTextFor.Icons" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<PageHeader Title="@ExamplesDisplayTextFor.Icons" />
+<MudStack>
+    <PageSection SectionTitle="Using Material Icons">
+        <MudText>
+            The default way to use icons in MudBlazor is via the built-in Material Icons set.
+        </MudText>
+        <div class="border mud-border-lines-default rounded mt-5">
+            <div class="text-center pa-5">
+                <MudIcon Icon="@MudBlazor.Icons.Material.Filled.Favorite" Title="Favorite" Size="Size.Large" Color="Color.Secondary" />
+            </div>
+            <CodeBlock RoundedMode="RoundedMode.Bottom">
+                @("""<MudIcon Icon="@Icons.Material.Filled.Favorite" Title="Favorite" Size="Size.Large" Color="Color.Secondary" />""")
+            </CodeBlock>
+        </div>
+    </PageSection>
+    <PageSection SectionTitle="Using a Custom SVG">
+        <MudText>
+            You can create a reusable Razor component using inline SVG to serve as a custom icon.
+            For example, in this repository, take a look at the following file:
+        </MudText>
+        <CodeBlock>Components/Common/SvgIcons/BellActiveAlt.razor</CodeBlock>
+        <MudText>
+            This file contains standard SVG markup wrapped inside a Razor component.
+            By following this approach, you can build your own custom icon components
+            and reuse them consistently throughout your application.
+        </MudText>
+        <div class="border mud-border-lines-default rounded mt-5">
+            <div class="text-center pa-5">
+                <BellActiveAlt />
+            </div>
+            <CodeBlock RoundedMode="RoundedMode.Bottom">
+                @("""<BellActiveAlt />""")
+            </CodeBlock>
+        </div>
+    </PageSection>
+</MudStack>

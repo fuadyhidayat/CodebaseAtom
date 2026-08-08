@@ -1,0 +1,40 @@
+@using Vioren.CodebaseAtom.WebUI.Components.Layouts.Components
+@using Vioren.CodebaseAtom.WebUI.Components.Statics
+
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="@ThemeFor.Default" />
+<MudDialogProvider BackdropClick="false"
+                   FullWidth="true"
+                   MaxWidth="MaxWidth.Medium"
+                   DefaultFocus="DefaultFocus.FirstChild"
+                   CloseOnEscapeKey="true"
+                   CloseButton="true" />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="ToggleDrawer" />
+        <MudLink Href="@HomeRouteFor.Index" Underline="Underline.None">
+            <MudText Typo="Typo.h3" Class="ml-3 white-text">
+                @ApplicationOptionsProvider.Value.ApplicationName
+            </MudText>
+        </MudLink>
+        <MudSpacer />
+        <AccountInfo />
+    </MudAppBar>
+    <MudDrawer Variant="DrawerVariant.Responsive"
+               Elevation="2"
+               ClipMode="DrawerClipMode.Always"
+               @bind-Open="_drawerOpen">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent Class="main-content">
+        <div class="content-wrapper">
+            <div class="page-content">
+                @Body
+            </div>
+            <Footer />
+        </div>
+    </MudMainContent>
+</MudLayout>

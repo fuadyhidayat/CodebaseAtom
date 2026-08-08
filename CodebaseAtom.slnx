@@ -10,6 +10,6 @@
     <File Path=".github/copilot-instructions.md" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/CodebaseAtom.WebUI/CodebaseAtom.WebUI.csproj" Id="f9422910-94ba-4a91-8b1d-f9d1699d2316" />
+    <Project Path="src/WebUI/WebUI.csproj" />
   </Folder>
 </Solution>

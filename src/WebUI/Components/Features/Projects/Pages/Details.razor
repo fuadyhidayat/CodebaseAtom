@@ -1,0 +1,38 @@
+@page "/Projects/Details/{ProjectId:guid}"
+@using Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components
+@using Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents
+@using Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.WorkItems
+@inherits PageBase
+
+<HtmlHead Title="@DomainDisplayTextFor.ProjectDetails" />
+<Breadcrumbs Items="BreadcrumbItems" />
+<ErrorViewer Exception="ExceptionBase" />
+<LoadingLinear IsVisible="IsLoadingBase" />
+
+@if (_item is not null)
+{
+    <MudStack>
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Baseline">
+            <PageHeader Title="@_item.Title" />
+            <AuthorizeView Roles="@RoleNameFor.Administrator">
+                <Authorized>
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <ButtonEdit OnClick="ShowDialogEditProject" />
+                        <ButtonDelete OnClick="ShowDialogDeleteProject" />
+                    </MudStack>
+                </Authorized>
+            </AuthorizeView>
+        </MudStack>
+        <HorizontalTabs>
+            <MudTabPanel Text="@UIDisplayTextFor.GeneralInfo">
+                <TabContentGeneralInfo Project="_item" />
+            </MudTabPanel>
+            <MudTabPanel Text="@DomainDisplayTextFor.WorkItems">
+                <TabContentWorkItems ProjectId="@ProjectId" />
+            </MudTabPanel>
+            <MudTabPanel Text="@DomainDisplayTextFor.Documents">
+                <TabContentDocuments ProjectId="@ProjectId" />
+            </MudTabPanel>
+        </HorizontalTabs>
+    </MudStack>
+}
