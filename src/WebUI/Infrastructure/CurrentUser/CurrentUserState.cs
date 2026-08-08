@@ -34,15 +34,4 @@ public sealed class CurrentUserState
             CurrentUser = CurrentUser with { DisplayName = newDisplayName };
         }
     }
-
-    public void UpdateUser(Action<CurrentUserModel> update)
-    {
-        if (CurrentUser is null)
-        {
-            return;
-        }
-
-        update(CurrentUser);
-        NotifyStateChanged();
-    }
 }
