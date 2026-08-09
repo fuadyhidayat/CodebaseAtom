@@ -1,43 +1,46 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.GeneratePasswordResetToken;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages;
 
 public partial class ForgotPassword
 {
     [Inject]
-    public required UserManager<ApplicationUser> UserManager { get; init; }
+    public required GeneratePasswordResetTokenLogic GeneratePasswordResetTokenLogic { get; init; }
 
-    private string? _message;
     private string? _resetPasswordLink;
+    private bool _isLoading;
+    private Exception? _exception;
 
     private InputModel Input { get; set; } = new();
 
     private async Task OnValidSubmitAsync()
     {
-        _resetPasswordLink = null;
-
-        var user = await UserManager.FindByEmailAsync(Input.Email);
-
-        if (user is null || !await UserManager.IsEmailConfirmedAsync(user))
+        try
         {
-            // Don't reveal that the user does not exist or is not confirmed
-            _message = "Please check your email to reset your password.";
+            _isLoading = true;
+            _exception = null;
+            _resetPasswordLink = null;
 
-            return;
+            var output = await GeneratePasswordResetTokenLogic.Handle(new GeneratePasswordResetTokenInput { Email = Input.Email });
+            var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(output.Token));
+
+            var callbackUrl = NavigationManager.GetUriWithQueryParameters(
+                NavigationManager.ToAbsoluteUri(AccountRouteFor.ResetPassword).AbsoluteUri,
+                new Dictionary<string, object?> { ["code"] = code });
+
+            _resetPasswordLink = callbackUrl;
         }
-
-        var code = await UserManager.GeneratePasswordResetTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-        var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-            NavigationManager.ToAbsoluteUri(AccountRouteFor.ResetPassword).AbsoluteUri,
-            new Dictionary<string, object?> { ["code"] = code });
-
-        _resetPasswordLink = callbackUrl;
+        catch (Exception exception)
+        {
+            _exception = exception;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
     }
 
     private sealed record InputModel

@@ -34,7 +34,7 @@ public class RevalidatingIdentityAuthenticationStateProvider(
             return false;
         }
 
-        Console.WriteLine($"--- Validating user {applicationUser.DisplayName} ({applicationUser.UserName})");
+        Console.WriteLine($"--- Validating user {applicationUser.DisplayName} ({applicationUser.UserName}) on {DateTimeOffset.Now:dddd, d MMMM yyyy HH:mm:ss}");
 
         return await ValidateSecurityStampAsync(userManager, claimsPrincipal, applicationUser);
     }
