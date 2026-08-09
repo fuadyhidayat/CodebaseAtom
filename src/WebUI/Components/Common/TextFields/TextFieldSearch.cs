@@ -10,5 +10,6 @@ public class TextFieldSearch : MudTextField<string>
         AdornmentIcon = Icons.Material.Filled.Search;
         Immediate = true;
         Clearable = true;
+        Style = "width: 300px;";
     }
 }

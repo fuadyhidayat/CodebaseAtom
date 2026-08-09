@@ -12,7 +12,7 @@
         <MudStack Row="true"
                   Justify="Justify.SpaceBetween"
                   AlignItems="AlignItems.Center">
-            <TextFieldSearch @bind-Value="_searchKeyword" Style="width: 300px;" />
+            <TextFieldSearch @bind-Value="_searchKeyword" />
             <MudSpacer />
             <AuthorizeView Roles="@RoleNameFor.Administrator">
                 <Authorized>
