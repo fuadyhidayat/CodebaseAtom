@@ -1,10 +1,10 @@
 namespace Vioren.CodebaseAtom.WebUI.Infrastructure.FileStorage;
 
-public sealed class FileStorageService(IOptions<FileStorageOptions> optionsProvider)
+public sealed class FileStorageService(IOptions<FileStorageOptions> fileStorageOptionsProvider)
 {
-    private readonly string _folderPath = Path.IsPathRooted(optionsProvider.Value.FolderPath)
-        ? optionsProvider.Value.FolderPath
-        : Path.Combine(Directory.GetCurrentDirectory(), optionsProvider.Value.FolderPath);
+    private readonly string _folderPath = Path.IsPathRooted(fileStorageOptionsProvider.Value.FolderPath)
+        ? fileStorageOptionsProvider.Value.FolderPath
+        : Path.Combine(Directory.GetCurrentDirectory(), fileStorageOptionsProvider.Value.FolderPath);
 
     public async Task CreateAsync(string filePath, byte[] content, CancellationToken cancellationToken = default)
     {

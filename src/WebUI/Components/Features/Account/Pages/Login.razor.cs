@@ -8,6 +8,9 @@ namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages;
 public partial class Login
 {
     [Inject]
+    public required IOptions<DatabaseOptions> DatabaseOptionsProvider { get; init; }
+
+    [Inject]
     public required SignInManager<ApplicationUser> SignInManager { get; init; }
 
     [CascadingParameter]

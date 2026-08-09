@@ -5,4 +5,5 @@ public sealed record DatabaseOptions
     public const string SectionKey = "Database";
 
     public required string ConnectionString { get; init; }
+    public required string DefaultPasswordForInitialUsers { get; init; }
 }

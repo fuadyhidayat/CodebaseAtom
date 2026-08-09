@@ -9,8 +9,11 @@ public static class ConfigureDatabase
 {
     public static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var databaseOptions = configuration.GetRequiredSection(DatabaseOptions.SectionKey).Get<DatabaseOptions>()
+        var databaseOptionsSection = configuration.GetRequiredSection(DatabaseOptions.SectionKey);
+        var databaseOptions = databaseOptionsSection.Get<DatabaseOptions>()
             ?? throw new ConfigurationBindingFailedException(DatabaseOptions.SectionKey, typeof(DatabaseOptions));
+
+        _ = services.Configure<DatabaseOptions>(databaseOptionsSection);
 
         _ = services.AddDbContextFactory<DatabaseContext>(options =>
         {

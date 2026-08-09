@@ -43,15 +43,12 @@ public static class ConfigureIdentity
 
     private static void AddIdentityDatabaseContext(IServiceCollection services, IConfiguration configuration)
     {
-        var identityOptionsSection = configuration.GetRequiredSection(IdentityOptions.SectionKey);
-        var identityOptions = identityOptionsSection.Get<IdentityOptions>()
-            ?? throw new ConfigurationBindingFailedException(IdentityOptions.SectionKey, typeof(IdentityOptions));
-
-        _ = services.Configure<IdentityOptions>(identityOptionsSection);
+        var databaseOptions = configuration.GetRequiredSection(DatabaseOptions.SectionKey).Get<DatabaseOptions>()
+            ?? throw new ConfigurationBindingFailedException(DatabaseOptions.SectionKey, typeof(DatabaseOptions));
 
         _ = services.AddDbContextFactory<IdentityDatabaseContext>(options =>
         {
-            _ = options.UseSqlServer(identityOptions.ConnectionString, builder =>
+            _ = options.UseSqlServer(databaseOptions.ConnectionString, builder =>
             {
                 _ = builder.MigrationsAssembly(typeof(IdentityDatabaseContext).Assembly.FullName);
                 _ = builder.MigrationsHistoryTable("__EFMigrationsHistory", IdentityDatabaseContext.SchemaName);

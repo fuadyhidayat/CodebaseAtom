@@ -1,5 +1,3 @@
-@inject IOptions<ApplicationOptions> ApplicationOptionsProvider
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +31,9 @@
 </html>
 
 @code {
+    [Inject]
+    public required IOptions<ApplicationOptions> ApplicationOptionsProvider { get; init; }
+
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 

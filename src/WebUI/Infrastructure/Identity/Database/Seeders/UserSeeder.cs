@@ -5,7 +5,7 @@ namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.Seeders;
 
 public sealed class UserSeeder(
     UserManager<ApplicationUser> userManager,
-    IOptions<IdentityOptions> identityOptionsProvider)
+    IOptions<DatabaseOptions> databaseOptionsProvider)
 {
     public async Task SeedUsers()
     {
@@ -31,7 +31,7 @@ public sealed class UserSeeder(
             EmailConfirmed = true
         };
 
-        var result = await userManager.CreateAsync(user, identityOptionsProvider.Value.DefaultPasswordForInitialUsers);
+        var result = await userManager.CreateAsync(user, databaseOptionsProvider.Value.DefaultPasswordForInitialUsers);
 
         if (result.Succeeded)
         {

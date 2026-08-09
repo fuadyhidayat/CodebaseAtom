@@ -4,7 +4,6 @@
 @layout LayoutLogin
 @attribute [AllowAnonymous]
 @attribute [ExcludeFromInteractiveRouting]
-@inject IOptions<Infrastructure.Identity.IdentityOptions> IdentityOptionsProvider
 
 <HtmlHead Title="Login" />
 <MudContainer MaxWidth="MaxWidth.Small">
@@ -79,7 +78,7 @@
                     {
                         <tr>
                             <td>@user.Username</td>
-                            <td>@IdentityOptionsProvider.Value.DefaultPasswordForInitialUsers</td>
+                            <td>@DatabaseOptionsProvider.Value.DefaultPasswordForInitialUsers</td>
                             <td>@user.Email</td>
                         </tr>
                     }

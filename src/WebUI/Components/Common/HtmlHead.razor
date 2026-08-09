@@ -1,5 +1,3 @@
-@inject IOptions<ApplicationOptions> ApplicationOptionsProvider
-
 @if (string.IsNullOrWhiteSpace(Title))
 {
     <PageTitle>@ApplicationOptionsProvider.Value.ApplicationName</PageTitle>
@@ -11,6 +9,9 @@ else
 
 
 @code {
+    [Inject]
+    public required IOptions<ApplicationOptions> ApplicationOptionsProvider { get; init; }
+
     [Parameter, EditorRequired]
     public string Title { get; init; }
 }
