@@ -14,6 +14,9 @@ public sealed partial class AccountInfo
     protected override async Task OnInitializedAsync()
     {
         _currentUser = await CurrentUserService.GetCurrentUserAsync();
+
+        SetupRoutes(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
