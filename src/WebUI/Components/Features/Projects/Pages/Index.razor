@@ -3,23 +3,22 @@
 
 <HtmlHead Title="@DomainDisplayTextFor.Projects" />
 <Breadcrumbs Items="BreadcrumbItems" />
-<MudStack Row="true"
-          Justify="Justify.SpaceBetween"
-          AlignItems="AlignItems.Baseline">
-    <PageHeader Title="@DomainDisplayTextFor.Projects" />
-    <AuthorizeView Roles="@RoleNameFor.Administrator">
-        <Authorized>
-            <ButtonAdd EntityType="@DomainDisplayTextFor.Project" OnClick="ShowDialogAddProject" />
-        </Authorized>
-    </AuthorizeView>
-</MudStack>
+<PageHeader Title="@DomainDisplayTextFor.Projects" />
 <ErrorViewer Exception="ExceptionBase" />
 <LoadingLinear IsVisible="IsLoadingBase" />
 @if (_items is not null)
 {
     <MudStack Spacing="4">
-        <MudStack Row="true" AlignItems="AlignItems.Center" Class="align-self-end">
-            <TextFieldSearch @bind-Value="_searchKeyword" />
+        <MudStack Row="true"
+                  Justify="Justify.SpaceBetween"
+                  AlignItems="AlignItems.Center">
+            <TextFieldSearch @bind-Value="_searchKeyword" Style="width: 300px;" />
+            <MudSpacer />
+            <AuthorizeView Roles="@RoleNameFor.Administrator">
+                <Authorized>
+                    <ButtonAdd EntityType="@DomainDisplayTextFor.Project" OnClick="ShowDialogAddProject" />
+                </Authorized>
+            </AuthorizeView>
         </MudStack>
         <TableDefault Items="_items" Loading="IsLoadingBase" Filter="FilterItems">
             <HeaderContent>
