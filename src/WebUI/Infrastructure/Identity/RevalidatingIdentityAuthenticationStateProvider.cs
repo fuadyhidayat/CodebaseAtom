@@ -25,24 +25,24 @@ public class RevalidatingIdentityAuthenticationStateProvider(
             return false;
         }
 
-        using var scope = serviceScopeFactory.CreateScope();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var user = await userManager.FindByIdAsync(userId.ToString());
+        using var serviceScope = serviceScopeFactory.CreateScope();
+        var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var applicationUser = await userManager.FindByIdAsync(userId.ToString());
 
-        if (user is null)
+        if (applicationUser is null)
         {
             return false;
         }
 
-        Console.WriteLine($"--- Validating user with ID: {user.DisplayName}");
+        Console.WriteLine($"--- Validating user with ID: {applicationUser.DisplayName}");
 
-        return await ValidateSecurityStampAsync(userManager, claimsPrincipal, user);
+        return await ValidateSecurityStampAsync(userManager, claimsPrincipal, applicationUser);
     }
 
-    private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager, ClaimsPrincipal principal, ApplicationUser user)
+    private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager, ClaimsPrincipal principal, ApplicationUser applicationUser)
     {
         var principalStamp = principal.FindFirstValue(_options.ClaimsIdentity.SecurityStampClaimType);
-        var userStamp = await userManager.GetSecurityStampAsync(user);
+        var userStamp = await userManager.GetSecurityStampAsync(applicationUser);
 
         Console.WriteLine($"\tPrincipal Stamp: {principalStamp}");
         Console.WriteLine($"\tUser Stamp: {userStamp}");
