@@ -25,7 +25,7 @@ public static class ConfigureDatabase
             });
             _ = options.ConfigureWarnings(wcb => wcb.Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning));
             _ = options.ConfigureWarnings(wcb => wcb.Throw(RelationalEventId.MultipleCollectionIncludeWarning));
-        });
+        }, ServiceLifetime.Scoped);
 
 
         _ = services.AddScoped<AuditingSaveChangesInterceptor>();

@@ -9,8 +9,8 @@ public partial class Index
     [Inject]
     public required CurrentUserService CurrentUserService { get; init; }
 
-    [Inject]
-    public required CurrentUserState CurrentUserState { get; init; }
+    //[Inject]
+    //public required CurrentUserState CurrentUserState { get; init; }
 
     [Inject]
     public required IDialogService DialogService { get; init; }

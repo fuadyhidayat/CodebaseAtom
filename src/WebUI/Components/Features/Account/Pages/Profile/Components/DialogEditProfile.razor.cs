@@ -9,8 +9,8 @@ public partial class DialogEditProfile
     [Inject]
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
-    [Inject]
-    public required CurrentUserState CurrentUserState { get; init; }
+    //[Inject]
+    //public required CurrentUserState CurrentUserState { get; init; }
 
     [Inject]
     public required CurrentUserService CurrentUserService { get; init; }
@@ -68,7 +68,9 @@ public partial class DialogEditProfile
         {
             Snackbar.AddSuccess("Your profile has been updated successfully.");
 
-            CurrentUserState.UpdateDisplayName(ApplicationUser.DisplayName);
+            //CurrentUserState.UpdateDisplayName(ApplicationUser.DisplayName);
+
+            //NavigationManager.NavigateTo("/Account/RefreshCookie?returnUrl=/Account/Profile", forceLoad: true);
         }
 
         Dialog.Close();

@@ -14,6 +14,7 @@ public static class ConfigureIdentity
         AddIdentityDatabaseContext(services, configuration);
 
         _ = services.AddCascadingAuthenticationState();
+        _ = services.AddScoped<ApplicationUserClaimsPrincipalFactory>();
         _ = services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 
         _ = services.AddAuthentication(options =>
@@ -35,6 +36,7 @@ public static class ConfigureIdentity
         })
         .AddRoles<ApplicationRole>()
         .AddEntityFrameworkStores<IdentityDatabaseContext>()
+        .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>()
         .AddSignInManager()
         .AddDefaultTokenProviders();
 
