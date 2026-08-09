@@ -5,7 +5,7 @@
 <HtmlHead Title="Profile" />
 <Breadcrumbs Items="BreadcrumbItems" />
 <PageHeader Title="Profile" />
-@if (_applicationUser is not null)
+@if (_user is not null)
 {
     <TopButtonPanel>
         <ButtonEdit OnClick="ShowDialogEditProfile">
@@ -18,23 +18,23 @@
     <PageSection>
         <GridDefault>
             <MudItem xs="12" sm="6">
-                <FieldDefault Label="Username">
-                    @_applicationUser.UserName
+                <FieldDefault Label="@DomainDisplayTextFor.Username">
+                    @_user.Username
                 </FieldDefault>
             </MudItem>
             <MudItem xs="12" sm="6">
-                <FieldDefault Label="Email">
-                    @_applicationUser.Email
+                <FieldDefault Label="@DomainDisplayTextFor.Email">
+                    @_user.Email
                 </FieldDefault>
             </MudItem>
             <MudItem xs="12" sm="6">
-                <FieldDefault Label="Display Name">
-                    @_applicationUser.DisplayName
+                <FieldDefault Label="@DomainDisplayTextFor.DisplayName">
+                    @_user.DisplayName
                 </FieldDefault>
             </MudItem>
             <MudItem xs="12" sm="6">
-                <FieldDefault Label="Roles">
-                    @(_roles.Any() ? string.Join(", ", _roles) : "No Roles")
+                <FieldDefault Label="@DomainDisplayTextFor.Roles">
+                    @(_user.Roles.Any() ? string.Join(", ", _user.Roles) : "No Roles")
                 </FieldDefault>
             </MudItem>
         </GridDefault>

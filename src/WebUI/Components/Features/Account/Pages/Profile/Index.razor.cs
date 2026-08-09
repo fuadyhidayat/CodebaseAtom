@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.GetUser;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile;
 
@@ -13,15 +12,14 @@ public partial class Index
     public required IDialogService DialogService { get; init; }
 
     [Inject]
-    public required UserManager<ApplicationUser> UserManager { get; init; }
+    public required GetUserLogic GetUserLogic { get; init; }
 
-    private ApplicationUser _applicationUser = default!;
-    private IReadOnlyCollection<string> _roles = [];
+    private UserDto _user = default!;
 
     protected override async Task OnInitializedAsync()
     {
         LoadBreadcrumbs();
-        await LoadApplicationUserAsync();
+        await LoadItem();
     }
 
     protected override void LoadBreadcrumbs()
@@ -31,7 +29,7 @@ public partial class Index
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(UIDisplayTextFor.Profile));
     }
 
-    private async Task LoadApplicationUserAsync()
+    private async Task LoadItem()
     {
         try
         {
@@ -39,11 +37,9 @@ public partial class Index
 
             if (currentUser is not null)
             {
-                var user = await UserManager.FindByIdAsync(currentUser.UserId.ToString())
-                    ?? throw new InvalidOperationException($"User with ID '{currentUser.UserId}' not found.");
+                var output = await GetUserLogic.Handle(new GetUserInput { Id = currentUser.UserId });
 
-                _applicationUser = user;
-                _roles = currentUser.Roles;
+                _user = output.Item;
             }
         }
         catch (Exception exception)
@@ -54,9 +50,16 @@ public partial class Index
 
     private async Task ShowDialogEditProfile()
     {
+        var model = new EditProfileModel
+        {
+            UserId = _user.Id,
+            DisplayName = _user.DisplayName,
+            NewEmail = _user.Email
+        };
+
         var parameters = new DialogParameters<DialogEditProfile>
         {
-            { x => x.ApplicationUser, _applicationUser }
+            { x => x.Model, model }
         };
 
         var dialog = await DialogService.ShowAsync<DialogEditProfile>($"{UIDisplayTextFor.Edit} {UIDisplayTextFor.Profile}", parameters);
@@ -65,15 +68,20 @@ public partial class Index
 
         if (result is not null && !result.Canceled)
         {
-            await LoadApplicationUserAsync();
+            await LoadItem();
         }
     }
 
     private async Task ShowDialogChangePassword()
     {
+        var model = new ChangePasswordModel
+        {
+            UserId = _user.Id
+        };
+
         var parameters = new DialogParameters<DialogChangePassword>
         {
-            { x => x.ApplicationUser, _applicationUser }
+            { x => x.Model, model }
         };
 
         _ = await DialogService.ShowAsync<DialogChangePassword>($"{UIDisplayTextFor.Change} {DomainDisplayTextFor.Password}", parameters);

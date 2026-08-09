@@ -2,25 +2,24 @@
 
 <MudDialog>
     <DialogContent>
-        <MudStack Class="mb-5">
+        <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-
-            @if (_input is not null)
+            @if (Model is not null)
             {
-                <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
+                <EditForm Model="Model" OnValidSubmit="OnValidSubmitAsync">
                     <DataAnnotationsValidator />
                     <GridDefault>
                         <MudItem xs="12">
                             <TextFieldDefault Label="@DomainDisplayTextFor.DisplayName"
                                               Placeholder="@($"Enter your {DomainDisplayTextFor.DisplayName}")"
-                                              @bind-Value="_input.DisplayName"
-                                              For="@(() => _input.DisplayName)" />
+                                              @bind-Value="Model.DisplayName"
+                                              For="@(() => Model.DisplayName)" />
                         </MudItem>
                         <MudItem xs="12">
                             <TextFieldDefault Label="@DomainDisplayTextFor.Email"
                                               Placeholder="@($"Enter your {DomainDisplayTextFor.Email}")"
-                                              @bind-Value="_input.NewEmail"
-                                              For="@(() => _input.NewEmail)" />
+                                              @bind-Value="Model.NewEmail"
+                                              For="@(() => Model.NewEmail)" />
                         </MudItem>
                     </GridDefault>
                     <BottomButtonPanel>

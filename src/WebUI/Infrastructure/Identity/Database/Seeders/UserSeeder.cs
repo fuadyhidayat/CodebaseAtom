@@ -4,23 +4,26 @@ using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.InitialData;
 namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Identity.Database.Seeders;
 
 public sealed class UserSeeder(
-    UserManager<ApplicationUser> userManager,
+    IServiceScopeFactory serviceScopeFactory,
     IOptions<DatabaseOptions> databaseOptionsProvider)
 {
     public async Task SeedUsers()
     {
+        using var serviceScope = serviceScopeFactory.CreateScope();
+        var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
         foreach (var initialUser in InitialUsers.All)
         {
             var existingUser = await userManager.FindByIdAsync(initialUser.Id.ToString());
 
             if (existingUser is null)
             {
-                await CreateUser(initialUser);
+                await CreateUser(userManager, initialUser, databaseOptionsProvider.Value.DefaultPasswordForInitialUsers);
             }
         }
     }
 
-    private async Task CreateUser(InitialUser initialUser)
+    private static async Task CreateUser(UserManager<ApplicationUser> userManager, InitialUser initialUser, string password)
     {
         var user = new ApplicationUser
         {
@@ -31,15 +34,15 @@ public sealed class UserSeeder(
             EmailConfirmed = true
         };
 
-        var result = await userManager.CreateAsync(user, databaseOptionsProvider.Value.DefaultPasswordForInitialUsers);
+        var result = await userManager.CreateAsync(user, password);
 
         if (result.Succeeded)
         {
-            await AssignRolesToUser(user, initialUser.Roles.Select(role => role.Name));
+            await AssignRolesToUser(userManager, user, initialUser.Roles.Select(role => role.Name));
         }
     }
 
-    private async Task AssignRolesToUser(ApplicationUser applicationUser, IEnumerable<string> roles)
+    private static async Task AssignRolesToUser(UserManager<ApplicationUser> userManager, ApplicationUser applicationUser, IEnumerable<string> roles)
     {
         foreach (var role in roles)
         {

@@ -5,7 +5,7 @@ namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.GetProject;
 
 public sealed class GetProjectLogic(
     IDbContextFactory<DatabaseContext> databaseContextFactory,
-    UserManager<ApplicationUser> userManager)
+    IServiceScopeFactory serviceScopeFactory)
 {
     public async Task<GetProjectOutput> Handle(GetProjectInput input, CancellationToken cancellationToken = default)
     {
@@ -27,6 +27,8 @@ public sealed class GetProjectLogic(
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Project, DomainDisplayTextFor.Id, input.Id);
 
+        await using var scope = serviceScopeFactory.CreateAsyncScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var userCreatedBy = await userManager.FindByIdAsync(item.CreatedBy.ToString());
 
         if (userCreatedBy is not null)

@@ -1,73 +1,55 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.UpdateUser;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
 
 public partial class DialogEditProfile
 {
     [Inject]
-    public required UserManager<ApplicationUser> UserManager { get; init; }
+    public required UpdateUserLogic UpdateUserLogic { get; init; }
 
     [Parameter]
-    public required ApplicationUser ApplicationUser { get; set; }
-
-    private InputModel _input = default!;
-
-    protected override void OnParametersSet()
-    {
-        _input = new InputModel
-        {
-            DisplayName = ApplicationUser.DisplayName,
-            NewEmail = ApplicationUser.Email ?? string.Empty
-        };
-    }
+    public required EditProfileModel Model { get; set; }
 
     private async Task OnValidSubmitAsync()
     {
-        var somethingChanged = false;
-
-        if (ApplicationUser.DisplayName != _input.DisplayName)
+        try
         {
-            ApplicationUser.DisplayName = _input.DisplayName;
+            IsLoadingBase = true;
+            ExceptionBase = null;
 
-            somethingChanged = true;
-        }
-
-        if (ApplicationUser.Email != _input.NewEmail)
-        {
-            ApplicationUser.Email = _input.NewEmail;
-            ApplicationUser.EmailConfirmed = true;
-
-            somethingChanged = true;
-        }
-
-        if (somethingChanged)
-        {
-            var result = await UserManager.UpdateAsync(ApplicationUser);
-
-            if (!result.Succeeded)
+            await UpdateUserLogic.Handle(new UpdateUserInput
             {
-                ExceptionBase = new AggregateException(result.Errors.Select(e => new InvalidOperationException(e.Description)));
-
-                return;
-            }
+                UserId = Model.UserId,
+                DisplayName = Model.DisplayName,
+                Email = Model.NewEmail
+            });
 
             Snackbar.AddSuccess("Your profile has been updated successfully.");
+
+            Dialog.Close();
         }
-
-        Dialog.Close();
+        catch (Exception exception)
+        {
+            ExceptionBase = exception;
+        }
+        finally
+        {
+            IsLoadingBase = false;
+        }
     }
+}
 
-    private sealed record InputModel
-    {
-        [Required]
-        [Display(Name = "Display Name")]
-        public required string DisplayName { get; set; }
+public sealed record EditProfileModel
+{
+    public required Guid UserId { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "New Email")]
-        public required string NewEmail { get; set; }
-    }
+    [Required]
+    [Display(Name = "Display Name")]
+    public required string DisplayName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    [Display(Name = "New Email")]
+    public required string NewEmail { get; set; }
 }
