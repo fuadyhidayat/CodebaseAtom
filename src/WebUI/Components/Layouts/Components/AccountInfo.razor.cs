@@ -7,9 +7,6 @@ public sealed partial class AccountInfo
     [Inject]
     public required CurrentUserService CurrentUserService { get; init; }
 
-    //[Inject]
-    //public required CurrentUserState CurrentUserState { get; init; }
-
     private string? _currentUrl;
     private string _loginRoute = AccountRouteFor.Login();
     private CurrentUserModel? _currentUser;
@@ -17,15 +14,7 @@ public sealed partial class AccountInfo
     protected override async Task OnInitializedAsync()
     {
         _currentUser = await CurrentUserService.GetCurrentUserAsync();
-
-        //CurrentUserState.OnChanged += HandleCurrentUserChanged;
     }
-
-    //private void HandleCurrentUserChanged(object? sender, EventArgs e)
-    //{
-    //    _currentUser = CurrentUserState.CurrentUser;
-    //    _ = InvokeAsync(StateHasChanged);
-    //}
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
@@ -45,6 +34,5 @@ public sealed partial class AccountInfo
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
-        //CurrentUserState.OnChanged -= HandleCurrentUserChanged;
     }
 }

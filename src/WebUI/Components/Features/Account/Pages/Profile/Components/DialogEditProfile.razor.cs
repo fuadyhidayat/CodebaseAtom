@@ -9,12 +9,6 @@ public partial class DialogEditProfile
     [Inject]
     public required UserManager<ApplicationUser> UserManager { get; init; }
 
-    //[Inject]
-    //public required CurrentUserState CurrentUserState { get; init; }
-
-    [Inject]
-    public required CurrentUserService CurrentUserService { get; init; }
-
     [Parameter]
     public required ApplicationUser ApplicationUser { get; set; }
 
@@ -67,10 +61,6 @@ public partial class DialogEditProfile
         if (somethingChanged)
         {
             Snackbar.AddSuccess("Your profile has been updated successfully.");
-
-            //CurrentUserState.UpdateDisplayName(ApplicationUser.DisplayName);
-
-            //NavigationManager.NavigateTo("/Account/RefreshCookie?returnUrl=/Account/Profile", forceLoad: true);
         }
 
         Dialog.Close();
@@ -88,4 +78,3 @@ public partial class DialogEditProfile
         public required string NewEmail { get; set; }
     }
 }
-

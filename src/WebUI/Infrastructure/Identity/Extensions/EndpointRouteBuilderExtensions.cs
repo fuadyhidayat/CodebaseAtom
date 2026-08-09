@@ -20,24 +20,6 @@ public static partial class EndpointRouteBuilderExtensions
             return TypedResults.LocalRedirect($"~/{returnUrl}");
         });
 
-        _ = routeGroupAccount.MapPost("/RefreshCookie", async (
-            HttpContext httpContext,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            [FromForm] string returnUrl) =>
-        {
-            var user = await userManager.GetUserAsync(httpContext.User);
-
-            if (user is not null)
-            {
-                await signInManager.RefreshSignInAsync(user);
-            }
-
-            return Results.LocalRedirect(returnUrl);
-        })
-        .RequireAuthorization()
-        .DisableAntiforgery();
-
         return routeGroupAccount;
     }
 }

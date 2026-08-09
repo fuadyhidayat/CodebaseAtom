@@ -5,7 +5,6 @@ public static class ConfigureCurrentUser
     public static IServiceCollection AddCurrentUserService(this IServiceCollection services)
     {
         _ = services.AddScoped<CurrentUserService>();
-        //_ = services.AddScoped<CurrentUserState>();
 
         return services;
     }

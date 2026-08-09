@@ -69,7 +69,6 @@ public static class ConfigureIdentity
         using var serviceScope = app.Services.CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
 
-
         var identityDatabaseContextFactory = serviceProvider.GetRequiredService<IDbContextFactory<IdentityDatabaseContext>>();
 
         await using var identityDatabaseContext = await identityDatabaseContextFactory.CreateDbContextAsync();
