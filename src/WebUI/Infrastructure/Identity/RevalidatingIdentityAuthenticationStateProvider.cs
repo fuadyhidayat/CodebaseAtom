@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
-public class RevalidatingIdentityAuthenticationStateProvider<TUser>(
+public class RevalidatingIdentityAuthenticationStateProvider(
     ILoggerFactory loggerFactory,
-    IServiceScopeFactory scopeFactory,
+    IServiceScopeFactory serviceScopeFactory,
     IOptions<IdentityOptions> identityOptionsAccessor)
-    : RevalidatingServerAuthenticationStateProvider(loggerFactory) where TUser : class
+    : RevalidatingServerAuthenticationStateProvider(loggerFactory)
 {
     private readonly IdentityOptions _options = identityOptionsAccessor.Value;
 
-    protected override TimeSpan RevalidationInterval => TimeSpan.FromSeconds(10);
+    protected override TimeSpan RevalidationInterval => TimeSpan.FromSeconds(5);
 
     protected override async Task<bool> ValidateAuthenticationStateAsync(AuthenticationState authenticationState, CancellationToken cancellationToken)
     {
@@ -25,9 +25,8 @@ public class RevalidatingIdentityAuthenticationStateProvider<TUser>(
             return false;
         }
 
-        using var scope = scopeFactory.CreateScope();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<TUser>>();
-
+        using var scope = serviceScopeFactory.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var user = await userManager.FindByIdAsync(userId.ToString());
 
         if (user is null)
@@ -35,13 +34,19 @@ public class RevalidatingIdentityAuthenticationStateProvider<TUser>(
             return false;
         }
 
+        Console.WriteLine($"--- Validating user with ID: {user.DisplayName}");
+
         return await ValidateSecurityStampAsync(userManager, claimsPrincipal, user);
     }
 
-    private async Task<bool> ValidateSecurityStampAsync(UserManager<TUser> userManager, ClaimsPrincipal principal, TUser user)
+    private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager, ClaimsPrincipal principal, ApplicationUser user)
     {
         var principalStamp = principal.FindFirstValue(_options.ClaimsIdentity.SecurityStampClaimType);
         var userStamp = await userManager.GetSecurityStampAsync(user);
+
+        Console.WriteLine($"\tPrincipal Stamp: {principalStamp}");
+        Console.WriteLine($"\tUser Stamp: {userStamp}");
+        Console.WriteLine($"\tStamps match? {principalStamp == userStamp}\n");
 
         return principalStamp == userStamp;
     }

@@ -11,14 +11,14 @@
                     <DataAnnotationsValidator />
                     <GridDefault>
                         <MudItem xs="12">
-                            <TextFieldDefault Label="Display Name"
-                                              Placeholder="Enter your display name"
+                            <TextFieldDefault Label="@DomainDisplayTextFor.DisplayName"
+                                              Placeholder="@($"Enter your {DomainDisplayTextFor.DisplayName}")"
                                               @bind-Value="_input.DisplayName"
                                               For="@(() => _input.DisplayName)" />
                         </MudItem>
                         <MudItem xs="12">
-                            <TextFieldDefault Label="Email"
-                                              Placeholder="Enter your email"
+                            <TextFieldDefault Label="@DomainDisplayTextFor.Email"
+                                              Placeholder="@($"Enter your {DomainDisplayTextFor.Email}")"
                                               @bind-Value="_input.NewEmail"
                                               For="@(() => _input.NewEmail)" />
                         </MudItem>

@@ -15,7 +15,7 @@ public static class ConfigureIdentity
 
         _ = services.AddCascadingAuthenticationState();
         _ = services.AddScoped<ApplicationUserClaimsPrincipalFactory>();
-        _ = services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
+        _ = services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider>();
 
         _ = services.AddAuthentication(options =>
         {

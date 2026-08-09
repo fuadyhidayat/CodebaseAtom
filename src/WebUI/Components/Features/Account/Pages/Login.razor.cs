@@ -71,7 +71,7 @@ public partial class Login
             uri = NavigationManager.ToBaseRelativePath(uri);
         }
 
-        NavigationManager.NavigateTo(uri);
+        NavigationManager.NavigateTo(uri, forceLoad: true);
     }
 
     private sealed record InputModel

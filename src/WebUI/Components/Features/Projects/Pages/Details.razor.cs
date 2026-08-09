@@ -117,7 +117,7 @@ public partial class Details
 
                 await DeleteProjectLogic.Handle(input);
 
-                NavigationManager.NavigateTo(ProjectsRouteFor.Index);
+                NavigationManager.NavigateTo(ProjectsRouteFor.Index, forceLoad: true);
             }
             catch (Exception exception)
             {
