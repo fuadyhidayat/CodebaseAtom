@@ -1,5 +1,5 @@
 using Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
-using Vioren.CodebaseAtom.WebUI.Logics.Users.GetUser;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.GetCurrentUser;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile;
 
@@ -12,7 +12,7 @@ public partial class Index
     public required IDialogService DialogService { get; init; }
 
     [Inject]
-    public required GetUserLogic GetUserLogic { get; init; }
+    public required GetCurrentUserLogic GetCurrentUserLogic { get; init; }
 
     private UserDto _user = default!;
 
@@ -33,14 +33,8 @@ public partial class Index
     {
         try
         {
-            var currentUser = await CurrentUserService.GetCurrentUserAsync();
-
-            if (currentUser is not null)
-            {
-                var output = await GetUserLogic.Handle(new GetUserInput { Id = currentUser.UserId });
-
-                _user = output.Item;
-            }
+            var output = await GetCurrentUserLogic.Handle();
+            _user = output.Item;
         }
         catch (Exception exception)
         {

@@ -9,7 +9,7 @@ using Vioren.CodebaseAtom.WebUI.Logics.Projects.GetProject;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.GetProjects;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 using Vioren.CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
-using Vioren.CodebaseAtom.WebUI.Logics.Users.GetUser;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.GetCurrentUser;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.UpdatePassword;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.UpdateUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
@@ -44,7 +44,7 @@ public static class ConfigureLogics
         _ = builder.Services.AddScoped<UpdateDocumentLogic>();
         _ = builder.Services.AddScoped<DeleteDocumentLogic>();
 
-        _ = builder.Services.AddScoped<GetUserLogic>();
+        _ = builder.Services.AddScoped<GetCurrentUserLogic>();
         _ = builder.Services.AddScoped<UpdateUserLogic>();
         _ = builder.Services.AddScoped<UpdatePasswordLogic>();
 

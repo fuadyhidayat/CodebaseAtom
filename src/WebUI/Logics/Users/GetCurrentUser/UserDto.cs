@@ -1,4 +1,4 @@
-namespace Vioren.CodebaseAtom.WebUI.Logics.Users.GetUser;
+namespace Vioren.CodebaseAtom.WebUI.Logics.Users.GetCurrentUser;
 
 public sealed record UserDto
 {
