@@ -11,6 +11,7 @@ using Vioren.CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 using Vioren.CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.GeneratePasswordResetToken;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.GetCurrentUser;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.ResetPassword;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.UpdatePassword;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.UpdateUser;
 using Vioren.CodebaseAtom.WebUI.Logics.WorkItems.CreateWorkItem;
@@ -49,6 +50,7 @@ public static class ConfigureLogics
         _ = builder.Services.AddScoped<UpdateUserLogic>();
         _ = builder.Services.AddScoped<UpdatePasswordLogic>();
         _ = builder.Services.AddScoped<GeneratePasswordResetTokenLogic>();
+        _ = builder.Services.AddScoped<ResetPasswordLogic>();
 
         _ = builder.Services.AddScoped<GetStatisticLogic>();
 

@@ -40,6 +40,7 @@ public partial class ForgotPassword
         finally
         {
             _isLoading = false;
+            StateHasChanged();
         }
     }
 

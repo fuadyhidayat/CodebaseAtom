@@ -1,17 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
+using Vioren.CodebaseAtom.WebUI.Logics.Users.ResetPassword;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages;
 
-public partial class ResetPassword
+public partial class ResetMyPassword
 {
     [Inject]
-    public required UserManager<ApplicationUser> UserManager { get; init; }
+    public required ResetPasswordLogic ResetPasswordLogic { get; init; }
 
     private bool _succeeded;
+    private bool _isLoading;
     private Exception? _exceptionCode;
     private Exception? _exception;
 
@@ -41,27 +41,31 @@ public partial class ResetPassword
 
     private async Task OnValidSubmitAsync()
     {
-        var user = await UserManager.FindByNameAsync(Input.Username);
-
-        if (user is null)
+        try
         {
-            // Don't reveal that the user does not exist
+            _succeeded = false;
+            _isLoading = true;
+            _exception = null;
+
+            await ResetPasswordLogic.Handle(new ResetPasswordInput
+            {
+                Username = Input.Username,
+                Code = Input.Code,
+                Password = Input.Password
+            });
+
             _succeeded = true;
-
-            return;
         }
-
-        var result = await UserManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-
-        if (result.Succeeded)
+        catch (Exception exception)
         {
-            _succeeded = true;
-
-            return;
+            _exception = exception;
         }
+        finally
+        {
+            _isLoading = false;
 
-        var lastError = result.Errors.Last();
-        _exception = new InvalidOperationException(lastError.Description);
+            StateHasChanged();
+        }
     }
 
     private sealed record InputModel
