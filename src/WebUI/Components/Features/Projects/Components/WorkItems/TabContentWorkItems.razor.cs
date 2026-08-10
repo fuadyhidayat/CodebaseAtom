@@ -29,11 +29,12 @@ public partial class TabContentWorkItems
     [Parameter, EditorRequired]
     public Guid ProjectId { get; set; }
 
-    private MudDropContainer<WorkItemModel> _kanban = default!;
-    private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
+    private string _searchKeyword = string.Empty;
     private List<WorkItemModel> _items = new();
     private HashSet<WorkItemModel> _selectedItems = new();
     private bool _isKanbanView;
+    private MudDropContainer<WorkItemModel> _kanban = default!;
+    private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -71,6 +72,26 @@ public partial class TabContentWorkItems
         {
             IsLoadingBase = false;
         }
+    }
+
+    private bool FilterItems(WorkItemModel item)
+    {
+        if (string.IsNullOrWhiteSpace(_searchKeyword))
+        {
+            return true;
+        }
+
+        if (item.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if (item.Description.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private async Task ShowDialogAddWorkItem()

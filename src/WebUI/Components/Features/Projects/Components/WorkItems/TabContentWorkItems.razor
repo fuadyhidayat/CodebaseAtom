@@ -4,6 +4,9 @@
     <MudStack Row="true"
               Justify="Justify.SpaceBetween"
               AlignItems="AlignItems.Start">
+        <div>
+            <TextFieldSearch @bind-Value="_searchKeyword" />
+        </div>
         <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
             <MudText>
                 Table View
@@ -63,10 +66,10 @@
                           Class="mb-3 pa-3 mud-ripple"
                           Style="cursor: grab;">
                     <MudText Typo="Typo.h5" Class="mb-4">
-                        @context.Title
+                        <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
                     </MudText>
                     <MudText Typo="Typo.body2" Class="mud-text-secondary">
-                        @context.Description
+                        <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
                     </MudText>
                     <MudDivider Class="my-2" />
                     <MudStack Row="true"
@@ -91,10 +94,11 @@
     else
     {
         <TableDefault Items="_items"
-                      @bind-SelectedItems="_selectedItems"
+                      Loading="IsLoadingBase"
+                      Filter="FilterItems"
+                      MultiSelection="true"
                       SelectOnRowClick="false"
-                      T="WorkItemModel"
-                      MultiSelection="true">
+                      @bind-SelectedItems="_selectedItems">
             <HeaderContent>
                 <MudTh>
                     <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Title)">
@@ -122,10 +126,10 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="@DomainDisplayTextFor.Title">
-                    @context.Title
+                    <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
                 </MudTd>
                 <MudTd DataLabel="@DomainDisplayTextFor.Description">
-                    @context.Description
+                    <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
                 </MudTd>
                 <MudTd DataLabel="@DomainDisplayTextFor.Deadline" class="text-center">
                     @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
