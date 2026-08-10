@@ -17,7 +17,7 @@ public sealed class UpdatePasswordLogic(IServiceScopeFactory serviceScopeFactory
 
         if (!result.Succeeded)
         {
-            throw new AggregateException(result.Errors.Select(e => new InvalidOperationException(e.Description)));
+            throw new InvalidOperationException(result.Errors.Last().Description);
         }
     }
 }
