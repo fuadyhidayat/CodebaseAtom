@@ -34,8 +34,6 @@ public class RevalidatingIdentityAuthenticationStateProvider(
             return false;
         }
 
-        Console.WriteLine($"--- Validating user {applicationUser.DisplayName} ({applicationUser.UserName}) on {DateTimeOffset.Now:dddd, d MMMM yyyy HH:mm:ss}");
-
         return await ValidateSecurityStampAsync(userManager, claimsPrincipal, applicationUser);
     }
 
@@ -43,10 +41,6 @@ public class RevalidatingIdentityAuthenticationStateProvider(
     {
         var principalStamp = principal.FindFirstValue(_options.ClaimsIdentity.SecurityStampClaimType);
         var userStamp = await userManager.GetSecurityStampAsync(applicationUser);
-
-        Console.WriteLine($"\tPrincipal Stamp: {principalStamp}");
-        Console.WriteLine($"\tUser Stamp: {userStamp}");
-        Console.WriteLine($"\tStamps match? {principalStamp == userStamp}\n");
 
         return principalStamp == userStamp;
     }
