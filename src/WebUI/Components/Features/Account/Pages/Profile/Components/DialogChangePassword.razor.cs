@@ -6,10 +6,15 @@ namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Co
 public partial class DialogChangePassword
 {
     [Inject]
+    public required IDialogService DialogService { get; init; }
+
+    [Inject]
     public required UpdatePasswordLogic UpdatePasswordLogic { get; init; }
 
     [Parameter]
     public required ChangePasswordModel Model { get; set; }
+
+    private MudMessageBox _messageBoxChangePassword = default!;
 
     private async Task OnValidSubmitAsync()
     {
@@ -25,9 +30,19 @@ public partial class DialogChangePassword
                 NewPassword = Model.NewPassword
             });
 
-            Snackbar.AddSuccess("Your password has been changed successfully.");
-
             Dialog.Close();
+
+            IsLoadingBase = false;
+
+            StateHasChanged();
+
+            var dialogOptions = new DialogOptions
+            {
+                BackdropClick = false
+            };
+
+            _ = await _messageBoxChangePassword.ShowAsync(dialogOptions);
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
         }
         catch (Exception exception)
         {

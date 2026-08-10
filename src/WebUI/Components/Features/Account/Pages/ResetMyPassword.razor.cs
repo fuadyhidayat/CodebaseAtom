@@ -21,7 +21,7 @@ public partial class ResetMyPassword
 
     private InputModel Input { get; set; } = new();
 
-    private MudMessageBox _mudMessageBox = default!;
+    private MudMessageBox _messageBoxPasswordReset = default!;
 
     protected override void OnInitialized()
     {
@@ -65,7 +65,7 @@ public partial class ResetMyPassword
                 BackdropClick = false
             };
 
-            _ = await _mudMessageBox.ShowAsync(dialogOptions);
+            _ = await _messageBoxPasswordReset.ShowAsync(dialogOptions);
             NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
         }
         catch (Exception exception)
