@@ -13,7 +13,7 @@ public class RevalidatingIdentityAuthenticationStateProvider(
 {
     private readonly IdentityOptions _options = identityOptionsAccessor.Value;
 
-    protected override TimeSpan RevalidationInterval => TimeSpan.FromSeconds(5);
+    protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(30);
 
     protected override async Task<bool> ValidateAuthenticationStateAsync(AuthenticationState authenticationState, CancellationToken cancellationToken)
     {
