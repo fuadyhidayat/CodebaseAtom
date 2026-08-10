@@ -8,23 +8,26 @@ namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages;
 public partial class ResetMyPassword
 {
     [Inject]
+    public required IDialogService DialogService { get; init; }
+
+    [Inject]
     public required ResetPasswordLogic ResetPasswordLogic { get; init; }
-
-    private bool _succeeded;
-    private bool _isLoading;
-    private Exception? _exceptionCode;
-    private Exception? _exception;
-
-    private InputModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery]
     private string? Code { get; set; }
 
+    private bool _isLoading;
+    private Exception? _exception;
+
+    private InputModel Input { get; set; } = new();
+
+    private MudMessageBox _mudMessageBox = default!;
+
     protected override void OnInitialized()
     {
-        if (Code is null)
+        if (string.IsNullOrWhiteSpace(Code))
         {
-            _exceptionCode = new InvalidOperationException("A code must be supplied for password reset.");
+            _exception = new InvalidOperationException("A code must be supplied for password reset.");
 
             return;
         }
@@ -35,7 +38,7 @@ public partial class ResetMyPassword
         }
         catch (Exception exception)
         {
-            _exceptionCode = exception;
+            _exception = exception;
         }
     }
 
@@ -43,18 +46,27 @@ public partial class ResetMyPassword
     {
         try
         {
-            _succeeded = false;
             _isLoading = true;
             _exception = null;
 
             await ResetPasswordLogic.Handle(new ResetPasswordInput
             {
                 Username = Input.Username,
-                Code = Input.Code,
-                Password = Input.Password
+                Token = Input.Code,
+                NewPassword = Input.Password
             });
 
-            _succeeded = true;
+            _isLoading = false;
+
+            StateHasChanged();
+
+            var dialogOptions = new DialogOptions
+            {
+                BackdropClick = false
+            };
+
+            _ = await _mudMessageBox.ShowAsync(dialogOptions);
+            NavigationManager.NavigateTo(AccountRouteFor.Login(), forceLoad: true);
         }
         catch (Exception exception)
         {
@@ -74,16 +86,16 @@ public partial class ResetMyPassword
         public string Username { get; set; } = string.Empty;
 
         [Required]
+        public string Code { get; set; } = string.Empty;
+
+        [Required]
         [StringLength(MaximumLengthFor.Password, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = MinimumLengthFor.Password)]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "The Password and Confirm Password do not match.")]
+        [Display(Name = DomainDisplayTextFor.ConfirmPassword)]
+        [Compare(DomainDisplayTextFor.Password, ErrorMessage = $"The {DomainDisplayTextFor.Password} and {DomainDisplayTextFor.ConfirmPassword} do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
-
-        [Required]
-        public string Code { get; set; } = string.Empty;
     }
 }

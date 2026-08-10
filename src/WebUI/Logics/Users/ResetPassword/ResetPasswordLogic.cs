@@ -13,7 +13,7 @@ public sealed class ResetPasswordLogic(IServiceScopeFactory serviceScopeFactory)
         var applicationUser = await userManager.FindByNameAsync(input.Username)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.User, DomainDisplayTextFor.Username, input.Username);
 
-        var result = await userManager.ResetPasswordAsync(applicationUser, input.Code, input.Password);
+        var result = await userManager.ResetPasswordAsync(applicationUser, input.Token, input.NewPassword);
 
         if (!result.Succeeded)
         {

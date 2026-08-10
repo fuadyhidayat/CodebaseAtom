@@ -15,6 +15,7 @@ public static class DomainDisplayTextFor
     public const string UserId = $"{User} {Id}";
     public const string Username = nameof(Username);
     public const string Password = nameof(Password);
+    public const string ConfirmPassword = "Confirm Password";
     public const string Code = nameof(Code);
     public const string Name = nameof(Name);
     public const string DisplayName = $"Display {Name}";
