@@ -8,21 +8,55 @@ retryButton.addEventListener("click", retry);
 const resumeButton = document.getElementById("components-resume-button");
 resumeButton.addEventListener("click", resume);
 
+// State class management
+const stateClasses = [
+    "components-reconnect-show",
+    "components-reconnect-retrying",
+    "components-reconnect-failed",
+    "components-reconnect-paused",
+    "components-reconnect-resume-failed"
+];
+
+function setModalState(state)
+{
+    // Remove all state classes
+    reconnectModal.classList.remove(...stateClasses);
+
+    // Add the new state class
+    if (state)
+    {
+        reconnectModal.classList.add(state);
+    }
+}
+
 function handleReconnectStateChanged(event)
 {
-    if (event.detail.state === "show")
+    const state = event.detail.state;
+
+    if (state === "show")
     {
+        setModalState("components-reconnect-show");
         reconnectModal.showModal();
     }
-    else if (event.detail.state === "hide")
+    else if (state === "hide")
     {
+        setModalState(null);
         reconnectModal.close();
     }
-    else if (event.detail.state === "failed")
+    else if (state === "retrying")
     {
+        setModalState("components-reconnect-retrying");
+    }
+    else if (state === "failed")
+    {
+        setModalState("components-reconnect-failed");
         document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
     }
-    else if (event.detail.state === "rejected")
+    else if (state === "paused")
+    {
+        setModalState("components-reconnect-paused");
+    }
+    else if (state === "rejected")
     {
         location.reload();
     }
@@ -72,11 +106,16 @@ async function resume()
 
         if (!successful)
         {
-            location.reload();
+            setModalState("components-reconnect-resume-failed");
         }
-    } catch
+        else
+        {
+            reconnectModal.close();
+        }
+    }
+    catch
     {
-        reconnectModal.classList.replace("components-reconnect-paused", "components-reconnect-resume-failed");
+        setModalState("components-reconnect-resume-failed");
     }
 }
 
