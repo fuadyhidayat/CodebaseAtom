@@ -35,6 +35,7 @@ public partial class TabContentWorkItems
     private bool _isKanbanView;
     private MudDropContainer<WorkItemModel> _kanban = default!;
     private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
+    private IEnumerable<WorkItemModel> FilteredItems => _items.Where(FilterItems);
 
     protected override async Task OnParametersSetAsync()
     {
@@ -92,6 +93,16 @@ public partial class TabContentWorkItems
         }
 
         return false;
+    }
+
+    private async Task OnSearchKeywordChanged(string value)
+    {
+        _searchKeyword = value;
+
+        if (_isKanbanView && _kanban is not null)
+        {
+            await InvokeAsync(_kanban.Refresh);
+        }
     }
 
     private async Task ShowDialogAddWorkItem()

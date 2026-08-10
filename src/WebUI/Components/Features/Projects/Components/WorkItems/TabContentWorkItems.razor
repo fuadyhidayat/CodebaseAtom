@@ -1,23 +1,23 @@
 @inherits AppComponentBase
 
 <MudStack>
-    <MudStack Row="true"
-              Justify="Justify.SpaceBetween"
-              AlignItems="AlignItems.Start">
-        <div>
-            <TextFieldSearch @bind-Value="_searchKeyword" />
-        </div>
+    <MudStack Row="true" Justify="Justify.Center">
         <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
-            <MudText>
+            <MudText Typo="Typo.subtitle1">
                 Table View
             </MudText>
             <MudSwitch @bind-Value="_isKanbanView"
                        ThumbIcon="@(_isKanbanView ? Icons.Material.Filled.ViewKanban : Icons.Material.Filled.TableView)"
                        ThumbIconColor="@(_isKanbanView ? Color.Primary : Color.Secondary)" />
-            <MudText>
+            <MudText Typo="Typo.subtitle1">
                 Kanban View
             </MudText>
         </MudStack>
+    </MudStack>
+    <MudStack Row="true"
+              Justify="Justify.SpaceBetween"
+              AlignItems="AlignItems.Start">
+        <TextFieldSearch Value="@_searchKeyword" ValueChanged="OnSearchKeywordChanged" />
         <MudStack Row="true" Spacing="1">
             @if (_selectedItems.Any())
             {
@@ -31,7 +31,7 @@
     {
         <MudDropContainer T="WorkItemModel"
                           @ref="_kanban"
-                          Items="@_items"
+                          Items="@FilteredItems"
                           Class="d-flex flex-row"
                           ItemsSelector="@((item, column) => item.Status.ToString() == column)"
                           ItemDropped="HandleItemDropped">
@@ -51,7 +51,7 @@
                                     <MudBadge Color="Color.Primary"
                                               Overlap="true"
                                               Class="mr-2"
-                                              Content="@_items.Count(x => x.Status == column)" />
+                                              Content="@FilteredItems.Count(x => x.Status == column)" />
                                 </MudToolBar>
                                 <MudDropZone T="WorkItemModel"
                                              Class="flex-grow-1"
