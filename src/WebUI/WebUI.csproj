@@ -5,7 +5,7 @@
     <Version>0.0.1</Version>
     <AssemblyVersion>0.0.1</AssemblyVersion>
     <FileVersion>0.0.1</FileVersion>
-    <InformationalVersion>0.0.1 Local</InformationalVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
