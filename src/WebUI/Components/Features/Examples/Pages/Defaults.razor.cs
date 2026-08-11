@@ -5,14 +5,14 @@ namespace Vioren.CodebaseAtom.WebUI.Components.Features.Examples.Pages;
 public partial class Defaults
 {
     private const int _productsCount = 33;
-    private IReadOnlyList<ProductItem> _products = [];
+    private IReadOnlyList<ProductModel> _products = [];
     private string? _searchKeyword;
 
     protected override void OnInitialized()
     {
         LoadBreadcrumbs();
 
-        _products = Enumerable.Range(1, _productsCount).Select(i => new ProductItem
+        _products = Enumerable.Range(1, _productsCount).Select(i => new ProductModel
         {
             Name = $"Product {i}",
             UnitPrice = Math.Round(Convert.ToDecimal(RandomNumberGenerator.GetInt32(1000) + 1), 2),
@@ -28,7 +28,7 @@ public partial class Defaults
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(ExamplesDisplayTextFor.Defaults));
     }
 
-    private bool FilterItems(ProductItem product)
+    private bool FilterItems(ProductModel product)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
@@ -53,7 +53,7 @@ public partial class Defaults
         return false;
     }
 
-    private sealed record ProductItem
+    private sealed record ProductModel
     {
         public required string Name { get; init; }
         public required decimal UnitPrice { get; init; }
