@@ -1,3 +1,5 @@
+using Vioren.CodebaseAtom.WebUI.Common.Exceptions;
+
 namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
 public sealed class CreateProjectLogic(
@@ -10,7 +12,9 @@ public sealed class CreateProjectLogic(
 
         if (!validationResult.IsValid)
         {
-            throw new AggregateException(validationResult.Errors.Select(e => new ValidationException(e.ErrorMessage)));
+            var errorMessages = validationResult.Errors.Select(error => error.ErrorMessage).ToArray();
+
+            throw new FormValidationException(errorMessages);
         }
 
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
