@@ -4,27 +4,24 @@
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-            @if (_input is not null)
-            {
-                <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
-                    <DataAnnotationsValidator />
-                    <GridDefault>
-                        <MudItem xs="12">
-                            <FileUploadSingle Accept=".docx,.xlsx,.pptx,.pdf" OnFileUpdated="OnFileUpdated" />
-                        </MudItem>
-                        <MudItem xs="12">
-                            <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="@($"Enter the {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
-                                              AutoFocus="true"
-                                              @bind-Value="_input.Title"
-                                              For="@(() => _input.Title)" />
-                        </MudItem>
-                    </GridDefault>
-                    <BottomButtonPanel>
-                        <ButtonSubmit ButtonType="ButtonType.Submit" Disabled="@(_input.File is null)" />
-                    </BottomButtonPanel>
-                </EditForm>
-            }
+            <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
+                <DataAnnotationsValidator />
+                <GridDefault>
+                    <MudItem xs="12">
+                        <FileUploadSingle Accept=".docx,.xlsx,.pptx,.pdf" OnFileUpdated="OnFileUpdated" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@DomainDisplayTextFor.Title"
+                                          Placeholder="@($"Enter the {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
+                                          AutoFocus="true"
+                                          @bind-Value="_input.Title"
+                                          For="@(() => _input.Title)" />
+                    </MudItem>
+                </GridDefault>
+                <BottomButtonPanel>
+                    <ButtonSubmit ButtonType="ButtonType.Submit" Disabled="@(_input.File is null)" />
+                </BottomButtonPanel>
+            </EditForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

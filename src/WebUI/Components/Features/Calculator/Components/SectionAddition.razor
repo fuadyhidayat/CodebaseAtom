@@ -1,0 +1,29 @@
+@inherits AppComponentBase
+
+<PageSection SectionTitle="Addition">
+    <ErrorViewer Exception="ExceptionBase" />
+    <LoadingLinear IsVisible="IsLoadingBase" />
+    <EditForm Model="_additionModel" OnValidSubmit="OnAdditionValidSubmitAsync">
+        <DataAnnotationsValidator />
+        <GridDefault>
+            <MudItem xs="12">
+                <NumericFieldDefault Label="Number 1"
+                                     Placeholder="Enter the first number"
+                                     @bind-Value="_additionModel.Number1"
+                                     For="@(() => _additionModel.Number1)" />
+            </MudItem>
+            <MudItem xs="12">
+                <NumericFieldDefault Label="Number 2"
+                                     Placeholder="Enter the second number"
+                                     @bind-Value="_additionModel.Number2"
+                                     For="@(() => _additionModel.Number2)" />
+            </MudItem>
+        </GridDefault>
+        <BottomButtonPanel>
+            <ButtonSubmit ButtonType="ButtonType.Submit" />
+        </BottomButtonPanel>
+    </EditForm>
+    <MudAlert Severity="Severity.Info">
+        Result: @_additionResult
+    </MudAlert>
+</PageSection>

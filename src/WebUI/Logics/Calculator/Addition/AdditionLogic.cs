@@ -2,7 +2,7 @@ namespace Vioren.CodebaseAtom.WebUI.Logics.Calculator.Addition;
 
 public sealed class AdditionLogic
 {
-    public AdditionOutput Execute(AdditionInput input)
+    public AdditionOutput Handle(AdditionInput input)
     {
         var result = input.Number1 + input.Number2;
 

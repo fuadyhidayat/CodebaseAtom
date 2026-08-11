@@ -19,6 +19,7 @@ global using Vioren.CodebaseAtom.WebUI.Logics.Common.Exceptions;
 global using Vioren.CodebaseAtom.WebUI.Logics.Common.Extensions;
 global using AccountProfileRouteFor = Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Statics.RouteFor;
 global using AccountRouteFor = Vioren.CodebaseAtom.WebUI.Components.Features.Account.Statics.RouteFor;
+global using CalculatorRouteFor = Vioren.CodebaseAtom.WebUI.Components.Features.Calculator.Statics.RouteFor;
 global using ComponentsBreadcrumbFor = Vioren.CodebaseAtom.WebUI.Components.Statics.BreadcrumbFor;
 global using ExamplesBreadcrumbFor = Vioren.CodebaseAtom.WebUI.Components.Features.Examples.Statics.BreadcrumbFor;
 global using ExamplesDisplayTextFor = Vioren.CodebaseAtom.WebUI.Components.Features.Examples.Statics.DisplayTextFor;
