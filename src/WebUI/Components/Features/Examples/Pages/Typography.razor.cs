@@ -31,6 +31,6 @@ public partial class Typography
 
     protected void SetToCurrentDateTime()
     {
-        _text = $"What time is it? It's {DateTime.Now: dddd MMMM yyyy, HH:mm:ss}!";
+        _text = $"What time is it? It's {DateTime.Now: dddd, d MMMM yyyy, HH:mm:ss}!";
     }
 }

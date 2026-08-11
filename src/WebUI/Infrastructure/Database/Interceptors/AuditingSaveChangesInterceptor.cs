@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Database.Interceptors;
 
-public sealed class AuditingSaveChangesInterceptor(CurrentUserService currentUserService)
+public sealed class AuditingSaveChangesInterceptor(
+    CurrentUserService currentUserService,
+    TimeProvider timeProvider)
     : SaveChangesInterceptor
 {
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
@@ -11,7 +13,7 @@ public sealed class AuditingSaveChangesInterceptor(CurrentUserService currentUse
         CancellationToken cancellationToken = default)
     {
         var context = eventData.Context!;
-        var now = DateTimeOffset.Now;
+        var now = timeProvider.GetLocalNow();
         var currentUser = await currentUserService.GetCurrentUserAsync();
 
         foreach (var entry in context.ChangeTracker.Entries<BaseEntity>())
