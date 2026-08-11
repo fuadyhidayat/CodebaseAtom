@@ -21,7 +21,9 @@
                 </Authorized>
             </AuthorizeView>
         </MudStack>
-        <TableDefault Items="_projects" Loading="IsLoadingBase" Filter="FilterItems">
+        <TableDefault Items="_projects"
+                      Loading="IsLoadingBase"
+                      Filter="FilterProjects">
             <HeaderContent>
                 <MudTh>
                     <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">

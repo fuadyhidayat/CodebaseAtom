@@ -28,7 +28,7 @@ public partial class Defaults
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(ExamplesDisplayTextFor.Defaults));
     }
 
-    private bool FilterItems(ProductModel product)
+    private bool FilterProducts(ProductModel product)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {

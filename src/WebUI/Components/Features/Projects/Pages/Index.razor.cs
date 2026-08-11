@@ -53,7 +53,7 @@ public partial class Index
         }
     }
 
-    private bool FilterItems(ProjectModel project)
+    private bool FilterProjects(ProjectModel project)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
