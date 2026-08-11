@@ -2,18 +2,30 @@ using System.Reflection;
 
 namespace Vioren.CodebaseAtom.WebUI.Common.Statics;
 
-public static class CommonValueFor
+public static class AssemblyInfoFor
 {
-    private static readonly Assembly _assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+    public static string EnvironmentName => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown";
 
-    public static string EnvironmentName { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown";
-    public static DateTime AssemblyLastBuild { get; } = File.GetLastWriteTime(_assembly.Location);
+    public static DateTime AssemblyLastBuild
+    {
+        get
+        {
+            var path = Assembly.GetExecutingAssembly().Location;
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = AppContext.BaseDirectory;
+            }
+
+            return File.GetLastWriteTime(path);
+        }
+    }
 
     public static string InformationalVersion
     {
         get
         {
-            var version = _assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            var version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
 
             if (string.IsNullOrEmpty(version))
             {

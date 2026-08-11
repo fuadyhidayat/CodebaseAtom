@@ -7,15 +7,15 @@
         </div>
         <MudDivider Vertical="true" FlexItem="true" />
         <div>
-            Version @CommonValueFor.InformationalVersion
+            Version @AssemblyInfoFor.InformationalVersion
         </div>
         <MudDivider Vertical="true" FlexItem="true" />
         <div>
-            Environment: @CommonValueFor.EnvironmentName
+            Environment: @AssemblyInfoFor.EnvironmentName
         </div>
         <MudDivider Vertical="true" FlexItem="true" />
         <div>
-            Last Build: @CommonValueFor.AssemblyLastBuild.ToDisplayText(DateTimeFormatFor.LongDateTime)
+            Last Build: @AssemblyInfoFor.AssemblyLastBuild.ToDisplayText(DateTimeFormatFor.LongDateTime)
         </div>
     </MudStack>
 </footer>
