@@ -193,9 +193,10 @@ public partial class TabContentWorkItems
             return;
         }
 
+        var entityDisplayText = _selectedItems.Count is 1 ? DomainDisplayTextFor.WorkItem : DomainDisplayTextFor.WorkItems;
         var dialogResult = await DialogService.ShowMessageBoxAsync(
           $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.WorkItems}",
-          $"Are you sure you want to delete {_selectedItems.Count} {DomainDisplayTextFor.WorkItems}?",
+          $"Are you sure you want to delete the selected {_selectedItems.Count} {entityDisplayText}?",
           yesText: UIDisplayTextFor.Yes,
           noText: UIDisplayTextFor.No,
           options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
