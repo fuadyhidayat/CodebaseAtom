@@ -1,5 +1,3 @@
-let currentAttemptCount = 0;
-
 function getModal()
 {
     return document.getElementById("components-reconnect-modal");
@@ -8,19 +6,6 @@ function getModal()
 function getMaxRetries()
 {
     return window.blazorReconnectionOptions?.maxRetries ?? 5;
-}
-
-function updateAttemptText(attempt)
-{
-    const maxRetries = getMaxRetries();
-    const attemptElem = document.getElementById("components-reconnect-attempt-count");
-
-    if (attemptElem)
-    {
-        // Mencegah teks menampilkan angka melampaui maxRetries
-        const displayAttempt = Math.min(attempt, maxRetries);
-        attemptElem.textContent = `Attempt ${displayAttempt} of ${maxRetries}`;
-    }
 }
 
 // Prevent the modal from being closed by the user, since we want to control when it is closed
@@ -50,40 +35,20 @@ function handleReconnectStateChanged(event)
 
     if (state === "show")
     {
-        currentAttemptCount = 1;
-        updateAttemptText(currentAttemptCount);
-
         if (!reconnectModal.open)
         {
             reconnectModal.showModal();
         }
-
-        requestAnimationFrame(() =>
-        {
-            updateAttemptText(currentAttemptCount);
-        });
     }
     else if (state === "retrying")
     {
-        if (reconnectModal.open)
+        if (!reconnectModal.open)
         {
-            currentAttemptCount++;
-        }
-        else
-        {
-            currentAttemptCount = 1;
             reconnectModal.showModal();
         }
-
-        requestAnimationFrame(() =>
-        {
-            updateAttemptText(currentAttemptCount);
-        });
     }
     else if (state === "hide")
     {
-        currentAttemptCount = 0;
-
         if (reconnectModal.open)
         {
             reconnectModal.close();
@@ -114,7 +79,6 @@ async function retry()
     }
     catch (err)
     {
-        // We got an exception, server is currently unavailable
         console.error("Reconnection attempt failed:", err);
         document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
     }
@@ -152,7 +116,7 @@ async function retryWhenDocumentBecomesVisible()
     }
 }
 
-// Bind button clicks  to the retry and resume functions
+// Bind button clicks to the retry and resume functions
 document.addEventListener("click", (e) =>
 {
     if (e.target && e.target.id === "components-reconnect-button")
