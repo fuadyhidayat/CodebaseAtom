@@ -8,21 +8,68 @@ retryButton.addEventListener("click", retry);
 const resumeButton = document.getElementById("components-resume-button");
 resumeButton.addEventListener("click", resume);
 
+document.addEventListener("components-reconnect-state-changed", handleReconnectStateChanged);
+
+function getModal()
+{
+    return document.getElementById("components-reconnect-modal");
+}
+
+function getMaxRetries()
+{
+    return window.blazorReconnectionOptions?.maxRetries ?? 5;
+}
+
+// Prevent the modal from being closed by the user, since we want to control when it is closed
+document.addEventListener("DOMContentLoaded", () =>
+{
+    const modal = getModal();
+
+    if (modal)
+    {
+        modal.addEventListener("cancel", (e) => e.preventDefault());
+    }
+});
+
 function handleReconnectStateChanged(event)
 {
-    if (event.detail.state === "show")
+    const reconnectModal = getModal();
+
+    if (!reconnectModal)
     {
-        reconnectModal.showModal();
+        return;
     }
-    else if (event.detail.state === "hide")
+
+    const state = event.detail.state;
+    const currentAttempt = event.detail.attempt || 1;
+    const maxRetries = getMaxRetries();
+
+    if (state === "show" || state === "retrying")
     {
-        reconnectModal.close();
+        if (!reconnectModal.open)
+        {
+            const attemptElem = document.getElementById("components-reconnect-attempt-count");
+
+            if (attemptElem)
+            {
+                attemptElem.textContent = `Attempt ${currentAttempt} of ${maxRetries}`;
+            }
+
+            reconnectModal.showModal();
+        }
     }
-    else if (event.detail.state === "failed")
+    else if (state === "hide")
+    {
+        if (reconnectModal.open)
+        {
+            reconnectModal.close();
+        }
+    }
+    else if (state === "failed")
     {
         document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
     }
-    else if (event.detail.state === "rejected")
+    else if (state === "rejected")
     {
         location.reload();
     }
@@ -74,9 +121,15 @@ async function resume()
         {
             location.reload();
         }
-    } catch
+    }
+    catch
     {
-        reconnectModal.classList.replace("components-reconnect-paused", "components-reconnect-resume-failed");
+        const reconnectModal = getModal();
+
+        if (reconnectModal)
+        {
+            reconnectModal.classList.replace("components-reconnect-paused", "components-reconnect-resume-failed");
+        }
     }
 }
 
@@ -84,6 +137,21 @@ async function retryWhenDocumentBecomesVisible()
 {
     if (document.visibilityState === "visible")
     {
+        document.removeEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
+
         await retry();
     }
 }
+
+// Bind button clicks  to the retry and resume functions
+document.addEventListener("click", (e) =>
+{
+    if (e.target && e.target.id === "components-reconnect-button")
+    {
+        retry();
+    }
+    else if (e.target && e.target.id === "components-resume-button")
+    {
+        resume();
+    }
+});
