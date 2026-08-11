@@ -75,3 +75,9 @@
     letter-spacing: 0;
     min-width: auto !important;
 }
+
+#blazor-error-ui
+{
+    padding: 0 !important;
+    background: transparent !important;
+}
