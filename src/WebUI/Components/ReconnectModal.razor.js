@@ -1,14 +1,4 @@
-// Set up event handlers
-const reconnectModal = document.getElementById("components-reconnect-modal");
-reconnectModal.addEventListener("components-reconnect-state-changed", handleReconnectStateChanged);
-
-const retryButton = document.getElementById("components-reconnect-button");
-retryButton.addEventListener("click", retry);
-
-const resumeButton = document.getElementById("components-resume-button");
-resumeButton.addEventListener("click", resume);
-
-document.addEventListener("components-reconnect-state-changed", handleReconnectStateChanged);
+let currentAttemptCount = 0;
 
 function getModal()
 {
@@ -18,6 +8,19 @@ function getModal()
 function getMaxRetries()
 {
     return window.blazorReconnectionOptions?.maxRetries ?? 5;
+}
+
+function updateAttemptText(attempt)
+{
+    const maxRetries = getMaxRetries();
+    const attemptElem = document.getElementById("components-reconnect-attempt-count");
+
+    if (attemptElem)
+    {
+        // Mencegah teks menampilkan angka melampaui maxRetries
+        const displayAttempt = Math.min(attempt, maxRetries);
+        attemptElem.textContent = `Attempt ${displayAttempt} of ${maxRetries}`;
+    }
 }
 
 // Prevent the modal from being closed by the user, since we want to control when it is closed
@@ -31,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () =>
     }
 });
 
+const reconnectModal = document.getElementById("components-reconnect-modal");
+reconnectModal.addEventListener("components-reconnect-state-changed", handleReconnectStateChanged);
+
 function handleReconnectStateChanged(event)
 {
     const reconnectModal = getModal();
@@ -41,25 +47,43 @@ function handleReconnectStateChanged(event)
     }
 
     const state = event.detail.state;
-    const currentAttempt = event.detail.attempt || 1;
-    const maxRetries = getMaxRetries();
 
-    if (state === "show" || state === "retrying")
+    if (state === "show")
     {
+        currentAttemptCount = 1;
+        updateAttemptText(currentAttemptCount);
+
         if (!reconnectModal.open)
         {
-            const attemptElem = document.getElementById("components-reconnect-attempt-count");
-
-            if (attemptElem)
-            {
-                attemptElem.textContent = `Attempt ${currentAttempt} of ${maxRetries}`;
-            }
-
             reconnectModal.showModal();
         }
+
+        requestAnimationFrame(() =>
+        {
+            updateAttemptText(currentAttemptCount);
+        });
+    }
+    else if (state === "retrying")
+    {
+        if (reconnectModal.open)
+        {
+            currentAttemptCount++;
+        }
+        else
+        {
+            currentAttemptCount = 1;
+            reconnectModal.showModal();
+        }
+
+        requestAnimationFrame(() =>
+        {
+            updateAttemptText(currentAttemptCount);
+        });
     }
     else if (state === "hide")
     {
+        currentAttemptCount = 0;
+
         if (reconnectModal.open)
         {
             reconnectModal.close();
@@ -81,26 +105,11 @@ async function retry()
 
     try
     {
-        // Reconnect will asynchronously return:
-        // - true to mean success
-        // - false to mean we reached the server, but it rejected the connection (e.g., unknown circuit ID)
-        // - exception to mean we didn't reach the server (this can be sync or async)
         const successful = await Blazor.reconnect();
 
         if (!successful)
         {
-            // We have been able to reach the server, but the circuit is no longer available.
-            // We'll reload the page so the user can continue using the app as quickly as possible.
-            const resumeSuccessful = await Blazor.resumeCircuit();
-
-            if (!resumeSuccessful)
-            {
-                location.reload();
-            }
-            else
-            {
-                reconnectModal.close();
-            }
+            location.reload();
         }
     }
     catch (err)

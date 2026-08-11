@@ -8,7 +8,7 @@ window.blazorReconnectionOptions =
             return null;
         }
 
-        return 3000;
+        return 5000;
     }
 };
 
