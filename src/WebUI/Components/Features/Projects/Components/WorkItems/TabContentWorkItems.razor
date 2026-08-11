@@ -28,7 +28,7 @@
             }
             <MudSpacer />
             <MudStack Row="true" Spacing="1">
-                @if (_selectedItems.Any())
+                @if (_selectedWorkItems.Any())
                 {
                     <ButtonDelete EntityType="@DomainDisplayTextFor.WorkItems" OnClick="ShowDialogDeleteSelectedWorkItems" />
                 }
@@ -105,10 +105,10 @@
             {
                 <TableDefault Items="_workItems"
                               Loading="IsLoadingBase"
-                              Filter="FilterItems"
+                              Filter="FilterWorkItems"
                               MultiSelection="true"
                               SelectOnRowClick="false"
-                              @bind-SelectedItems="_selectedItems">
+                              @bind-SelectedItems="_selectedWorkItems">
                     <HeaderContent>
                         <MudTh>
                             <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Title)">

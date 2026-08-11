@@ -31,11 +31,11 @@ public partial class TabContentWorkItems
 
     private string _searchKeyword = string.Empty;
     private List<WorkItemModel> _workItems = default!;
-    private HashSet<WorkItemModel> _selectedItems = new();
+    private HashSet<WorkItemModel> _selectedWorkItems = new();
     private bool _isKanbanView;
     private MudDropContainer<WorkItemModel> _kanban = default!;
     private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
-    private IEnumerable<WorkItemModel> FilteredItems => _workItems.Where(FilterItems);
+    private IEnumerable<WorkItemModel> FilteredItems => _workItems.Where(FilterWorkItems);
 
     protected override async Task OnParametersSetAsync()
     {
@@ -75,7 +75,7 @@ public partial class TabContentWorkItems
         }
     }
 
-    private bool FilterItems(WorkItemModel workItem)
+    private bool FilterWorkItems(WorkItemModel workItem)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
@@ -188,22 +188,22 @@ public partial class TabContentWorkItems
 
     private async Task ShowDialogDeleteSelectedWorkItems()
     {
-        if (_selectedItems.Count == 0)
+        if (_selectedWorkItems.Count == 0)
         {
             return;
         }
 
-        var entityDisplayText = _selectedItems.Count is 1 ? DomainDisplayTextFor.WorkItem : DomainDisplayTextFor.WorkItems;
+        var entityDisplayText = _selectedWorkItems.Count is 1 ? DomainDisplayTextFor.WorkItem : DomainDisplayTextFor.WorkItems;
         var dialogResult = await DialogService.ShowMessageBoxAsync(
           $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.WorkItems}",
-          $"Are you sure you want to delete the selected {_selectedItems.Count} {entityDisplayText}?",
+          $"Are you sure you want to delete the selected {_selectedWorkItems.Count} {entityDisplayText}?",
           yesText: UIDisplayTextFor.Yes,
           noText: UIDisplayTextFor.No,
           options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
 
         if (dialogResult is true)
         {
-            await DeleteWorkItems(_selectedItems.Select(x => x.Id));
+            await DeleteWorkItems(_selectedWorkItems.Select(x => x.Id));
         }
     }
 

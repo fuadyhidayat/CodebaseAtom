@@ -1,5 +1,6 @@
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
+using Vioren.CodebaseAtom.WebUI.Logics.Documents.DeleteDocuments;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.UpdateDocument;
@@ -45,6 +46,7 @@ public static class ConfigureLogics
         _ = builder.Services.AddScoped<CreateDocumentLogic>();
         _ = builder.Services.AddScoped<UpdateDocumentLogic>();
         _ = builder.Services.AddScoped<DeleteDocumentLogic>();
+        _ = builder.Services.AddScoped<DeleteDocumentsLogic>();
 
         _ = builder.Services.AddScoped<GetCurrentUserLogic>();
         _ = builder.Services.AddScoped<UpdateUserLogic>();

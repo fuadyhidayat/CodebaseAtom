@@ -1,7 +1,8 @@
+using Microsoft.JSInterop;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
+using Vioren.CodebaseAtom.WebUI.Logics.Documents.DeleteDocuments;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.DownloadDocument;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
-using Microsoft.JSInterop;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
 
@@ -17,6 +18,9 @@ public partial class TabContentDocuments
     public required DeleteDocumentLogic DeleteDocumentLogic { get; set; }
 
     [Inject]
+    public required DeleteDocumentsLogic DeleteDocumentsLogic { get; set; }
+
+    [Inject]
     public required DownloadDocumentLogic DownloadDocumentLogic { get; set; }
 
     [Inject]
@@ -27,6 +31,7 @@ public partial class TabContentDocuments
 
     private string _searchKeyword = string.Empty;
     private List<DocumentModel> _documents = default!;
+    private HashSet<DocumentModel> _selectedDocuments = new();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -63,7 +68,7 @@ public partial class TabContentDocuments
         }
     }
 
-    private bool FilterItems(DocumentModel document)
+    private bool FilterDocuments(DocumentModel document)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
@@ -179,6 +184,52 @@ public partial class TabContentDocuments
             };
 
             await DeleteDocumentLogic.Handle(input);
+            await LoadDocuments();
+        }
+        catch (Exception exception)
+        {
+            ExceptionBase = exception;
+        }
+        finally
+        {
+            IsLoadingBase = false;
+        }
+    }
+
+    private async Task ShowDialogDeleteSelectedDocuments()
+    {
+        if (_selectedDocuments.Count == 0)
+        {
+            return;
+        }
+
+        var entityDisplayText = _selectedDocuments.Count is 1 ? DomainDisplayTextFor.Document : DomainDisplayTextFor.Documents;
+        var dialogResult = await DialogService.ShowMessageBoxAsync(
+          $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.Documents}",
+          $"Are you sure you want to delete the selected {_selectedDocuments.Count} {entityDisplayText}?",
+          yesText: UIDisplayTextFor.Yes,
+          noText: UIDisplayTextFor.No,
+          options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
+
+        if (dialogResult is true)
+        {
+            await DeleteDocuments(_selectedDocuments.Select(x => x.Id));
+        }
+    }
+
+    private async Task DeleteDocuments(IEnumerable<Guid> documentIds)
+    {
+        try
+        {
+            IsLoadingBase = true;
+
+            var input = new DeleteDocumentsInput
+            {
+                DocumentIds = documentIds
+            };
+
+            await DeleteDocumentsLogic.Handle(input);
+            Snackbar.AddSuccess($"{documentIds.Count()} {DomainDisplayTextFor.Documents} deleted successfully.");
             await LoadDocuments();
         }
         catch (Exception exception)

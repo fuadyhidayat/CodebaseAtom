@@ -11,11 +11,22 @@
                 <TextFieldSearch @bind-Value="_searchKeyword" />
             }
             <MudSpacer />
-            <ButtonAdd EntityType="@DomainDisplayTextFor.Document" OnClick="ShowDialogAddDocument" />
+            <MudStack Row="true" Spacing="1">
+                @if (_selectedDocuments.Any())
+                {
+                    <ButtonDelete EntityType="@DomainDisplayTextFor.Documents" OnClick="ShowDialogDeleteSelectedDocuments" />
+                }
+                <ButtonAdd EntityType="@DomainDisplayTextFor.Document" OnClick="ShowDialogAddDocument" />
+            </MudStack>
         </MudStack>
         @if (_documents.Any())
         {
-            <TableDefault Items="_documents" Loading="IsLoadingBase" Filter="FilterItems">
+            <TableDefault Items="_documents"
+                          Loading="IsLoadingBase"
+                          Filter="FilterDocuments"
+                          MultiSelection="true"
+                          SelectOnRowClick="false"
+                          @bind-SelectedItems="_selectedDocuments">
                 <HeaderContent>
                     <MudTh>
                         <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
