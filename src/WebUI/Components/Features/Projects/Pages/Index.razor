@@ -13,7 +13,10 @@
         <MudStack Row="true"
                   Justify="Justify.SpaceBetween"
                   AlignItems="AlignItems.Center">
-            <TextFieldSearch @bind-Value="_searchKeyword" />
+            @if (_projects.Any())
+            {
+                <TextFieldSearch @bind-Value="_searchKeyword" />
+            }
             <MudSpacer />
             <AuthorizeView Roles="@RoleNameFor.Administrator">
                 <Authorized>
@@ -21,41 +24,50 @@
                 </Authorized>
             </AuthorizeView>
         </MudStack>
-        <TableDefault Items="_projects"
-                      Loading="IsLoadingBase"
-                      Filter="FilterProjects">
-            <HeaderContent>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
-                        @DomainDisplayTextFor.Title
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Description)">
-                        @DomainDisplayTextFor.Description
-                    </MudTableSortLabel>
-                </MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="@DomainDisplayTextFor.Title">
-                    <MudLink Href="@ProjectsRouteFor.ProjectDetails(context.Id)">
-                        <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
-                    </MudLink>
-                </MudTd>
-                <MudTd DataLabel="@DomainDisplayTextFor.Description">
-                    <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
-                </MudTd>
-            </RowTemplate>
-            <NoRecordsContent>
-                <MudPaper Elevation="0" Class="pa-5">
-                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
-                        There are no Projects matching the selected filters. Please adjust your search criteria and try again.
-                    </MudAlert>
-                </MudPaper>
-            </NoRecordsContent>
-            <PagerContent>
-                <MudTablePager />
-            </PagerContent>
-        </TableDefault>
+        @if (_projects.Any())
+        {
+            <TableDefault Items="_projects"
+                          Loading="IsLoadingBase"
+                          Filter="FilterProjects">
+                <HeaderContent>
+                    <MudTh>
+                        <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
+                            @DomainDisplayTextFor.Title
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh>
+                        <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Description)">
+                            @DomainDisplayTextFor.Description
+                        </MudTableSortLabel>
+                    </MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="@DomainDisplayTextFor.Title">
+                        <MudLink Href="@ProjectsRouteFor.ProjectDetails(context.Id)">
+                            <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
+                        </MudLink>
+                    </MudTd>
+                    <MudTd DataLabel="@DomainDisplayTextFor.Description">
+                        <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
+                    </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudPaper Elevation="0" Class="pa-5">
+                        <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
+                            There are no Projects matching the selected filters. Please adjust your search criteria and try again.
+                        </MudAlert>
+                    </MudPaper>
+                </NoRecordsContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </TableDefault>
+        }
+        else
+        {
+            <MudAlert>
+                There are no @DomainDisplayTextFor.Projects yet.
+            </MudAlert>
+        }
     </MudStack>
 }
