@@ -34,9 +34,9 @@ public partial class Index
         {
             IsLoadingBase = true;
 
-            var output = await GetProjectsLogic.Handle(new GetProjectsInput());
+            var output = await GetProjectsLogic.Handle();
 
-            _items = output.Items.Select(item => new ProjectModel
+            _items = output.Projects.Select(item => new ProjectModel
             {
                 Id = item.Id,
                 Title = item.Title,

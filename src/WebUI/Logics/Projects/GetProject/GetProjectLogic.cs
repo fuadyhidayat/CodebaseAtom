@@ -13,7 +13,7 @@ public sealed class GetProjectLogic(
 
         var item = await databaseContext.Projects
             .AsNoTracking()
-            .Where(project => project.Id == input.Id)
+            .Where(project => project.Id == input.ProjectId)
             .Select(project => new ProjectDto
             {
                 Id = project.Id,
@@ -25,7 +25,7 @@ public sealed class GetProjectLogic(
                 ModifiedBy = project.ModifiedBy
             })
             .SingleOrDefaultAsync(cancellationToken)
-            ?? throw new EntityNotFoundException(DomainDisplayTextFor.Project, DomainDisplayTextFor.Id, input.Id);
+            ?? throw new EntityNotFoundException(DomainDisplayTextFor.Project, DomainDisplayTextFor.Id, input.ProjectId);
 
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -59,6 +59,6 @@ public sealed class GetProjectLogic(
             }
         }
 
-        return new GetProjectOutput { Item = item };
+        return new GetProjectOutput { Project = item };
     }
 }

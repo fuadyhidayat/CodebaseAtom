@@ -19,6 +19,6 @@ public sealed class CreateWorkItemLogic(IDbContextFactory<DatabaseContext> datab
         _ = await databaseContext.WorkItems.AddAsync(workItem, cancellationToken);
         _ = await databaseContext.SaveChangesAsync(cancellationToken);
 
-        return new CreateWorkItemOutput { Id = workItem.Id };
+        return new CreateWorkItemOutput { WorkItemId = workItem.Id };
     }
 }

@@ -53,7 +53,7 @@ public partial class TabContentWorkItems
                 ProjectId = ProjectId
             });
 
-            _items = output.Items.Select(item => new WorkItemModel
+            _items = output.WorkItems.Select(item => new WorkItemModel
             {
                 Id = item.Id,
                 Title = item.Title,

@@ -2,7 +2,7 @@ namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.GetProjects;
 
 public sealed class GetProjectsLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
-    public async Task<GetProjectsOutput> Handle(GetProjectsInput input, CancellationToken cancellationToken = default)
+    public async Task<GetProjectsOutput> Handle(CancellationToken cancellationToken = default)
     {
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -16,13 +16,8 @@ public sealed class GetProjectsLogic(IDbContextFactory<DatabaseContext> database
                 Description = project.Description
             });
 
-        if (input.MaxItems.HasValue)
-        {
-            query = query.Take(input.MaxItems.Value);
-        }
-
         var items = await query.ToListAsync(cancellationToken);
 
-        return new GetProjectsOutput { Items = items };
+        return new GetProjectsOutput { Projects = items };
     }
 }

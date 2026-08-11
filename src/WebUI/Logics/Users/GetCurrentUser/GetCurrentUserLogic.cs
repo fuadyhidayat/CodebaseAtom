@@ -27,6 +27,6 @@ public sealed class GetCurrentUserLogic(IServiceScopeFactory serviceScopeFactory
             Roles = roles.AsReadOnly()
         };
 
-        return new GetCurrentUserOutput { Item = item };
+        return new GetCurrentUserOutput { User = item };
     }
 }

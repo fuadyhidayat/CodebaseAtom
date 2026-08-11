@@ -2,7 +2,7 @@ namespace Vioren.CodebaseAtom.WebUI.Logics.Statistics.GetStatistic;
 
 public sealed class GetStatisticLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
 {
-    public async Task<GetStatisticOutput> Handle(GetStatisticInput input, CancellationToken cancellationToken = default)
+    public async Task<GetStatisticOutput> Handle(CancellationToken cancellationToken = default)
     {
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -15,11 +15,6 @@ public sealed class GetStatisticLogic(IDbContextFactory<DatabaseContext> databas
                DocumentsCount = project.Documents.Count,
                WorkItemsCount = project.WorkItems.Count
            });
-
-        if (input.MaxItems.HasValue)
-        {
-            query = query.Take(input.MaxItems.Value);
-        }
 
         var projects = await query.ToListAsync(cancellationToken);
 

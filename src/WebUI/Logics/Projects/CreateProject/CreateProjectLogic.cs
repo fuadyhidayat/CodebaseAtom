@@ -24,6 +24,6 @@ public sealed class CreateProjectLogic(IDbContextFactory<DatabaseContext> databa
         _ = await databaseContext.Projects.AddAsync(project, cancellationToken);
         _ = await databaseContext.SaveChangesAsync(cancellationToken);
 
-        return new CreateProjectOutput { Id = project.Id };
+        return new CreateProjectOutput { ProjectId = project.Id };
     }
 }

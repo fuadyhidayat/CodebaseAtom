@@ -44,7 +44,7 @@ public partial class TabContentDocuments
                 ProjectId = ProjectId
             });
 
-            _items = output.Items.Select(item => new DocumentModel
+            _items = output.Documents.Select(item => new DocumentModel
             {
                 Id = item.Id,
                 Title = item.Title,
@@ -112,9 +112,9 @@ public partial class TabContentDocuments
 
             await JsRuntime.InvokeVoidAsync(
                 "downloadFileFromStream",
-                output.Item.FileName,
-                output.Item.FileContentType,
-                output.Item.FileContent.ToArray()
+                output.Document.FileName,
+                output.Document.FileContentType,
+                output.Document.FileContent.ToArray()
             );
         }
         catch (Exception exception)

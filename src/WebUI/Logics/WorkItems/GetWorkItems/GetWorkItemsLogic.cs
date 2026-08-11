@@ -19,6 +19,6 @@ public sealed class GetWorkItemsLogic(IDbContextFactory<DatabaseContext> databas
             })
             .ToListAsync(cancellationToken);
 
-        return new GetWorkItemsOutput { Items = items };
+        return new GetWorkItemsOutput { WorkItems = items };
     }
 }

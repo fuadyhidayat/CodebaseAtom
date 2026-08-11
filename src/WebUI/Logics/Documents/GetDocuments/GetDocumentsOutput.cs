@@ -2,5 +2,5 @@ namespace Vioren.CodebaseAtom.WebUI.Logics.Documents.GetDocuments;
 
 public sealed record GetDocumentsOutput
 {
-    public required IReadOnlyList<DocumentDto> Items { get; init; }
+    public required IReadOnlyList<DocumentDto> Documents { get; init; }
 }

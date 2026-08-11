@@ -42,24 +42,24 @@ public partial class Details
 
             var output = await GetProjectLogic.Handle(new GetProjectInput
             {
-                Id = ProjectId
+                ProjectId = ProjectId
             });
 
             _item = new ProjectModel
             {
-                Id = output.Item.Id,
-                Title = output.Item.Title,
-                Description = output.Item.Description,
-                CreatedAt = output.Item.CreatedAt,
-                CreatedBy = output.Item.CreatedBy,
-                CreatedByUsername = output.Item.CreatedByUsername,
-                CreatedByEmail = output.Item.CreatedByEmail,
-                CreatedByDisplayName = output.Item.CreatedByDisplayName,
-                ModifiedAt = output.Item.ModifiedAt,
-                ModifiedBy = output.Item.ModifiedBy,
-                ModifiedByUsername = output.Item.ModifiedByUsername,
-                ModifiedByEmail = output.Item.ModifiedByEmail,
-                ModifiedByDisplayName = output.Item.ModifiedByDisplayName
+                Id = output.Project.Id,
+                Title = output.Project.Title,
+                Description = output.Project.Description,
+                CreatedAt = output.Project.CreatedAt,
+                CreatedBy = output.Project.CreatedBy,
+                CreatedByUsername = output.Project.CreatedByUsername,
+                CreatedByEmail = output.Project.CreatedByEmail,
+                CreatedByDisplayName = output.Project.CreatedByDisplayName,
+                ModifiedAt = output.Project.ModifiedAt,
+                ModifiedBy = output.Project.ModifiedBy,
+                ModifiedByUsername = output.Project.ModifiedByUsername,
+                ModifiedByEmail = output.Project.ModifiedByEmail,
+                ModifiedByDisplayName = output.Project.ModifiedByDisplayName
             };
         }
         catch (Exception exception)

@@ -34,7 +34,7 @@ public partial class Index
         try
         {
             var output = await GetCurrentUserLogic.Handle();
-            _user = output.Item;
+            _user = output.User;
         }
         catch (Exception exception)
         {

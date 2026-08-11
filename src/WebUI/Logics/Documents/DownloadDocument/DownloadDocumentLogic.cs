@@ -19,7 +19,7 @@ public sealed class DownloadDocumentLogic(
 
         return new DownloadDocumentOutput
         {
-            Item = new DocumentDto
+            Document = new DocumentDto
             {
                 FileName = document.FileName,
                 FileContentType = document.FileContentType,

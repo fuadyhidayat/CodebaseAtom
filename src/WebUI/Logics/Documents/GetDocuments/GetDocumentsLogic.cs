@@ -19,6 +19,6 @@ public sealed class GetDocumentsLogic(IDbContextFactory<DatabaseContext> databas
             })
             .ToListAsync(cancellationToken);
 
-        return new GetDocumentsOutput { Items = items };
+        return new GetDocumentsOutput { Documents = items };
     }
 }
