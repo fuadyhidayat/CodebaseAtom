@@ -5,6 +5,7 @@ public static class UIDisplayTextFor
     public const string Home = nameof(Home);
     public const string Index = nameof(Index);
     public const string About = nameof(About);
+    public const string Statistics = nameof(Statistics);
     public const string Details = nameof(Details);
     public const string Action = nameof(Action);
     public const string Login = nameof(Login);
@@ -17,26 +18,16 @@ public static class UIDisplayTextFor
     public const string Profile = "Profile";
     public const string MySession = "My Session";
 
-    public const string Statistics = nameof(Statistics);
-
     public const string Authorize = nameof(Authorize);
     public const string Authorized = nameof(Authorized);
     public const string Authorization = nameof(Authorization);
-
     public const string Role = nameof(Role);
     public const string Roles = nameof(Roles);
 
-    public const string Create = nameof(Create);
-    public const string Created = nameof(Created);
-    public const string CreatedBy = $"{Created} By";
-    public const string Modify = nameof(Modify);
-    public const string Modified = nameof(Modified);
-    public const string ModifiedBy = $"{Modified} By";
-
-    public const string Retrieve = nameof(Retrieve);
-    public const string Retrieved = nameof(Retrieved);
     public const string Add = nameof(Add);
     public const string Added = nameof(Added);
+    public const string Create = nameof(Create);
+    public const string Created = nameof(Created);
     public const string Register = nameof(Register);
     public const string Registered = nameof(Registered);
     public const string Change = nameof(Change);
@@ -113,5 +104,9 @@ public static class UIDisplayTextFor
     public const string Denied = nameof(Denied);
     public const string AccessDenied = $"{Access} {Denied}";
 
+    public const string CreatedBy = $"{Created} By";
+    public const string UpdatedBy = $"{Updated} By";
+
     public const string Show = nameof(Show);
+    public const string Display = nameof(Display);
 }
