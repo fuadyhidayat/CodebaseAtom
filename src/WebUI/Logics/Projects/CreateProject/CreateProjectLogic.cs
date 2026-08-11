@@ -1,9 +1,18 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
-public sealed class CreateProjectLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
+public sealed class CreateProjectLogic(
+    IDbContextFactory<DatabaseContext> databaseContextFactory,
+    IValidator<CreateProjectInput> validator)
 {
     public async Task<CreateProjectOutput> Handle(CreateProjectInput input, CancellationToken cancellationToken = default)
     {
+        var validationResult = await validator.ValidateAsync(input, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            throw new AggregateException(validationResult.Errors.Select(e => new ValidationException(e.ErrorMessage)));
+        }
+
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
         var anyProjectWithTheSameTitle = await databaseContext.Projects

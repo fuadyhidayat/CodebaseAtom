@@ -3,29 +3,32 @@
 <MudDialog>
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
+            <LoadingLinear IsVisible="IsLoadingBase" />
             <ErrorViewer Exception="ExceptionBase" />
-            <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
-                <DataAnnotationsValidator />
+            <MudForm @ref="_form"
+                     Model="@_model"
+                     Validation="@_validator.ValidateValue"
+                     ValidationDelay="200">
                 <GridDefault>
                     <MudItem xs="12">
                         <TextFieldDefault Label="@DomainDisplayTextFor.Title"
                                           Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title}")"
-                                          @bind-Value="_input.Title"
-                                          For="@(() => _input.Title)" />
+                                          @bind-Value="_model.Title"
+                                          For="@(() => _model.Title)" />
                     </MudItem>
                     <MudItem xs="12">
                         <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
                                             Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description}")"
                                             Lines="3"
                                             MaxLines="5"
-                                            @bind-Value="_input.Description"
-                                            For="@(() => _input.Description)" />
+                                            @bind-Value="_model.Description"
+                                            For="@(() => _model.Description)" />
                     </MudItem>
                 </GridDefault>
                 <BottomButtonPanel>
-                    <ButtonSave ButtonType="ButtonType.Submit" />
+                    <ButtonSave OnClick="HandleSubmit" />
                 </BottomButtonPanel>
-            </EditForm>
+            </MudForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

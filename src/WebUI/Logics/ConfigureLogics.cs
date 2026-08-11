@@ -1,3 +1,4 @@
+using System.Reflection;
 using Vioren.CodebaseAtom.WebUI.Logics.Calculator.Addition;
 using Vioren.CodebaseAtom.WebUI.Logics.Calculator.Subtraction;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
@@ -30,6 +31,8 @@ public static class ConfigureLogics
 {
     public static WebApplicationBuilder AddLogics(this WebApplicationBuilder builder)
     {
+        _ = builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
         _ = builder.Services.AddScoped<GetProjectsLogic>();
         _ = builder.Services.AddScoped<GetProjectLogic>();
         _ = builder.Services.AddScoped<CreateProjectLogic>();
