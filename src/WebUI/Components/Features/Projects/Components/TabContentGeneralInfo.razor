@@ -24,14 +24,14 @@
         </FieldDefault>
     </MudItem>
     <MudItem xs="12" sm="6">
-        <FieldDefault Label="@DomainDisplayTextFor.ModifiedAt">
-            @Project.ModifiedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
+        <FieldDefault Label="@DomainDisplayTextFor.UpdatedAt">
+            @Project.UpdatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
         </FieldDefault>
     </MudItem>
     <MudItem xs="12" sm="6">
-        <FieldDefault Label="@DomainDisplayTextFor.ModifiedBy">
-            <MudTooltip Text="@($"{Project.ModifiedByUsername} ({Project.ModifiedByEmail})")">
-                @Project.ModifiedByDisplayName.ToDisplayText()
+        <FieldDefault Label="@DomainDisplayTextFor.UpdatedBy">
+            <MudTooltip Text="@($"{Project.UpdatedByUsername} ({Project.UpdatedByEmail})")">
+                @Project.UpdatedByDisplayName.ToDisplayText()
             </MudTooltip>
         </FieldDefault>
     </MudItem>

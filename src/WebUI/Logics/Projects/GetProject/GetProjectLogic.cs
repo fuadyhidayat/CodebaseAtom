@@ -21,8 +21,8 @@ public sealed class GetProjectLogic(
                 Description = project.Description,
                 CreatedAt = project.CreatedAt,
                 CreatedBy = project.CreatedBy,
-                ModifiedAt = project.UpdatedAt,
-                ModifiedBy = project.UpdatedBy
+                UpdatedAt = project.UpdatedAt,
+                UpdatedBy = project.UpdatedBy
             })
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Project, DomainDisplayTextFor.Id, input.ProjectId);
@@ -38,24 +38,24 @@ public sealed class GetProjectLogic(
             item.CreatedByDisplayName = userCreatedBy.DisplayName;
         }
 
-        if (item.ModifiedBy.HasValue)
+        if (item.UpdatedBy.HasValue)
         {
-            if (item.ModifiedBy.Value != item.CreatedBy)
+            if (item.UpdatedBy.Value != item.CreatedBy)
             {
-                var userModifiedBy = await userManager.FindByIdAsync(item.ModifiedBy.Value.ToString());
+                var userUpdatedBy = await userManager.FindByIdAsync(item.UpdatedBy.Value.ToString());
 
-                if (userModifiedBy is not null)
+                if (userUpdatedBy is not null)
                 {
-                    item.ModifiedByUsername = userModifiedBy.UserName ?? string.Empty;
-                    item.ModifiedByEmail = userModifiedBy.Email ?? string.Empty;
-                    item.ModifiedByDisplayName = userModifiedBy.DisplayName;
+                    item.UpdatedByUsername = userUpdatedBy.UserName ?? string.Empty;
+                    item.UpdatedByEmail = userUpdatedBy.Email ?? string.Empty;
+                    item.UpdatedByDisplayName = userUpdatedBy.DisplayName;
                 }
             }
             else
             {
-                item.ModifiedByUsername = item.CreatedByUsername;
-                item.ModifiedByEmail = item.CreatedByEmail;
-                item.ModifiedByDisplayName = item.CreatedByDisplayName;
+                item.UpdatedByUsername = item.CreatedByUsername;
+                item.UpdatedByEmail = item.CreatedByEmail;
+                item.UpdatedByDisplayName = item.CreatedByDisplayName;
             }
         }
 

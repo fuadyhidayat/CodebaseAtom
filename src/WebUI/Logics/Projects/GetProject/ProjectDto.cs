@@ -10,9 +10,9 @@ public sealed record ProjectDto
     public string CreatedByUsername { get; set; } = string.Empty;
     public string CreatedByEmail { get; set; } = string.Empty;
     public string CreatedByDisplayName { get; set; } = string.Empty;
-    public required DateTimeOffset? ModifiedAt { get; init; }
-    public required Guid? ModifiedBy { get; init; }
-    public string? ModifiedByUsername { get; set; }
-    public string? ModifiedByEmail { get; set; }
-    public string? ModifiedByDisplayName { get; set; }
+    public required DateTimeOffset? UpdatedAt { get; init; }
+    public required Guid? UpdatedBy { get; init; }
+    public string? UpdatedByUsername { get; set; }
+    public string? UpdatedByEmail { get; set; }
+    public string? UpdatedByDisplayName { get; set; }
 }

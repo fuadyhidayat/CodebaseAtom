@@ -55,11 +55,11 @@ public partial class Details
                 CreatedByUsername = output.Project.CreatedByUsername,
                 CreatedByEmail = output.Project.CreatedByEmail,
                 CreatedByDisplayName = output.Project.CreatedByDisplayName,
-                ModifiedAt = output.Project.ModifiedAt,
-                ModifiedBy = output.Project.ModifiedBy,
-                ModifiedByUsername = output.Project.ModifiedByUsername,
-                ModifiedByEmail = output.Project.ModifiedByEmail,
-                ModifiedByDisplayName = output.Project.ModifiedByDisplayName
+                UpdatedAt = output.Project.UpdatedAt,
+                UpdatedBy = output.Project.UpdatedBy,
+                UpdatedByUsername = output.Project.UpdatedByUsername,
+                UpdatedByEmail = output.Project.UpdatedByEmail,
+                UpdatedByDisplayName = output.Project.UpdatedByDisplayName
             };
         }
         catch (Exception exception)
@@ -141,9 +141,9 @@ public sealed record ProjectModel
     public required string CreatedByUsername { get; init; }
     public required string CreatedByEmail { get; init; }
     public required string CreatedByDisplayName { get; init; }
-    public required DateTimeOffset? ModifiedAt { get; init; }
-    public required Guid? ModifiedBy { get; init; }
-    public required string? ModifiedByUsername { get; init; }
-    public required string? ModifiedByEmail { get; init; }
-    public required string? ModifiedByDisplayName { get; init; }
+    public required DateTimeOffset? UpdatedAt { get; init; }
+    public required Guid? UpdatedBy { get; init; }
+    public required string? UpdatedByUsername { get; init; }
+    public required string? UpdatedByEmail { get; init; }
+    public required string? UpdatedByDisplayName { get; init; }
 }

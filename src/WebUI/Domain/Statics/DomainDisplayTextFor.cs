@@ -9,8 +9,8 @@ public static class DomainDisplayTextFor
     public const string Id = "ID";
     public const string CreatedAt = "Created At";
     public const string CreatedBy = "Created By";
-    public const string ModifiedAt = "Modified At";
-    public const string ModifiedBy = "Modified By";
+    public const string UpdatedAt = "Updated At";
+    public const string UpdatedBy = "Updated By";
     public const string User = nameof(User);
     public const string UserId = $"{User} {Id}";
     public const string Username = nameof(Username);
