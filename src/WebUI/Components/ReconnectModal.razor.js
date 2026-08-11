@@ -8,55 +8,21 @@ retryButton.addEventListener("click", retry);
 const resumeButton = document.getElementById("components-resume-button");
 resumeButton.addEventListener("click", resume);
 
-// State class management
-const stateClasses = [
-    "components-reconnect-show",
-    "components-reconnect-retrying",
-    "components-reconnect-failed",
-    "components-reconnect-paused",
-    "components-reconnect-resume-failed"
-];
-
-function setModalState(state)
-{
-    // Remove all state classes
-    reconnectModal.classList.remove(...stateClasses);
-
-    // Add the new state class
-    if (state)
-    {
-        reconnectModal.classList.add(state);
-    }
-}
-
 function handleReconnectStateChanged(event)
 {
-    const state = event.detail.state;
-
-    if (state === "show")
+    if (event.detail.state === "show")
     {
-        setModalState("components-reconnect-show");
         reconnectModal.showModal();
     }
-    else if (state === "hide")
+    else if (event.detail.state === "hide")
     {
-        setModalState(null);
         reconnectModal.close();
     }
-    else if (state === "retrying")
+    else if (event.detail.state === "failed")
     {
-        setModalState("components-reconnect-retrying");
-    }
-    else if (state === "failed")
-    {
-        setModalState("components-reconnect-failed");
         document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
     }
-    else if (state === "paused")
-    {
-        setModalState("components-reconnect-paused");
-    }
-    else if (state === "rejected")
+    else if (event.detail.state === "rejected")
     {
         location.reload();
     }
@@ -106,16 +72,11 @@ async function resume()
 
         if (!successful)
         {
-            setModalState("components-reconnect-resume-failed");
+            location.reload();
         }
-        else
-        {
-            reconnectModal.close();
-        }
-    }
-    catch
+    } catch
     {
-        setModalState("components-reconnect-resume-failed");
+        reconnectModal.classList.replace("components-reconnect-paused", "components-reconnect-resume-failed");
     }
 }
 
