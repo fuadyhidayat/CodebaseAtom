@@ -15,7 +15,7 @@ public sealed class GetDocumentsLogic(IDbContextFactory<DatabaseContext> databas
                 Title = document.Title,
                 FileName = document.FileName,
                 FileSize = document.FileSize,
-                CreatedAt = document.Created
+                CreatedAt = document.CreatedAt
             })
             .ToListAsync(cancellationToken);
 

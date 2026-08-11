@@ -18,7 +18,7 @@ public sealed class AuditingSaveChangesInterceptor(CurrentUserService currentUse
         {
             if (entry.State is EntityState.Added)
             {
-                entry.Entity.Created = now;
+                entry.Entity.CreatedAt = now;
 
                 if (currentUser is not null)
                 {
@@ -27,11 +27,11 @@ public sealed class AuditingSaveChangesInterceptor(CurrentUserService currentUse
             }
             else if (entry.State is EntityState.Modified)
             {
-                entry.Entity.Modified = now;
+                entry.Entity.UpdatedAt = now;
 
                 if (currentUser is not null)
                 {
-                    entry.Entity.ModifiedBy = currentUser.UserId;
+                    entry.Entity.UpdatedBy = currentUser.UserId;
                 }
             }
         }

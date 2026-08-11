@@ -42,8 +42,8 @@ public static class DomainDisplayTextFor
     public const string Project = "Project";
     public const string ProjectDetails = "Project Details";
 
-    public const string WorkItem = "Task"; // Contoh bahwa istilah "WorkItem" disebut sebagai "Task" untuk tampilan pengguna.
-    public const string WorkItems = "Tasks"; // Contoh bahwa istilah "WorkItems" disebut sebagai "Tasks" untuk tampilan pengguna.
+    public const string WorkItem = "Task"; // Contoh bahwa entity "WorkItem" akan ditampilkan sebagai "Task".
+    public const string WorkItems = "Tasks"; // Contoh bahwa entity "WorkItems" ditampilkan sebagai "Tasks".
     public const string Deadline = "Deadline";
 
     public const string Documents = "Documents";

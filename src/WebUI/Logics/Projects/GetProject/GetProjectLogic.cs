@@ -19,10 +19,10 @@ public sealed class GetProjectLogic(
                 Id = project.Id,
                 Title = project.Title,
                 Description = project.Description,
-                CreatedAt = project.Created,
+                CreatedAt = project.CreatedAt,
                 CreatedBy = project.CreatedBy,
-                ModifiedAt = project.Modified,
-                ModifiedBy = project.ModifiedBy
+                ModifiedAt = project.UpdatedAt,
+                ModifiedBy = project.UpdatedBy
             })
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new EntityNotFoundException(DomainDisplayTextFor.Project, DomainDisplayTextFor.Id, input.ProjectId);
