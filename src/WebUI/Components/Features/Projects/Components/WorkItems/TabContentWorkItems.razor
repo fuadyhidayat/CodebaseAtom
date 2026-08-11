@@ -39,67 +39,78 @@
         {
             if (_isKanbanView)
             {
-                <MudDropContainer T="WorkItemModel"
-                                  @ref="_kanban"
-                                  Items="@FilteredItems"
-                                  Class="d-flex flex-row"
-                                  ItemsSelector="@((workItem, column) => workItem.Status.ToString() == column)"
-                                  ItemDropped="HandleItemDropped">
-                    <ChildContent>
-                        <GridDefault>
-                            @foreach (var column in Columns)
-                            {
-                                <MudItem xs="12" sm="4">
-                                    <MudPaper Outlined="true"
-                                              MinHeight="400px"
-                                              Class="d-flex flex-column px-3 mud-background-gray">
-                                        <MudToolBar Gutters="false" Class="mb-6">
-                                            <MudText Typo="Typo.h5" Class="my-auto">
-                                                @column.Name
-                                            </MudText>
-                                            <MudSpacer />
-                                            <MudBadge Color="Color.Primary"
-                                                      Overlap="true"
-                                                      Class="mr-2"
-                                                      Content="@FilteredItems.Count(x => x.Status == column)" />
-                                        </MudToolBar>
-                                        <MudDropZone T="WorkItemModel"
-                                                     Class="flex-grow-1"
-                                                     Identifier="@column.ToString()" />
-                                    </MudPaper>
-                                </MudItem>
-                            }
-                        </GridDefault>
-                    </ChildContent>
-                    <ItemRenderer>
-                        <MudPaper Outlined="true"
-                                  Class="mb-3 pa-3 mud-ripple"
-                                  Style="cursor: grab;">
-                            <MudText Typo="Typo.h5" Class="mb-4">
-                                <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
-                            </MudText>
-                            <MudText Typo="Typo.body2" Class="mud-text-secondary">
-                                <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
-                            </MudText>
-                            <MudDivider Class="my-2" />
-                            <MudStack Row="true"
-                                      Justify="Justify.SpaceBetween"
-                                      AlignItems="AlignItems.Center">
-                                <MudText Typo="Typo.body2" Class="mud-text-secondary">
-                                    @DomainDisplayTextFor.Deadline: @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                @if (FilteredItems.Any())
+                {
+                    <MudDropContainer T="WorkItemModel"
+                                      @ref="_kanban"
+                                      Items="@FilteredItems"
+                                      Class="d-flex flex-row"
+                                      ItemsSelector="@((workItem, column) => workItem.Status.ToString() == column)"
+                                      ItemDropped="HandleItemDropped">
+                        <ChildContent>
+                            <GridDefault>
+                                @foreach (var column in Columns)
+                                {
+                                    <MudItem xs="12" sm="4">
+                                        <MudPaper Outlined="true"
+                                                  MinHeight="400px"
+                                                  Class="d-flex flex-column px-3 mud-background-gray">
+                                            <MudToolBar Gutters="false" Class="mb-6">
+                                                <MudText Typo="Typo.h5" Class="my-auto">
+                                                    @column.Name
+                                                </MudText>
+                                                <MudSpacer />
+                                                <MudBadge Color="Color.Primary"
+                                                          Overlap="true"
+                                                          Class="mr-2"
+                                                          Content="@FilteredItems.Count(x => x.Status == column)" />
+                                            </MudToolBar>
+                                            <MudDropZone T="WorkItemModel"
+                                                         Class="flex-grow-1"
+                                                         Identifier="@column.ToString()" />
+                                        </MudPaper>
+                                    </MudItem>
+                                }
+                            </GridDefault>
+                        </ChildContent>
+                        <ItemRenderer>
+                            <MudPaper Outlined="true"
+                                      Class="mb-3 pa-3 mud-ripple"
+                                      Style="cursor: grab;">
+                                <MudText Typo="Typo.h5" Class="mb-4">
+                                    <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
                                 </MudText>
-                                <MudStack Row="true" Justify="Justify.FlexEnd">
-                                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                                                   Size="Size.Small"
-                                                   OnClick="@(() => ShowDialogEditWorkItem(context))" />
-                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                                   Size="Size.Small"
-                                                   OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                                <MudText Typo="Typo.body2" Class="mud-text-secondary">
+                                    <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
+                                </MudText>
+                                <MudDivider Class="my-2" />
+                                <MudStack Row="true"
+                                          Justify="Justify.SpaceBetween"
+                                          AlignItems="AlignItems.Center">
+                                    <MudText Typo="Typo.body2" Class="mud-text-secondary">
+                                        @DomainDisplayTextFor.Deadline: @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                                    </MudText>
+                                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                                        <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                                       Size="Size.Small"
+                                                       OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                       Size="Size.Small"
+                                                       OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                                    </MudStack>
                                 </MudStack>
-                            </MudStack>
-                        </MudPaper>
-                    </ItemRenderer>
-                </MudDropContainer>
+                            </MudPaper>
+                        </ItemRenderer>
+                    </MudDropContainer>
+                }
+                else
+                {
+                    <MudAlert Variant="Variant.Filled"
+                              Severity="Severity.Warning"
+                              Class="ma-5">
+                        There are no @DomainDisplayTextFor.WorkItems matching the selected filters. Please adjust your search criteria and try again.
+                    </MudAlert>
+                }
             }
             else
             {
@@ -152,6 +163,16 @@
                             <IconButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
                         </MudTd>
                     </RowTemplate>
+                    <NoRecordsContent>
+                        <MudAlert Variant="Variant.Filled"
+                                  Severity="Severity.Warning"
+                                  Class="ma-5">
+                            There are no @DomainDisplayTextFor.WorkItems matching the selected filters. Please adjust your search criteria and try again.
+                        </MudAlert>
+                    </NoRecordsContent>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
                 </TableDefault>
             }
         }

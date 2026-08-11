@@ -52,11 +52,11 @@
                     </MudTd>
                 </RowTemplate>
                 <NoRecordsContent>
-                    <MudPaper Elevation="0" Class="pa-5">
-                        <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
-                            There are no Projects matching the selected filters. Please adjust your search criteria and try again.
-                        </MudAlert>
-                    </MudPaper>
+                    <MudAlert Variant="Variant.Filled"
+                              Severity="Severity.Warning"
+                              Class="ma-5">
+                        There are no @DomainDisplayTextFor.Projects matching the selected filters. Please adjust your search criteria and try again.
+                    </MudAlert>
                 </NoRecordsContent>
                 <PagerContent>
                     <MudTablePager />
