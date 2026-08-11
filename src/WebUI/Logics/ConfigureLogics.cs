@@ -1,4 +1,5 @@
 using Vioren.CodebaseAtom.WebUI.Logics.Calculator.Addition;
+using Vioren.CodebaseAtom.WebUI.Logics.Calculator.Subtraction;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.DeleteDocument;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.DeleteDocuments;
@@ -58,6 +59,7 @@ public static class ConfigureLogics
         _ = builder.Services.AddScoped<GetStatisticLogic>();
 
         _ = builder.Services.AddScoped<AdditionLogic>();
+        _ = builder.Services.AddScoped<SubtractionLogic>();
 
         return builder;
     }

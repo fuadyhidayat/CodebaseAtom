@@ -1,0 +1,29 @@
+@inherits AppComponentBase
+
+<PageSection SectionTitle="Subtraction">
+    <ErrorViewer Exception="ExceptionBase" />
+    <LoadingLinear IsVisible="IsLoadingBase" />
+    <EditForm Model="_subtractionModel" OnValidSubmit="OnSubtractionValidSubmitAsync">
+        <DataAnnotationsValidator />
+        <GridDefault>
+            <MudItem xs="12">
+                <NumericFieldDefault Label="Number 1"
+                                     Placeholder="Enter the first number"
+                                     @bind-Value="_subtractionModel.Number1"
+                                     For="@(() => _subtractionModel.Number1)" />
+            </MudItem>
+            <MudItem xs="12">
+                <NumericFieldDefault Label="Number 2"
+                                     Placeholder="Enter the second number"
+                                     @bind-Value="_subtractionModel.Number2"
+                                     For="@(() => _subtractionModel.Number2)" />
+            </MudItem>
+        </GridDefault>
+        <BottomButtonPanel>
+            <ButtonSubmit ButtonType="ButtonType.Submit" />
+        </BottomButtonPanel>
+    </EditForm>
+    <MudAlert Severity="Severity.Info">
+        Result: @_subtractionResult
+    </MudAlert>
+</PageSection>
