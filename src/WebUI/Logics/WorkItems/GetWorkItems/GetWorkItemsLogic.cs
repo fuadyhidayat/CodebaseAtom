@@ -6,7 +6,7 @@ public sealed class GetWorkItemsLogic(IDbContextFactory<DatabaseContext> databas
     {
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var items = await databaseContext.WorkItems
+        var workItems = await databaseContext.WorkItems
             .AsNoTracking()
             .Where(workItem => workItem.ProjectId == input.ProjectId)
             .Select(workItem => new WorkItemDto
@@ -19,6 +19,6 @@ public sealed class GetWorkItemsLogic(IDbContextFactory<DatabaseContext> databas
             })
             .ToListAsync(cancellationToken);
 
-        return new GetWorkItemsOutput { WorkItems = items };
+        return new GetWorkItemsOutput { WorkItems = workItems };
     }
 }

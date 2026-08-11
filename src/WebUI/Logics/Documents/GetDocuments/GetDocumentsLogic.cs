@@ -6,7 +6,7 @@ public sealed class GetDocumentsLogic(IDbContextFactory<DatabaseContext> databas
     {
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var items = await databaseContext.Documents
+        var documents = await databaseContext.Documents
             .AsNoTracking()
             .Where(document => document.ProjectId == input.ProjectId)
             .Select(document => new DocumentDto
@@ -19,6 +19,6 @@ public sealed class GetDocumentsLogic(IDbContextFactory<DatabaseContext> databas
             })
             .ToListAsync(cancellationToken);
 
-        return new GetDocumentsOutput { Documents = items };
+        return new GetDocumentsOutput { Documents = documents };
     }
 }

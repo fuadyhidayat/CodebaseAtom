@@ -6,7 +6,8 @@
 <PageHeader Title="@DomainDisplayTextFor.Projects" />
 <ErrorViewer Exception="ExceptionBase" />
 <LoadingLinear IsVisible="IsLoadingBase" />
-@if (_items is not null)
+
+@if (_projects is not null)
 {
     <MudStack Spacing="4">
         <MudStack Row="true"
@@ -20,7 +21,7 @@
                 </Authorized>
             </AuthorizeView>
         </MudStack>
-        <TableDefault Items="_items" Loading="IsLoadingBase" Filter="FilterItems">
+        <TableDefault Items="_projects" Loading="IsLoadingBase" Filter="FilterItems">
             <HeaderContent>
                 <MudTh>
                     <MudTableSortLabel SortBy="new Func<ProjectModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">

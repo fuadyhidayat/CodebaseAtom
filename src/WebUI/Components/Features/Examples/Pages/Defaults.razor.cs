@@ -28,24 +28,24 @@ public partial class Defaults
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(ExamplesDisplayTextFor.Defaults));
     }
 
-    private bool FilterItems(ProductItem item)
+    private bool FilterItems(ProductItem product)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
             return true;
         }
 
-        if (item.Name.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (product.Name.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.UnitPrice.ToDisplayText(CurrencyFormatFor.NoDecimal).Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (product.UnitPriceDisplayText.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.Stock.ToString(CultureInfo.InvariantCulture).Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (product.StockDisplayText.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
@@ -58,5 +58,8 @@ public partial class Defaults
         public required string Name { get; init; }
         public required decimal UnitPrice { get; init; }
         public required int Stock { get; init; }
+
+        public string UnitPriceDisplayText => UnitPrice.ToDisplayText(CurrencyFormatFor.NoDecimal);
+        public string StockDisplayText => Stock.ToString(CultureInfo.InvariantCulture);
     }
 }

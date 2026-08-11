@@ -19,7 +19,7 @@ public partial class Index
     protected override async Task OnInitializedAsync()
     {
         LoadBreadcrumbs();
-        await LoadItem();
+        await LoadUser();
     }
 
     protected override void LoadBreadcrumbs()
@@ -29,7 +29,7 @@ public partial class Index
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(UIDisplayTextFor.Profile));
     }
 
-    private async Task LoadItem()
+    private async Task LoadUser()
     {
         try
         {
@@ -62,7 +62,7 @@ public partial class Index
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItem();
+            await LoadUser();
         }
     }
 

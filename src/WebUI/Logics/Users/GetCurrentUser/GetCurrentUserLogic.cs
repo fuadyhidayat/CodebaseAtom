@@ -18,7 +18,7 @@ public sealed class GetCurrentUserLogic(IServiceScopeFactory serviceScopeFactory
 
         var roles = await userManager.GetRolesAsync(applicationUser);
 
-        var item = new UserDto
+        var user = new UserDto
         {
             Id = applicationUser.Id,
             Username = applicationUser.UserName ?? string.Empty,
@@ -27,6 +27,6 @@ public sealed class GetCurrentUserLogic(IServiceScopeFactory serviceScopeFactory
             Roles = roles.AsReadOnly()
         };
 
-        return new GetCurrentUserOutput { User = item };
+        return new GetCurrentUserOutput { User = user };
     }
 }

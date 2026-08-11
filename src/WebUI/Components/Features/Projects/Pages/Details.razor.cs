@@ -18,11 +18,11 @@ public partial class Details
     [Parameter]
     public Guid ProjectId { get; init; }
 
-    private ProjectModel _item = default!;
+    private ProjectModel _project = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadItem();
+        await LoadProject();
         LoadBreadcrumbs();
     }
 
@@ -34,7 +34,7 @@ public partial class Details
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(UIDisplayTextFor.Details));
     }
 
-    private async Task LoadItem()
+    private async Task LoadProject()
     {
         try
         {
@@ -45,7 +45,7 @@ public partial class Details
                 ProjectId = ProjectId
             });
 
-            _item = new ProjectModel
+            _project = new ProjectModel
             {
                 Id = output.Project.Id,
                 Title = output.Project.Title,
@@ -77,8 +77,8 @@ public partial class Details
         var model = new EditProjectModel
         {
             ProjectId = ProjectId,
-            Title = _item.Title,
-            Description = _item.Description
+            Title = _project.Title,
+            Description = _project.Description
         };
 
         var parameters = new DialogParameters
@@ -91,7 +91,7 @@ public partial class Details
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItem();
+            await LoadProject();
         }
     }
 
@@ -99,7 +99,7 @@ public partial class Details
     {
         var dialogResult = await DialogService.ShowMessageBoxAsync(
           $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.Project}",
-          $"Are you sure you want to {UIDisplayTextFor.Delete.ToLowerInvariant()} the {DomainDisplayTextFor.Project} '{_item.Title}' along with all its associated {DomainDisplayTextFor.WorkItems} and {DomainDisplayTextFor.Documents}?",
+          $"Are you sure you want to {UIDisplayTextFor.Delete.ToLowerInvariant()} the {DomainDisplayTextFor.Project} '{_project.Title}' along with all its associated {DomainDisplayTextFor.WorkItems} and {DomainDisplayTextFor.Documents}?",
           yesText: UIDisplayTextFor.Yes,
           noText: UIDisplayTextFor.No,
           options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
@@ -112,7 +112,7 @@ public partial class Details
 
                 var input = new DeleteProjectInput
                 {
-                    ProjectId = _item.Id
+                    ProjectId = _project.Id
                 };
 
                 await DeleteProjectLogic.Handle(input);

@@ -7,7 +7,7 @@
                      Items="Projects"
                      SeriesType="SeriesType.Donut"
                      Name="Documents Count"
-                     XValue="@(item => item.Title)"
-                     YAggregate="@(items => items.Sum(item => item.DocumentsCount))"
+                     XValue="@(project => project.Title)"
+                     YAggregate="@(projects => projects.Sum(project => project.DocumentsCount))"
                      OrderByDescending="dataPoint => dataPoint.Y" />
 </ApexChart>

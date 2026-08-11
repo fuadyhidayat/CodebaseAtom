@@ -7,12 +7,12 @@ public partial class Index
     [Inject]
     public required GetStatisticLogic GetStatisticLogic { get; set; }
 
-    private GetStatisticOutput _item = default!;
+    private GetStatisticOutput _statistic = default!;
 
     protected override async Task OnInitializedAsync()
     {
         LoadBreadcrumbs();
-        await LoadItems();
+        await LoadStatistic();
     }
 
     protected override void LoadBreadcrumbs()
@@ -21,13 +21,13 @@ public partial class Index
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(UIDisplayTextFor.Home));
     }
 
-    private async Task LoadItems()
+    private async Task LoadStatistic()
     {
         try
         {
             IsLoadingBase = true;
 
-            _item = await GetStatisticLogic.Handle();
+            _statistic = await GetStatisticLogic.Handle();
         }
         catch (Exception exception)
         {

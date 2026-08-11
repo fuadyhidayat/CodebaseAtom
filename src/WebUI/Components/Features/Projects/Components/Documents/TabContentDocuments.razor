@@ -1,78 +1,79 @@
 @inherits AppComponentBase
 
-<MudStack Spacing="5">
-    <MudStack Row="true"
-              Justify="Justify.SpaceBetween"
-              AlignItems="AlignItems.Center">
-        <TextFieldSearch @bind-Value="_searchKeyword" />
-        <MudSpacer />
-        <ButtonAdd EntityType="@DomainDisplayTextFor.Document" OnClick="ShowDialogAddDocument" />
+@if (_documents is not null)
+{
+    <MudStack Spacing="5">
+        <MudStack Row="true"
+                  Justify="Justify.SpaceBetween"
+                  AlignItems="AlignItems.Center">
+            <TextFieldSearch @bind-Value="_searchKeyword" />
+            <MudSpacer />
+            <ButtonAdd EntityType="@DomainDisplayTextFor.Document" OnClick="ShowDialogAddDocument" />
+        </MudStack>
+        @if (_documents.Any())
+        {
+            <TableDefault Items="_documents" Loading="IsLoadingBase" Filter="FilterItems">
+                <HeaderContent>
+                    <MudTh>
+                        <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
+                            @DomainDisplayTextFor.Title
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh>
+                        <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.FileName)">
+                            @DomainDisplayTextFor.FileName
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Class="text-center">
+                        <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.FileSize)">
+                            @DomainDisplayTextFor.FileSize
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Class="text-center">
+                        <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.CreatedAt)">
+                            @DomainDisplayTextFor.CreatedAt
+                        </MudTableSortLabel>
+                    </MudTh>
+                    <MudTh Class="text-center">
+                        @UIDisplayTextFor.Action
+                    </MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="@DomainDisplayTextFor.Title">
+                        <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
+                    </MudTd>
+                    <MudTd DataLabel="@DomainDisplayTextFor.FileName">
+                        <MudHighlighter Text="@context.FileName" HighlightedText="@_searchKeyword" />
+                    </MudTd>
+                    <MudTd DataLabel="@DomainDisplayTextFor.FileSize" Class="text-center">
+                        @context.FileSize.ToReadableFileSize()
+                    </MudTd>
+                    <MudTd DataLabel="@DomainDisplayTextFor.CreatedAt" Class="text-center">
+                        @context.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
+                    </MudTd>
+                    <MudTd DataLabel="@UIDisplayTextFor.Action" Class="text-center">
+                        <IconButtonDownload OnClick="@(() => HandleDownloadDocument(context))" />
+                        <IconButtonEdit OnClick="@(() => ShowDialogEditDocument(context))" />
+                        <IconButtonDelete OnClick="@(() => ShowDialogDeleteDocument(context))" />
+                    </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudPaper Elevation="0" Class="pa-5">
+                        <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
+                            There are no @DomainDisplayTextFor.Documents matching the selected filters. Please adjust your search criteria and try again.
+                        </MudAlert>
+                    </MudPaper>
+                </NoRecordsContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </TableDefault>
+        }
+        else
+        {
+            <MudAlert>
+                This @DomainDisplayTextFor.Project has no @DomainDisplayTextFor.Documents yet.
+            </MudAlert>
+        }
     </MudStack>
-
-    @if (_items.Any())
-    {
-        <TableDefault Items="_items" Loading="IsLoadingBase" Filter="FilterItems">
-            <HeaderContent>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.Title)" InitialDirection="SortDirection.Ascending">
-                        @DomainDisplayTextFor.Title
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
-                    <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.FileName)">
-                        @DomainDisplayTextFor.FileName
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh Class="text-center">
-                    <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.FileSize)">
-                        @DomainDisplayTextFor.FileSize
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh Class="text-center">
-                    <MudTableSortLabel SortBy="new Func<DocumentModel, object>(x => x.CreatedAt)">
-                        @DomainDisplayTextFor.CreatedAt
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh Class="text-center">
-                    @UIDisplayTextFor.Action
-                </MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="@DomainDisplayTextFor.Title">
-                    <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
-                </MudTd>
-                <MudTd DataLabel="@DomainDisplayTextFor.FileName">
-                    <MudHighlighter Text="@context.FileName" HighlightedText="@_searchKeyword" />
-                </MudTd>
-                <MudTd DataLabel="@DomainDisplayTextFor.FileSize" Class="text-center">
-                    @context.FileSize.ToReadableFileSize()
-                </MudTd>
-                <MudTd DataLabel="@DomainDisplayTextFor.CreatedAt" Class="text-center">
-                    @context.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
-                </MudTd>
-                <MudTd DataLabel="@UIDisplayTextFor.Action" Class="text-center">
-                    <IconButtonDownload OnClick="@(() => HandleDownloadDocument(context))" />
-                    <IconButtonEdit OnClick="@(() => ShowDialogEditDocument(context))" />
-                    <IconButtonDelete OnClick="@(() => ShowDialogDeleteDocument(context))" />
-                </MudTd>
-            </RowTemplate>
-            <NoRecordsContent>
-                <MudPaper Elevation="0" Class="pa-5">
-                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
-                        There are no @DomainDisplayTextFor.Documents matching the selected filters. Please adjust your search criteria and try again.
-                    </MudAlert>
-                </MudPaper>
-            </NoRecordsContent>
-            <PagerContent>
-                <MudTablePager />
-            </PagerContent>
-        </TableDefault>
-    }
-    else
-    {
-        <MudAlert>
-            This @DomainDisplayTextFor.Project has no @DomainDisplayTextFor.Documents yet.
-        </MudAlert>
-    }
-
-</MudStack>
+}

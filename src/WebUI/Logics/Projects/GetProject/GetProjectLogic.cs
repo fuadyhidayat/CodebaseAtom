@@ -11,7 +11,7 @@ public sealed class GetProjectLogic(
     {
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
-        var item = await databaseContext.Projects
+        var projects = await databaseContext.Projects
             .AsNoTracking()
             .Where(project => project.Id == input.ProjectId)
             .Select(project => new ProjectDto
@@ -29,36 +29,36 @@ public sealed class GetProjectLogic(
 
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var userCreatedBy = await userManager.FindByIdAsync(item.CreatedBy.ToString());
+        var userCreatedBy = await userManager.FindByIdAsync(projects.CreatedBy.ToString());
 
         if (userCreatedBy is not null)
         {
-            item.CreatedByUsername = userCreatedBy.UserName ?? string.Empty;
-            item.CreatedByEmail = userCreatedBy.Email ?? string.Empty;
-            item.CreatedByDisplayName = userCreatedBy.DisplayName;
+            projects.CreatedByUsername = userCreatedBy.UserName ?? string.Empty;
+            projects.CreatedByEmail = userCreatedBy.Email ?? string.Empty;
+            projects.CreatedByDisplayName = userCreatedBy.DisplayName;
         }
 
-        if (item.UpdatedBy.HasValue)
+        if (projects.UpdatedBy.HasValue)
         {
-            if (item.UpdatedBy.Value != item.CreatedBy)
+            if (projects.UpdatedBy.Value != projects.CreatedBy)
             {
-                var userUpdatedBy = await userManager.FindByIdAsync(item.UpdatedBy.Value.ToString());
+                var userUpdatedBy = await userManager.FindByIdAsync(projects.UpdatedBy.Value.ToString());
 
                 if (userUpdatedBy is not null)
                 {
-                    item.UpdatedByUsername = userUpdatedBy.UserName ?? string.Empty;
-                    item.UpdatedByEmail = userUpdatedBy.Email ?? string.Empty;
-                    item.UpdatedByDisplayName = userUpdatedBy.DisplayName;
+                    projects.UpdatedByUsername = userUpdatedBy.UserName ?? string.Empty;
+                    projects.UpdatedByEmail = userUpdatedBy.Email ?? string.Empty;
+                    projects.UpdatedByDisplayName = userUpdatedBy.DisplayName;
                 }
             }
             else
             {
-                item.UpdatedByUsername = item.CreatedByUsername;
-                item.UpdatedByEmail = item.CreatedByEmail;
-                item.UpdatedByDisplayName = item.CreatedByDisplayName;
+                projects.UpdatedByUsername = projects.CreatedByUsername;
+                projects.UpdatedByEmail = projects.CreatedByEmail;
+                projects.UpdatedByDisplayName = projects.CreatedByDisplayName;
             }
         }
 
-        return new GetProjectOutput { Project = item };
+        return new GetProjectOutput { Project = projects };
     }
 }

@@ -26,14 +26,14 @@ public partial class TabContentDocuments
     public Guid ProjectId { get; set; }
 
     private string _searchKeyword = string.Empty;
-    private List<DocumentModel> _items = new();
+    private List<DocumentModel> _documents = default!;
 
     protected override async Task OnParametersSetAsync()
     {
-        await LoadItems();
+        await LoadDocuments();
     }
 
-    private async Task LoadItems()
+    private async Task LoadDocuments()
     {
         try
         {
@@ -44,13 +44,13 @@ public partial class TabContentDocuments
                 ProjectId = ProjectId
             });
 
-            _items = output.Documents.Select(item => new DocumentModel
+            _documents = output.Documents.Select(document => new DocumentModel
             {
-                Id = item.Id,
-                Title = item.Title,
-                FileName = item.FileName,
-                FileSize = item.FileSize,
-                CreatedAt = item.CreatedAt
+                Id = document.Id,
+                Title = document.Title,
+                FileName = document.FileName,
+                FileSize = document.FileSize,
+                CreatedAt = document.CreatedAt
             }).ToList();
         }
         catch (Exception exception)
@@ -63,19 +63,19 @@ public partial class TabContentDocuments
         }
     }
 
-    private bool FilterItems(DocumentModel item)
+    private bool FilterItems(DocumentModel document)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
             return true;
         }
 
-        if (item.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (document.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.FileName.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (document.FileName.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
@@ -95,11 +95,11 @@ public partial class TabContentDocuments
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItems();
+            await LoadDocuments();
         }
     }
 
-    private async Task HandleDownloadDocument(DocumentModel item)
+    private async Task HandleDownloadDocument(DocumentModel document)
     {
         try
         {
@@ -107,7 +107,7 @@ public partial class TabContentDocuments
 
             var output = await DownloadDocumentLogic.Handle(new DownloadDocumentInput
             {
-                DocumentId = item.Id
+                DocumentId = document.Id
             });
 
             await JsRuntime.InvokeVoidAsync(
@@ -127,14 +127,14 @@ public partial class TabContentDocuments
         }
     }
 
-    private async Task ShowDialogEditDocument(DocumentModel item)
+    private async Task ShowDialogEditDocument(DocumentModel document)
     {
         var model = new EditDocumentModel
         {
-            DocumentId = item.Id,
-            Title = item.Title,
-            FileNameWithoutExtension = Path.GetFileNameWithoutExtension(item.FileName),
-            FileExtension = Path.GetExtension(item.FileName)
+            DocumentId = document.Id,
+            Title = document.Title,
+            FileNameWithoutExtension = Path.GetFileNameWithoutExtension(document.FileName),
+            FileExtension = Path.GetExtension(document.FileName)
         };
 
         var parameters = new DialogParameters
@@ -147,22 +147,22 @@ public partial class TabContentDocuments
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItems();
+            await LoadDocuments();
         }
     }
 
-    private async Task ShowDialogDeleteDocument(DocumentModel item)
+    private async Task ShowDialogDeleteDocument(DocumentModel document)
     {
         var dialogResult = await DialogService.ShowMessageBoxAsync(
           $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.Document}",
-          ConfirmationMessageFor.Delete(DomainDisplayTextFor.Document, item.Title),
+          ConfirmationMessageFor.Delete(DomainDisplayTextFor.Document, document.Title),
           yesText: UIDisplayTextFor.Yes,
           noText: UIDisplayTextFor.No,
           options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
 
         if (dialogResult is true)
         {
-            await DeleteDocument(item.Id);
+            await DeleteDocument(document.Id);
         }
     }
 
@@ -179,7 +179,7 @@ public partial class TabContentDocuments
             };
 
             await DeleteDocumentLogic.Handle(input);
-            await LoadItems();
+            await LoadDocuments();
         }
         catch (Exception exception)
         {

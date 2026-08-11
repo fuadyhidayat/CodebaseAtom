@@ -16,8 +16,8 @@ public sealed class GetProjectsLogic(IDbContextFactory<DatabaseContext> database
                 Description = project.Description
             });
 
-        var items = await query.ToListAsync(cancellationToken);
+        var projects = await query.ToListAsync(cancellationToken);
 
-        return new GetProjectsOutput { Projects = items };
+        return new GetProjectsOutput { Projects = projects };
     }
 }

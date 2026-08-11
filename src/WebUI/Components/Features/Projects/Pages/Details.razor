@@ -9,11 +9,11 @@
 <ErrorViewer Exception="ExceptionBase" />
 <LoadingLinear IsVisible="IsLoadingBase" />
 
-@if (_item is not null)
+@if (_project is not null)
 {
     <MudStack>
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Baseline">
-            <PageHeader Title="@_item.Title" />
+            <PageHeader Title="@_project.Title" />
             <AuthorizeView Roles="@RoleNameFor.Administrator">
                 <Authorized>
                     <MudStack Row="true" Justify="Justify.FlexEnd">
@@ -25,7 +25,7 @@
         </MudStack>
         <HorizontalTabs>
             <MudTabPanel Text="@UIDisplayTextFor.GeneralInfo">
-                <TabContentGeneralInfo Project="_item" />
+                <TabContentGeneralInfo Project="_project" />
             </MudTabPanel>
             <MudTabPanel Text="@DomainDisplayTextFor.WorkItems">
                 <TabContentWorkItems ProjectId="@ProjectId" />

@@ -30,19 +30,19 @@ public partial class TabContentWorkItems
     public Guid ProjectId { get; set; }
 
     private string _searchKeyword = string.Empty;
-    private List<WorkItemModel> _items = new();
+    private List<WorkItemModel> _workItems = default!;
     private HashSet<WorkItemModel> _selectedItems = new();
     private bool _isKanbanView;
     private MudDropContainer<WorkItemModel> _kanban = default!;
     private static WorkItemStatus[] Columns => Enum.GetValues<WorkItemStatus>();
-    private IEnumerable<WorkItemModel> FilteredItems => _items.Where(FilterItems);
+    private IEnumerable<WorkItemModel> FilteredItems => _workItems.Where(FilterItems);
 
     protected override async Task OnParametersSetAsync()
     {
-        await LoadItems();
+        await LoadWorkItems();
     }
 
-    private async Task LoadItems()
+    private async Task LoadWorkItems()
     {
         try
         {
@@ -53,13 +53,13 @@ public partial class TabContentWorkItems
                 ProjectId = ProjectId
             });
 
-            _items = output.WorkItems.Select(item => new WorkItemModel
+            _workItems = output.WorkItems.Select(workItem => new WorkItemModel
             {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description,
-                Deadline = item.Deadline,
-                Status = item.Status
+                Id = workItem.Id,
+                Title = workItem.Title,
+                Description = workItem.Description,
+                Deadline = workItem.Deadline,
+                Status = workItem.Status
             }).ToList();
 
             await InvokeAsync(StateHasChanged);
@@ -75,19 +75,19 @@ public partial class TabContentWorkItems
         }
     }
 
-    private bool FilterItems(WorkItemModel item)
+    private bool FilterItems(WorkItemModel workItem)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
             return true;
         }
 
-        if (item.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (workItem.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.Description.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (workItem.Description.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
@@ -117,19 +117,19 @@ public partial class TabContentWorkItems
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItems();
+            await LoadWorkItems();
         }
     }
 
-    private async Task ShowDialogEditWorkItem(WorkItemModel item)
+    private async Task ShowDialogEditWorkItem(WorkItemModel workItem)
     {
         var model = new EditWorkItemModel
         {
-            WorkItemId = item.Id,
-            Title = item.Title,
-            Description = item.Description,
-            Deadline = item.Deadline,
-            Status = item.Status
+            WorkItemId = workItem.Id,
+            Title = workItem.Title,
+            Description = workItem.Description,
+            Deadline = workItem.Deadline,
+            Status = workItem.Status
         };
 
         var parameters = new DialogParameters
@@ -142,22 +142,22 @@ public partial class TabContentWorkItems
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItems();
+            await LoadWorkItems();
         }
     }
 
-    private async Task ShowDialogDeleteWorkItem(WorkItemModel item)
+    private async Task ShowDialogDeleteWorkItem(WorkItemModel workItem)
     {
         var dialogResult = await DialogService.ShowMessageBoxAsync(
           $"{UIDisplayTextFor.Delete} {DomainDisplayTextFor.WorkItem}",
-          ConfirmationMessageFor.Delete(DomainDisplayTextFor.WorkItem, item.Title),
+          ConfirmationMessageFor.Delete(DomainDisplayTextFor.WorkItem, workItem.Title),
           yesText: UIDisplayTextFor.Yes,
           noText: UIDisplayTextFor.No,
           options: new DialogOptions { MaxWidth = MaxWidth.ExtraSmall });
 
         if (dialogResult is true)
         {
-            await DeleteWorkItem(item);
+            await DeleteWorkItem(workItem);
         }
     }
 
@@ -174,7 +174,7 @@ public partial class TabContentWorkItems
 
             await DeleteWorkItemLogic.Handle(input);
             Snackbar.AddSuccess($"{DomainDisplayTextFor.WorkItem} '{workItem.Title}' deleted successfully.");
-            await LoadItems();
+            await LoadWorkItems();
         }
         catch (Exception exception)
         {
@@ -219,7 +219,7 @@ public partial class TabContentWorkItems
 
             await DeleteWorkItemsLogic.Handle(input);
             Snackbar.AddSuccess($"{workItemIds.Count()} {DomainDisplayTextFor.WorkItems} deleted successfully.");
-            await LoadItems();
+            await LoadWorkItems();
         }
         catch (Exception exception)
         {
@@ -242,12 +242,12 @@ public partial class TabContentWorkItems
 
         if (Enum.TryParse<WorkItemStatus>(dropInfo.DropzoneIdentifier, out var newStatus) && workItem.Status != newStatus)
         {
-            var index = _items.FindIndex(x => x.Id == workItem.Id);
+            var index = _workItems.FindIndex(x => x.Id == workItem.Id);
 
             if (index is not -1)
             {
-                var updatedWorkItem = _items[index] with { Status = newStatus };
-                _items[index] = updatedWorkItem;
+                var updatedWorkItem = _workItems[index] with { Status = newStatus };
+                _workItems[index] = updatedWorkItem;
 
                 await UpdateWorkItemStatus(updatedWorkItem);
             }
@@ -267,7 +267,7 @@ public partial class TabContentWorkItems
             };
 
             await UpdateWorkItemStatusLogic.Handle(input);
-            await LoadItems();
+            await LoadWorkItems();
         }
         catch (Exception exception)
         {

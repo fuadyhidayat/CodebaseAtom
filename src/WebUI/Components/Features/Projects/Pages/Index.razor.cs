@@ -13,12 +13,12 @@ public partial class Index
 
     private string _searchKeyword = string.Empty;
 
-    private IReadOnlyList<ProjectModel> _items = default!;
+    private IReadOnlyList<ProjectModel> _projects = default!;
 
     protected override async Task OnInitializedAsync()
     {
         LoadBreadcrumbs();
-        await LoadItems();
+        await LoadProjects();
     }
 
     protected override void LoadBreadcrumbs()
@@ -28,7 +28,7 @@ public partial class Index
         AddBreadcrumb(ComponentsBreadcrumbFor.Active(DomainDisplayTextFor.Projects));
     }
 
-    private async Task LoadItems()
+    private async Task LoadProjects()
     {
         try
         {
@@ -36,11 +36,11 @@ public partial class Index
 
             var output = await GetProjectsLogic.Handle();
 
-            _items = output.Projects.Select(item => new ProjectModel
+            _projects = output.Projects.Select(project => new ProjectModel
             {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description
+                Id = project.Id,
+                Title = project.Title,
+                Description = project.Description
             }).ToList();
         }
         catch (Exception exception)
@@ -53,19 +53,19 @@ public partial class Index
         }
     }
 
-    private bool FilterItems(ProjectModel item)
+    private bool FilterItems(ProjectModel project)
     {
         if (string.IsNullOrWhiteSpace(_searchKeyword))
         {
             return true;
         }
 
-        if (item.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (project.Title.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (item.Description.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
+        if (project.Description.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
@@ -80,7 +80,7 @@ public partial class Index
 
         if (result is not null && !result.Canceled)
         {
-            await LoadItems();
+            await LoadProjects();
         }
     }
 

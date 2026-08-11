@@ -219,10 +219,10 @@
                                     <MudHighlighter Text="@context.Name" HighlightedText="@_searchKeyword" />
                                 </MudTd>
                                 <MudTd DataLabel="Unit Price">
-                                    <MudHighlighter Text="@context.UnitPrice.ToDisplayText(CurrencyFormatFor.NoDecimal)" HighlightedText="@_searchKeyword" />
+                                    <MudHighlighter Text="@context.UnitPriceDisplayText" HighlightedText="@_searchKeyword" />
                                 </MudTd>
                                 <MudTd DataLabel="Stock">
-                                    <MudHighlighter Text="@context.Stock.ToString()" HighlightedText="@_searchKeyword" />
+                                    <MudHighlighter Text="@context.StockDisplayText" HighlightedText="@_searchKeyword" />
                                 </MudTd>
                             </RowTemplate>
                             <PagerContent>
@@ -261,10 +261,10 @@
                             codeBuilder.AppendLine("            <MudHighlighter Text=\"@context.Name\" HighlightedText=\"@_searchKeyword\" />");
                             codeBuilder.AppendLine("        </MudTd>");
                             codeBuilder.AppendLine("        <MudTd DataLabel=\"Unit Price\">");
-                            codeBuilder.AppendLine("            <MudHighlighter Text=\"@context.UnitPrice.ToDisplayText(CurrencyFormatFor.NoDecimal)\" HighlightedText=\"@_searchKeyword\" />");
+                            codeBuilder.AppendLine("            <MudHighlighter Text=\"@context.UnitPriceDisplayText\" HighlightedText=\"@_searchKeyword\" />");
                             codeBuilder.AppendLine("        </MudTd>");
                             codeBuilder.AppendLine("        <MudTd DataLabel=\"Stock\">");
-                            codeBuilder.AppendLine("            <MudHighlighter Text=\"@context.Stock.ToString()\" HighlightedText=\"@_searchKeyword\" />");
+                            codeBuilder.AppendLine("            <MudHighlighter Text=\"@context.StockDisplayText\" HighlightedText=\"@_searchKeyword\" />");
                             codeBuilder.AppendLine("        </MudTd>");
                             codeBuilder.AppendLine("    </RowTemplate>");
                             codeBuilder.AppendLine("    <PagerContent>");
