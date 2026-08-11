@@ -35,6 +35,9 @@
                         </MudTableSortLabel>
                     </MudTh>
                     <MudTh Class="text-center">
+                        @UIDisplayTextFor.Download
+                    </MudTh>
+                    <MudTh Class="text-center">
                         @UIDisplayTextFor.Action
                     </MudTh>
                 </HeaderContent>
@@ -51,8 +54,10 @@
                     <MudTd DataLabel="@DomainDisplayTextFor.CreatedAt" Class="text-center">
                         @context.CreatedAt.ToDisplayText(DateTimeFormatFor.LongDateTime)
                     </MudTd>
-                    <MudTd DataLabel="@UIDisplayTextFor.Action" Class="text-center">
+                    <MudTd DataLabel="@UIDisplayTextFor.Download" Class="text-center">
                         <IconButtonDownload OnClick="@(() => HandleDownloadDocument(context))" />
+                    </MudTd>
+                    <MudTd DataLabel="@UIDisplayTextFor.Action" Class="text-center">
                         <IconButtonEdit OnClick="@(() => ShowDialogEditDocument(context))" />
                         <IconButtonDelete OnClick="@(() => ShowDialogDeleteDocument(context))" />
                     </MudTd>
