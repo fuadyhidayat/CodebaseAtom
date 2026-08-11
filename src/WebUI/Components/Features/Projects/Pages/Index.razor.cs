@@ -78,9 +78,11 @@ public partial class Index
         var dialog = await DialogService.ShowAsync<DialogAddProject>($"{UIDisplayTextFor.Add} {DomainDisplayTextFor.Project}");
         var result = await dialog.Result;
 
-        if (result is not null && !result.Canceled)
+        if (result is not null && !result.Canceled && result.Data is not null)
         {
-            await LoadProjects();
+            var projectId = (Guid)result.Data;
+
+            NavigationManager.NavigateTo(ProjectsRouteFor.ProjectDetails(projectId));
         }
     }
 

@@ -3,23 +3,30 @@
 @if (_workItems is not null)
 {
     <MudStack>
-        <MudStack Row="true" Justify="Justify.Center">
-            <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
-                <MudText Typo="Typo.subtitle1">
-                    Table View
-                </MudText>
-                <MudSwitch @bind-Value="_isKanbanView"
-                           ThumbIcon="@(_isKanbanView ? Icons.Material.Filled.ViewKanban : Icons.Material.Filled.TableView)"
-                           ThumbIconColor="@(_isKanbanView ? Color.Primary : Color.Secondary)" />
-                <MudText Typo="Typo.subtitle1">
-                    Kanban View
-                </MudText>
+        @if (_workItems.Any())
+        {
+            <MudStack Row="true" Justify="Justify.Center">
+                <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
+                    <MudText Typo="Typo.subtitle1">
+                        Table View
+                    </MudText>
+                    <MudSwitch @bind-Value="_isKanbanView"
+                               ThumbIcon="@(_isKanbanView ? Icons.Material.Filled.ViewKanban : Icons.Material.Filled.TableView)"
+                               ThumbIconColor="@(_isKanbanView ? Color.Primary : Color.Secondary)" />
+                    <MudText Typo="Typo.subtitle1">
+                        Kanban View
+                    </MudText>
+                </MudStack>
             </MudStack>
-        </MudStack>
+        }
         <MudStack Row="true"
                   Justify="Justify.SpaceBetween"
                   AlignItems="AlignItems.Start">
-            <TextFieldSearch Value="@_searchKeyword" ValueChanged="OnSearchKeywordChanged" />
+            @if (_workItems.Any())
+            {
+                <TextFieldSearch Value="@_searchKeyword" ValueChanged="OnSearchKeywordChanged" />
+            }
+            <MudSpacer />
             <MudStack Row="true" Spacing="1">
                 @if (_selectedItems.Any())
                 {
@@ -28,122 +35,131 @@
                 <ButtonAdd EntityType="@DomainDisplayTextFor.WorkItem" OnClick="ShowDialogAddWorkItem" />
             </MudStack>
         </MudStack>
-        @if (_isKanbanView)
+        @if (_workItems.Any())
         {
-            <MudDropContainer T="WorkItemModel"
-                              @ref="_kanban"
-                              Items="@FilteredItems"
-                              Class="d-flex flex-row"
-                              ItemsSelector="@((workItem, column) => workItem.Status.ToString() == column)"
-                              ItemDropped="HandleItemDropped">
-                <ChildContent>
-                    <GridDefault>
-                        @foreach (var column in Columns)
-                        {
-                            <MudItem xs="12" sm="4">
-                                <MudPaper Outlined="true"
-                                          MinHeight="400px"
-                                          Class="d-flex flex-column px-3 mud-background-gray">
-                                    <MudToolBar Gutters="false" Class="mb-6">
-                                        <MudText Typo="Typo.h5" Class="my-auto">
-                                            @column.Name
-                                        </MudText>
-                                        <MudSpacer />
-                                        <MudBadge Color="Color.Primary"
-                                                  Overlap="true"
-                                                  Class="mr-2"
-                                                  Content="@FilteredItems.Count(x => x.Status == column)" />
-                                    </MudToolBar>
-                                    <MudDropZone T="WorkItemModel"
-                                                 Class="flex-grow-1"
-                                                 Identifier="@column.ToString()" />
-                                </MudPaper>
-                            </MudItem>
-                        }
-                    </GridDefault>
-                </ChildContent>
-                <ItemRenderer>
-                    <MudPaper Outlined="true"
-                              Class="mb-3 pa-3 mud-ripple"
-                              Style="cursor: grab;">
-                        <MudText Typo="Typo.h5" Class="mb-4">
-                            <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
-                        </MudText>
-                        <MudText Typo="Typo.body2" Class="mud-text-secondary">
-                            <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
-                        </MudText>
-                        <MudDivider Class="my-2" />
-                        <MudStack Row="true"
-                                  Justify="Justify.SpaceBetween"
-                                  AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.body2" Class="mud-text-secondary">
-                                @DomainDisplayTextFor.Deadline: @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+            if (_isKanbanView)
+            {
+                <MudDropContainer T="WorkItemModel"
+                                  @ref="_kanban"
+                                  Items="@FilteredItems"
+                                  Class="d-flex flex-row"
+                                  ItemsSelector="@((workItem, column) => workItem.Status.ToString() == column)"
+                                  ItemDropped="HandleItemDropped">
+                    <ChildContent>
+                        <GridDefault>
+                            @foreach (var column in Columns)
+                            {
+                                <MudItem xs="12" sm="4">
+                                    <MudPaper Outlined="true"
+                                              MinHeight="400px"
+                                              Class="d-flex flex-column px-3 mud-background-gray">
+                                        <MudToolBar Gutters="false" Class="mb-6">
+                                            <MudText Typo="Typo.h5" Class="my-auto">
+                                                @column.Name
+                                            </MudText>
+                                            <MudSpacer />
+                                            <MudBadge Color="Color.Primary"
+                                                      Overlap="true"
+                                                      Class="mr-2"
+                                                      Content="@FilteredItems.Count(x => x.Status == column)" />
+                                        </MudToolBar>
+                                        <MudDropZone T="WorkItemModel"
+                                                     Class="flex-grow-1"
+                                                     Identifier="@column.ToString()" />
+                                    </MudPaper>
+                                </MudItem>
+                            }
+                        </GridDefault>
+                    </ChildContent>
+                    <ItemRenderer>
+                        <MudPaper Outlined="true"
+                                  Class="mb-3 pa-3 mud-ripple"
+                                  Style="cursor: grab;">
+                            <MudText Typo="Typo.h5" Class="mb-4">
+                                <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
                             </MudText>
-                            <MudStack Row="true" Justify="Justify.FlexEnd">
-                                <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                                               Size="Size.Small"
-                                               OnClick="@(() => ShowDialogEditWorkItem(context))" />
-                                <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                               Size="Size.Small"
-                                               OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                            <MudText Typo="Typo.body2" Class="mud-text-secondary">
+                                <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
+                            </MudText>
+                            <MudDivider Class="my-2" />
+                            <MudStack Row="true"
+                                      Justify="Justify.SpaceBetween"
+                                      AlignItems="AlignItems.Center">
+                                <MudText Typo="Typo.body2" Class="mud-text-secondary">
+                                    @DomainDisplayTextFor.Deadline: @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                                </MudText>
+                                <MudStack Row="true" Justify="Justify.FlexEnd">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                                   Size="Size.Small"
+                                                   OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                   Size="Size.Small"
+                                                   OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                                </MudStack>
                             </MudStack>
-                        </MudStack>
-                    </MudPaper>
-                </ItemRenderer>
-            </MudDropContainer>
+                        </MudPaper>
+                    </ItemRenderer>
+                </MudDropContainer>
+            }
+            else
+            {
+                <TableDefault Items="_workItems"
+                              Loading="IsLoadingBase"
+                              Filter="FilterItems"
+                              MultiSelection="true"
+                              SelectOnRowClick="false"
+                              @bind-SelectedItems="_selectedItems">
+                    <HeaderContent>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Title)">
+                                @DomainDisplayTextFor.Title
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Description)">
+                                @DomainDisplayTextFor.Description
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh class="text-center">
+                            <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Deadline)" InitialDirection="SortDirection.Ascending">
+                                @DomainDisplayTextFor.Deadline
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh class="text-center">
+                            <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Status)">
+                                @DomainDisplayTextFor.Status
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh class="text-center">
+                            @UIDisplayTextFor.Action
+                        </MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="@DomainDisplayTextFor.Title">
+                            <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
+                        </MudTd>
+                        <MudTd DataLabel="@DomainDisplayTextFor.Description">
+                            <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
+                        </MudTd>
+                        <MudTd DataLabel="@DomainDisplayTextFor.Deadline" class="text-center">
+                            @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
+                        </MudTd>
+                        <MudTd DataLabel="@DomainDisplayTextFor.Status" class="text-center">
+                            @context.Status.Name
+                        </MudTd>
+                        <MudTd DataLabel="@UIDisplayTextFor.Action" class="text-center">
+                            <IconButtonEdit OnClick="@(() => ShowDialogEditWorkItem(context))" />
+                            <IconButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
+                        </MudTd>
+                    </RowTemplate>
+                </TableDefault>
+            }
         }
         else
         {
-            <TableDefault Items="_workItems"
-                          Loading="IsLoadingBase"
-                          Filter="FilterItems"
-                          MultiSelection="true"
-                          SelectOnRowClick="false"
-                          @bind-SelectedItems="_selectedItems">
-                <HeaderContent>
-                    <MudTh>
-                        <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Title)">
-                            @DomainDisplayTextFor.Title
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh>
-                        <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Description)">
-                            @DomainDisplayTextFor.Description
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh class="text-center">
-                        <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Deadline)" InitialDirection="SortDirection.Ascending">
-                            @DomainDisplayTextFor.Deadline
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh class="text-center">
-                        <MudTableSortLabel SortBy="new Func<WorkItemModel, object>(x => x.Status)">
-                            @DomainDisplayTextFor.Status
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh class="text-center">
-                        @UIDisplayTextFor.Action
-                    </MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd DataLabel="@DomainDisplayTextFor.Title">
-                        <MudHighlighter Text="@context.Title" HighlightedText="@_searchKeyword" />
-                    </MudTd>
-                    <MudTd DataLabel="@DomainDisplayTextFor.Description">
-                        <MudHighlighter Text="@context.Description" HighlightedText="@_searchKeyword" />
-                    </MudTd>
-                    <MudTd DataLabel="@DomainDisplayTextFor.Deadline" class="text-center">
-                        @context.Deadline.ToDisplayText(DateFormatFor.LongDate)
-                    </MudTd>
-                    <MudTd DataLabel="@DomainDisplayTextFor.Status" class="text-center">
-                        @context.Status.Name
-                    </MudTd>
-                    <MudTd DataLabel="@UIDisplayTextFor.Action" class="text-center">
-                        <IconButtonEdit OnClick="@(() => ShowDialogEditWorkItem(context))" />
-                        <IconButtonDelete OnClick="@(() => ShowDialogDeleteWorkItem(context))" />
-                    </MudTd>
-                </RowTemplate>
-            </TableDefault>
+            <MudAlert>
+                This @DomainDisplayTextFor.Project has no @DomainDisplayTextFor.WorkItems yet.
+            </MudAlert>
         }
     </MudStack>
 }

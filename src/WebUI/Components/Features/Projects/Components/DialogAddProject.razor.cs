@@ -21,11 +21,11 @@ public partial class DialogAddProject
                 Description = _input.Description
             };
 
-            _ = await CreateProjectLogic.Handle(input);
+            var output = await CreateProjectLogic.Handle(input);
 
             Snackbar.AddSuccess($"Project '{_input.Title}' has been created successfully.");
 
-            Dialog.Close();
+            Dialog.Close(output.ProjectId);
         }
         catch (Exception exception)
         {
