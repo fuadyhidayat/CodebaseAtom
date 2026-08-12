@@ -1,3 +1,4 @@
+<script type="module" src="@Assets["Components/ReconnectModal.razor.js"]"></script>
 <dialog id="components-reconnect-modal"
         class="mud-dialog reconnect-modal"
         data-nosnippet
@@ -33,40 +34,40 @@
             <h2 class="mud-typography mud-typography-h2 mb-2 components-reconnect-first-attempt-visible">
                 Reconnecting...
             </h2>
-            <p class="mud-typography mud-typography-body1 reconnect-subtitle components-reconnect-first-attempt-visible mb-10">
+            <p class="mud-typography mud-typography-body1 reconnect-subtitle components-reconnect-first-attempt-visible">
                 Restoring connection to the server
             </p>
 
-            <h4 class="mud-typography mud-typography-h4 mb-2 components-reconnect-repeated-attempt-visible">
+            <h2 class="mud-typography mud-typography-h2 mb-2 components-reconnect-repeated-attempt-visible">
                 Retrying connection
-            </h4>
+            </h2>
             <p class="mud-typography mud-typography-body1 reconnect-subtitle components-reconnect-repeated-attempt-visible">
                 Next attempt in <span id="components-seconds-to-next-attempt" class="mud-chip mud-chip-filled mud-chip-color-primary mud-chip-size-small"></span> seconds
             </p>
 
-            <h4 class="mud-typography mud-typography-h4 mud-error-text mb-2 components-reconnect-failed-visible">
+            <h2 class="mud-typography mud-typography-h2 mud-error-text mb-2 components-reconnect-failed-visible">
                 Connection lost
-            </h4>
+            </h2>
             <p class="mud-typography mud-typography-body1 reconnect-subtitle components-reconnect-failed-visible">
                 Could not restore connection to the server
             </p>
 
-            <h4 class="mud-typography mud-typography-h4 reconnect-pause-title mb-2 components-pause-visible">
+            <h2 class="mud-typography mud-typography-h2 reconnect-pause-title mb-2 components-pause-visible">
                 Session paused
-            </h4>
+            </h2>
             <p class="mud-typography mud-typography-body1 reconnect-subtitle components-pause-visible">
                 The server has temporarily paused the session
             </p>
 
-            <h4 class="mud-typography mud-typography-h4 mud-error-text mb-2 components-resume-failed-visible">
+            <h2 class="mud-typography mud-typography-h2 mud-error-text mb-2 components-resume-failed-visible">
                 Resume failed
-            </h4>
+            </h2>
             <p class="mud-typography mud-typography-body1 reconnect-subtitle components-resume-failed-visible">
                 Could not resume the session. Please reload the page.
             </p>
         </div>
     </div>
-    <div class="d-flex justify-center mt-5 reconnect-actions">
+    <div class="d-flex justify-center reconnect-actions">
         <button id="components-reconnect-button"
                 type="button"
                 class="reconnect-primary-button mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-button-disable-elevation components-reconnect-failed-visible">
@@ -99,5 +100,3 @@
         </button>
     </div>
 </dialog>
-<script type="module" src="@Assets["js/reconnect-modal.js"]"></script>
-<link rel="stylesheet" href="@Assets["css/reconnect-modal.css"]" />

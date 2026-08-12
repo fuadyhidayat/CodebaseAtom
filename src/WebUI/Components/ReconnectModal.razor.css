@@ -19,6 +19,11 @@
     display: block;
 }
 
+#components-reconnect-modal.components-reconnect-retrying .components-reconnect-first-attempt-visible
+{
+    display: none;
+}
+
 .reconnect-modal
 {
     box-sizing: border-box;
@@ -167,6 +172,7 @@
 #components-reconnect-modal button
 {
     margin: 0 !important;
+    margin-top: 16px !important;
 }
 
 #components-reconnect-button.reconnect-primary-button:hover,
@@ -183,11 +189,11 @@
     background-color: color-mix(in srgb, var(--mud-palette-primary, #3A8A4A) 75%, black);
 }
 
-    .reconnect-primary-button:focus-visible
-    {
-        outline: 2px solid var(--mud-palette-primary, #3A8A4A);
-        outline-offset: 2px;
-    }
+.reconnect-primary-button:focus-visible
+{
+    outline: 2px solid var(--mud-palette-primary, #3A8A4A);
+    outline-offset: 2px;
+}
 
 #components-reconnect-modal.components-reconnect-failed #components-reconnect-button,
 #components-reconnect-modal.components-reconnect-paused #components-resume-button
