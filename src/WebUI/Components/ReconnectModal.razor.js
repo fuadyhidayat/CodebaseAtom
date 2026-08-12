@@ -119,11 +119,13 @@ async function retryWhenDocumentBecomesVisible()
 // Bind button clicks to the retry and resume functions
 document.addEventListener("click", (e) =>
 {
-    if (e.target && e.target.id === "components-reconnect-button")
+    const button = e.target instanceof Element ? e.target.closest("button") : null;
+
+    if (button?.id === "components-reconnect-button")
     {
         retry();
     }
-    else if (e.target && e.target.id === "components-resume-button")
+    else if (button?.id === "components-resume-button")
     {
         resume();
     }

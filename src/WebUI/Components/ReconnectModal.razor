@@ -1,65 +1,94 @@
 <script type="module" src="@Assets["Components/ReconnectModal.razor.js"]"></script>
 
-<dialog id="components-reconnect-modal" data-nosnippet>
-    <div class="components-reconnect-container">
-        <div class="reconnect-icon-container">
-            <div class="reconnect-pulse-ring"></div>
-            <div class="reconnect-pulse-ring delay-1"></div>
-            <div class="reconnect-pulse-ring delay-2"></div>
-            <svg class="reconnect-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="icon-path" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor" />
-            </svg>
-            <svg class="reconnect-icon-error" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor" />
-            </svg>
-            <svg class="reconnect-icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="currentColor" />
-            </svg>
-        </div>
-        <div class="reconnect-content">
-            <h2 class="reconnect-title components-reconnect-first-attempt-visible">
-                Reconnecting...
-            </h2>
-            <p class="reconnect-subtitle components-reconnect-first-attempt-visible">
-                Restoring connection to the server
-            </p>
-            <h5 class="reconnect-title components-reconnect-repeated-attempt-visible mt-10">
-                Retrying connection
-            </h5>
-            <p class="reconnect-subtitle components-reconnect-repeated-attempt-visible">
-                Next attempt in <span id="components-seconds-to-next-attempt" class="countdown-badge"></span> seconds
-            </p>
-            <h2 class="reconnect-title error components-reconnect-failed-visible">
-                Connection lost
-            </h2>
-            <p class="reconnect-subtitle components-reconnect-failed-visible">
-                Could not restore connection to the server
-            </p>
-            <h2 class="reconnect-title warning components-pause-visible">
-                Session paused
-            </h2>
-            <p class="reconnect-subtitle components-pause-visible">
-                The server has temporarily paused the session
-            </p>
-            <h2 class="reconnect-title error components-resume-failed-visible">
-                Resume failed
-            </h2>
-            <p class="reconnect-subtitle components-resume-failed-visible">
-                Could not resume the session. Please reload the page.
-            </p>
-        </div>
-        <div class="reconnect-actions">
-            <button id="components-reconnect-button" class="btn-primary components-reconnect-failed-visible">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+<dialog id="components-reconnect-modal" class="rounded-lg" data-nosnippet aria-live="assertive" aria-atomic="true">
+    <div class="mud-dialog reconnect-dialog-surface py-10">
+        <div class="mud-dialog-content d-flex flex-column align-center gap-5">
+            <div class="reconnect-icon-container d-flex align-center justify-center rounded-circle">
+                <div class="reconnect-pulse-ring"></div>
+                <div class="reconnect-pulse-ring delay-1"></div>
+                <div class="reconnect-pulse-ring delay-2"></div>
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-large mud-primary-text reconnect-icon"
+                     viewBox="0 0 24 24"
+                     focusable="false"
+                     aria-hidden="true">
+                    <path class="icon-path" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor" />
                 </svg>
-                Retry
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-large mud-error-text reconnect-icon-error"
+                     viewBox="0 0 24 24"
+                     focusable="false"
+                     aria-hidden="true">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor" />
+                </svg>
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-large reconnect-icon-pause"
+                     viewBox="0 0 24 24"
+                     focusable="false"
+                     aria-hidden="true">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="currentColor" />
+                </svg>
+            </div>
+            <div class="text-center">
+                <h2 class="mud-typography mud-typography-h2 mb-2 components-reconnect-first-attempt-visible">
+                    Reconnecting...
+                </h2>
+                <p class="mud-typography mud-typography-body1 mb-10 reconnect-subtitle components-reconnect-first-attempt-visible">
+                    Restoring connection to the server
+                </p>
+                <h4 class="mud-typography mud-typography-h4 mb-2 components-reconnect-repeated-attempt-visible">
+                    Retrying connection
+                </h4>
+                <p class="mud-typography mud-typography-body1 reconnect-subtitle components-reconnect-repeated-attempt-visible">
+                    Next attempt in <span id="components-seconds-to-next-attempt" class="mud-chip mud-chip-filled mud-chip-color-primary mud-chip-size-small"></span> seconds
+                </p>
+                <h4 class="mud-typography mud-typography-h4 mud-error-text mb-2 components-reconnect-failed-visible">
+                    Connection lost
+                </h4>
+                <p class="mud-typography mud-typography-body1 reconnect-subtitle components-reconnect-failed-visible">
+                    Could not restore connection to the server
+                </p>
+                <h4 class="mud-typography mud-typography-h4 reconnect-pause-title mb-2 components-pause-visible">
+                    Session paused
+                </h4>
+                <p class="mud-typography mud-typography-body1 reconnect-subtitle components-pause-visible">
+                    The server has temporarily paused the session
+                </p>
+                <h4 class="mud-typography mud-typography-h4 mud-error-text mb-2 components-resume-failed-visible">
+                    Resume failed
+                </h4>
+                <p class="mud-typography mud-typography-body1 reconnect-subtitle components-resume-failed-visible">
+                    Could not resume the session. Please reload the page.
+                </p>
+            </div>
+        </div>
+        <div class="mud-dialog-actions reconnect-actions">
+            <button id="components-reconnect-button"
+                    type="button"
+                    class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-button-disable-elevation reconnect-primary-button components-reconnect-failed-visible">
+                <span class="mud-button-label">
+                    <span class="mud-button-icon-start mud-button-icon-size-medium">
+                        <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+                             viewBox="0 0 24 24"
+                             focusable="false"
+                             aria-hidden="true">
+                            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                        </svg>
+                    </span>
+                    Retry
+                </span>
             </button>
-            <button id="components-resume-button" class="btn-primary components-pause-visible">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M8 5v14l11-7z" />
-                </svg>
-                Resume
+            <button id="components-resume-button"
+                    type="button"
+                    class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-button-disable-elevation reconnect-primary-button components-pause-visible">
+                <span class="mud-button-label">
+                    <span class="mud-button-icon-start mud-button-icon-size-medium">
+                        <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+                             viewBox="0 0 24 24"
+                             focusable="false"
+                             aria-hidden="true">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </span>
+                    Resume
+                </span>
             </button>
         </div>
     </div>
