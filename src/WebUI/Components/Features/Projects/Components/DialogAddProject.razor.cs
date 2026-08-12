@@ -16,7 +16,10 @@ public partial class DialogAddProject
     {
         try
         {
-            await _form.RunValidation();
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
 
             IsLoadingBase = true;
 
@@ -55,14 +58,14 @@ public partial class DialogAddProject
             _ = RuleFor(x => x.Title)
                 .NotEmpty()
                     .WithMessage($"{DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title} is required.")
-                .MaximumLength(MaximumLengthFor.Title)
-                    .WithMessage($"Blazor ::: The maximum length for {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title} is {MaximumLengthFor.Title} characters.");
+                .MaximumLength(5)
+                    .WithMessage($"Blazor: The maximum length for {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title} is {MaximumLengthFor.Title} characters.");
 
             _ = RuleFor(x => x.Description)
                 .NotEmpty()
                     .WithMessage($"{DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description} is required.")
-                .MaximumLength(MaximumLengthFor.Description)
-                    .WithMessage($"The maximum length for {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description} is {MaximumLengthFor.Description} characters.");
+                .MaximumLength(5)
+                    .WithMessage($"Blazor: The maximum length for {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description} is {MaximumLengthFor.Description} characters.");
         }
     }
 }

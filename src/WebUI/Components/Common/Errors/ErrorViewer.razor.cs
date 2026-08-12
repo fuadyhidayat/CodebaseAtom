@@ -1,5 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Common.Exceptions;
-
 namespace Vioren.CodebaseAtom.WebUI.Components.Common.Errors;
 
 public partial class ErrorViewer
@@ -30,7 +28,7 @@ public partial class ErrorViewer
 
     private static List<string> GetAllErrorMessages(Exception exception)
     {
-        if (exception is FormValidationException formValidationException)
+        if (exception is ModelValidationException formValidationException)
         {
             return formValidationException.ErrorMessages.ToList();
         }
