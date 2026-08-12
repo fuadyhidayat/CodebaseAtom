@@ -18,10 +18,11 @@
                                           For="@(() => _model.Title)" />
                     </MudItem>
                 </GridDefault>
-                <BottomButtonPanel>
-                    <ButtonSubmit OnClick="HandleSubmit" Disabled="@(_model.File is null)" />
-                </BottomButtonPanel>
             </MudForm>
         </MudStack>
     </DialogContent>
+    <DialogActions>
+        <ButtonCancel OnClick="HandleCancel" />
+        <ButtonSubmit OnClick="HandleSubmit" Disabled="@(_model.File is null)" />
+    </DialogActions>
 </MudDialog>

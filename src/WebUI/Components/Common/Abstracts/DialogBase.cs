@@ -5,7 +5,7 @@ public abstract class DialogBase : AppComponentBase
     [CascadingParameter]
     protected IMudDialogInstance Dialog { get; init; } = default!;
 
-    protected void Cancel()
+    protected void HandleCancel()
     {
         Dialog.Cancel();
     }

@@ -39,10 +39,11 @@
                         </SelectDefault>
                     </MudItem>
                 </GridDefault>
-                <BottomButtonPanel>
-                    <ButtonSave OnClick="HandleSubmit" />
-                </BottomButtonPanel>
             </MudForm>
         </MudStack>
     </DialogContent>
+    <DialogActions>
+        <ButtonCancel OnClick="HandleCancel" />
+        <ButtonSubmit OnClick="HandleSubmit" />
+    </DialogActions>
 </MudDialog>

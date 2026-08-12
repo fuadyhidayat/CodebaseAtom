@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.GeneratePasswordResetToken;
@@ -10,21 +9,29 @@ public partial class ForgotPassword
     [Inject]
     public required GeneratePasswordResetTokenLogic GeneratePasswordResetTokenLogic { get; init; }
 
-    private string? _resetPasswordLink;
     private bool _isLoading;
     private Exception? _exception;
 
-    private InputModel Input { get; set; } = new();
+    private readonly ForgotPasswordModel _model = new();
+    private readonly ForgotPasswordModelValidator _validator = new();
+    private MudForm _form = default!;
+    private MudMessageBox _messageBoxForgotPassword = default!;
+    private string? _resetPasswordLink;
 
-    private async Task OnValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             _isLoading = true;
             _exception = null;
             _resetPasswordLink = null;
 
-            var output = await GeneratePasswordResetTokenLogic.Handle(new GeneratePasswordResetTokenInput { Email = Input.Email });
+            var output = await GeneratePasswordResetTokenLogic.Handle(new GeneratePasswordResetTokenInput { Email = _model.Email });
             var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(output.Token));
 
             var callbackUrl = NavigationManager.GetUriWithQueryParameters(
@@ -32,6 +39,12 @@ public partial class ForgotPassword
                 new Dictionary<string, object?> { ["code"] = code });
 
             _resetPasswordLink = callbackUrl;
+
+            _isLoading = false;
+
+            StateHasChanged();
+
+            _ = await _messageBoxForgotPassword.ShowAsync();
         }
         catch (Exception exception)
         {
@@ -40,14 +53,23 @@ public partial class ForgotPassword
         finally
         {
             _isLoading = false;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
     }
 
-    private sealed record InputModel
+    private sealed record ForgotPasswordModel
     {
-        [Required]
-        [EmailAddress]
         public string Email { get; set; } = string.Empty;
+    }
+
+    private sealed class ForgotPasswordModelValidator : AbstractValidatorBase<ForgotPasswordModel>
+    {
+        public ForgotPasswordModelValidator()
+        {
+            _ = RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .Must(x => x.IsValidEmailAddress());
+        }
     }
 }

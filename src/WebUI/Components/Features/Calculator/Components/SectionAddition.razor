@@ -4,26 +4,24 @@
     <LoadingLinear IsVisible="IsLoadingBase" />
     <ErrorViewer Exception="ExceptionBase" />
     <MudForm @ref="_form" Model="@_model" Validation="@_validator.ValidateValue">
-        <EditForm Model="_model" OnValidSubmit="OnAdditionValidSubmitAsync">
-            <GridDefault>
-                <MudItem xs="12">
-                    <NumericFieldDefault Label="Number 1"
-                                         Placeholder="Enter the first number"
-                                         @bind-Value="_model.Number1"
-                                         For="@(() => _model.Number1)" />
-                </MudItem>
-                <MudItem xs="12">
-                    <NumericFieldDefault Label="Number 2"
-                                         Placeholder="Enter the second number"
-                                         @bind-Value="_model.Number2"
-                                         For="@(() => _model.Number2)" />
-                </MudItem>
-            </GridDefault>
-            <BottomButtonPanel>
-                <ButtonSubmit ButtonType="ButtonType.Submit" />
-            </BottomButtonPanel>
-        </EditForm>
+        <GridDefault>
+            <MudItem xs="12">
+                <NumericFieldDefault Label="Number 1"
+                                     Placeholder="Enter the first number"
+                                     @bind-Value="_model.Number1"
+                                     For="@(() => _model.Number1)" />
+            </MudItem>
+            <MudItem xs="12">
+                <NumericFieldDefault Label="Number 2"
+                                     Placeholder="Enter the second number"
+                                     @bind-Value="_model.Number2"
+                                     For="@(() => _model.Number2)" />
+            </MudItem>
+        </GridDefault>
     </MudForm>
+    <BottomButtonPanel>
+        <ButtonSubmit OnClick="HandleSubmit" />
+    </BottomButtonPanel>
     <MudAlert Severity="Severity.Info">
         Result: @_result
     </MudAlert>

@@ -20,11 +20,11 @@
                                           For="@(() => Model.NewEmail)" />
                     </MudItem>
                 </GridDefault>
-                <BottomButtonPanel>
-                    <ButtonCancel OnClick="Cancel" Disabled="@IsLoadingBase" />
-                    <ButtonConfirm OnClick="HandleSubmit" />
-                </BottomButtonPanel>
             </MudForm>
         </MudStack>
     </DialogContent>
+    <DialogActions>
+        <ButtonCancel OnClick="HandleCancel" />
+        <ButtonSubmit OnClick="HandleSubmit" />
+    </DialogActions>
 </MudDialog>

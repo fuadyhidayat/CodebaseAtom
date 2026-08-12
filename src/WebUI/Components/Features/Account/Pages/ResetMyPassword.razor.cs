@@ -18,11 +18,10 @@ public partial class ResetMyPassword
     private bool _isLoading;
     private Exception? _exception;
 
-    private InputModel Input { get; set; } = new();
-
-    private MudMessageBox _messageBoxPasswordReset = default!;
+    private ResetPasswordModel _model = default!;
+    private readonly ResetPasswordModelValidator _validator = new();
     private MudForm _form = default!;
-    private readonly InputModelValidator _validator = new();
+    private MudMessageBox _messageBoxPasswordReset = default!;
 
     protected override void OnInitialized()
     {
@@ -35,7 +34,10 @@ public partial class ResetMyPassword
 
         try
         {
-            Input.Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
+            _model = new()
+            {
+                Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code))
+            };
         }
         catch (Exception exception)
         {
@@ -57,9 +59,9 @@ public partial class ResetMyPassword
 
             await ResetPasswordLogic.Handle(new ResetPasswordInput
             {
-                Username = Input.Username,
-                Token = Input.Code,
-                NewPassword = Input.Password
+                Username = _model.Username,
+                Token = _model.Token,
+                NewPassword = _model.Password
             });
 
             _isLoading = false;
@@ -86,41 +88,41 @@ public partial class ResetMyPassword
         }
     }
 
-    private sealed record InputModel
+    private sealed record ResetPasswordModel
     {
         public string Username { get; set; } = string.Empty;
-        public string Code { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 
-    private sealed class InputModelValidator : AbstractValidatorBase<InputModel>
+    private sealed class ResetPasswordModelValidator : AbstractValidatorBase<ResetPasswordModel>
     {
-        public InputModelValidator()
+        public ResetPasswordModelValidator()
         {
             _ = RuleFor(x => x.Username)
                 .NotEmpty()
-                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.Username))
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Username))
                 .MinimumLength(MinimumLengthFor.Username)
-                    .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Username, MinimumLengthFor.Username))
+                    .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.Username, MinimumLengthFor.Username))
                 .MaximumLength(MaximumLengthFor.Username)
-                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Username, MaximumLengthFor.Username));
+                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Username, MaximumLengthFor.Username));
 
-            _ = RuleFor(x => x.Code)
+            _ = RuleFor(x => x.Token)
                 .NotEmpty()
-                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.Code));
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Code));
 
             _ = RuleFor(x => x.Password)
                 .NotEmpty()
-                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.Password))
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Password))
                 .MinimumLength(MinimumLengthFor.Password)
-                    .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Password, MinimumLengthFor.Password))
+                    .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.Password, MinimumLengthFor.Password))
                 .MaximumLength(MaximumLengthFor.Password)
-                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Password, MaximumLengthFor.Password));
+                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Password, MaximumLengthFor.Password));
 
             _ = RuleFor(x => x.ConfirmPassword)
                 .NotEmpty()
-                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.ConfirmPassword))
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.ConfirmPassword))
                 .Equal(x => x.Password)
                     .WithMessage($"The {DomainDisplayTextFor.Password} and {DomainDisplayTextFor.ConfirmPassword} do not match.");
         }

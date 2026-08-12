@@ -7,24 +7,31 @@ public partial class SectionSubtraction
     [Inject]
     public required SubtractionLogic SubtractionLogic { get; set; }
 
-    private readonly SubtractionModel _subtractionModel = new();
-    private int _subtractionResult;
+    private readonly SubtractionModel _model = new();
+    private readonly SubtractionModelValidator _validator = new();
+    private MudForm _form = default!;
+    private int _result;
 
-    private async Task OnSubtractionValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             IsLoadingBase = true;
             ExceptionBase = null;
 
             var input = new SubtractionInput
             {
-                Number1 = _subtractionModel.Number1,
-                Number2 = _subtractionModel.Number2
+                Number1 = _model.Number1,
+                Number2 = _model.Number2
             };
 
             var output = SubtractionLogic.Handle(input);
-            _subtractionResult = output.Result;
+            _result = output.Result;
         }
         catch (Exception exception)
         {
@@ -40,5 +47,17 @@ public partial class SectionSubtraction
     {
         public int Number1 { get; set; }
         public int Number2 { get; set; }
+    }
+
+    private sealed class SubtractionModelValidator : AbstractValidatorBase<SubtractionModel>
+    {
+        public SubtractionModelValidator()
+        {
+            _ = RuleFor(x => x.Number1)
+                .NotEmpty();
+
+            _ = RuleFor(x => x.Number2)
+                .NotEmpty();
+        }
     }
 }

@@ -12,7 +12,7 @@ public partial class SectionAddition
     private MudForm _form = default!;
     private int _result;
 
-    private async Task OnAdditionValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
