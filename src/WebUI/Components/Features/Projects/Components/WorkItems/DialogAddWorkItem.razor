@@ -26,13 +26,9 @@
                                            @bind-Date="_model.DeadlineDateTime" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <SelectDefault Label="@DomainDisplayTextFor.Status"
-                                       T="WorkItemStatus"
-                                       Disabled="true">
-                            <MudSelectItem Value="WorkItemStatus.NotStarted">
-                                @WorkItemStatus.NotStarted.Name
-                            </MudSelectItem>
-                        </SelectDefault>
+                        <FieldDefault Label="@DomainDisplayTextFor.Status" Disabled="true">
+                            @WorkItemStatus.NotStarted.Name
+                        </FieldDefault>
                     </MudItem>
                 </GridDefault>
             </MudForm>
