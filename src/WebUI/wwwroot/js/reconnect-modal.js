@@ -3,11 +3,6 @@ function getModal()
     return document.getElementById("components-reconnect-modal");
 }
 
-function getMaxRetries()
-{
-    return window.blazorReconnectionOptions?.maxRetries ?? 5;
-}
-
 // Prevent the modal from being closed by the user, since we want to control when it is closed
 document.addEventListener("DOMContentLoaded", () =>
 {
