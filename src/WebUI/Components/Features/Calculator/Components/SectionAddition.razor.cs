@@ -7,24 +7,31 @@ public partial class SectionAddition
     [Inject]
     public required AdditionLogic AdditionLogic { get; set; }
 
-    private readonly AdditionModel _additionModel = new();
-    private int _additionResult;
+    private readonly AdditionModel _model = new();
+    private readonly AdditionModelValidator _validator = new();
+    private MudForm _form = default!;
+    private int _result;
 
     private async Task OnAdditionValidSubmitAsync()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             IsLoadingBase = true;
             ExceptionBase = null;
 
             var input = new AdditionInput
             {
-                Number1 = _additionModel.Number1,
-                Number2 = _additionModel.Number2
+                Number1 = _model.Number1,
+                Number2 = _model.Number2
             };
 
             var output = AdditionLogic.Handle(input);
-            _additionResult = output.Result;
+            _result = output.Result;
         }
         catch (Exception exception)
         {
@@ -40,5 +47,17 @@ public partial class SectionAddition
     {
         public int Number1 { get; set; }
         public int Number2 { get; set; }
+    }
+
+    private sealed class AdditionModelValidator : AbstractValidatorBase<AdditionModel>
+    {
+        public AdditionModelValidator()
+        {
+            _ = RuleFor(x => x.Number1)
+                .NotEmpty();
+
+            _ = RuleFor(x => x.Number2)
+                .NotEmpty();
+        }
     }
 }

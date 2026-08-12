@@ -3,6 +3,7 @@
 <MudDialog>
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
+            <LoadingLinear IsVisible="IsLoadingBase" />
             <ErrorViewer Exception="ExceptionBase" />
             <MudForm @ref="_form" Model="@_model" Validation="@_validator.ValidateValue">
                 <GridDefault>

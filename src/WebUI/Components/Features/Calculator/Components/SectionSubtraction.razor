@@ -1,8 +1,8 @@
 @inherits AppComponentBase
 
 <PageSection SectionTitle="Subtraction">
-    <ErrorViewer Exception="ExceptionBase" />
     <LoadingLinear IsVisible="IsLoadingBase" />
+    <ErrorViewer Exception="ExceptionBase" />
     <EditForm Model="_subtractionModel" OnValidSubmit="OnSubtractionValidSubmitAsync">
         <DataAnnotationsValidator />
         <GridDefault>
