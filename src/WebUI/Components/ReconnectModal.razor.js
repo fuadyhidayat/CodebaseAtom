@@ -3,11 +3,6 @@ function getModal()
     return document.getElementById("components-reconnect-modal");
 }
 
-function getMaxRetries()
-{
-    return window.blazorReconnectionOptions?.maxRetries ?? 5;
-}
-
 // Prevent the modal from being closed by the user, since we want to control when it is closed
 document.addEventListener("DOMContentLoaded", () =>
 {
@@ -119,11 +114,13 @@ async function retryWhenDocumentBecomesVisible()
 // Bind button clicks to the retry and resume functions
 document.addEventListener("click", (e) =>
 {
-    if (e.target && e.target.id === "components-reconnect-button")
+    const button = e.target instanceof Element ? e.target.closest("button") : null;
+
+    if (button?.id === "components-reconnect-button")
     {
         retry();
     }
-    else if (e.target && e.target.id === "components-resume-button")
+    else if (button?.id === "components-resume-button")
     {
         resume();
     }
