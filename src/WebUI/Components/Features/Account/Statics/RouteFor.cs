@@ -15,6 +15,6 @@ public static class RouteFor
             return "Account/Login";
         }
 
-        return $"Account/Login?returnUrl={Uri.EscapeDataString(returnUrl)}";
+        return $"Account/Login?{QueryStringFor.ReturnUrl}={Uri.EscapeDataString(returnUrl)}";
     }
 }

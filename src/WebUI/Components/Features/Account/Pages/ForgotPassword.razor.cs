@@ -11,7 +11,6 @@ public partial class ForgotPassword
 
     private bool _isLoading;
     private Exception? _exception;
-
     private readonly ForgotPasswordModel _model = new();
     private readonly ForgotPasswordModelValidator _validator = new();
     private MudForm _form = default!;
@@ -39,7 +38,6 @@ public partial class ForgotPassword
                 new Dictionary<string, object?> { ["code"] = code });
 
             _resetPasswordLink = callbackUrl;
-
             _isLoading = false;
 
             StateHasChanged();

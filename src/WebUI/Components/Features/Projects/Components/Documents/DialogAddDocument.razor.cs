@@ -19,13 +19,10 @@ public partial class DialogAddDocument
     {
         _model.File = file;
 
-        if (string.IsNullOrWhiteSpace(_model.Title))
+        if (string.IsNullOrWhiteSpace(_model.Title) && file is not null)
         {
-            if (file is not null)
-            {
-                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.Name);
-                _model.Title = fileNameWithoutExtension;
-            }
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.Name);
+            _model.Title = fileNameWithoutExtension;
         }
     }
 
@@ -65,7 +62,7 @@ public partial class DialogAddDocument
 
             _ = await CreateDocumentLogic.Handle(input);
 
-            Snackbar.AddSuccess($"Document '{_model.Title}' has been uploaded successfully.");
+            Snackbar.AddSuccess($"{DomainDisplayTextFor.Document} '{_model.Title}' has been uploaded successfully.");
 
             Dialog.Close();
         }

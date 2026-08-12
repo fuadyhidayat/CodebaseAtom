@@ -22,7 +22,7 @@
                   data-enhance="false"
                   method="post">
                 <AntiforgeryToken />
-                <input type="hidden" name="ReturnUrl" value="@_currentUrl" />
+                <input type="hidden" name="@QueryStringFor.ReturnUrl" value="@_currentUrl" />
                 <ButtonLogout ButtonType="ButtonType.Submit" />
             </form>
         </MudStack>
@@ -30,7 +30,7 @@
     <NotAuthorized>
         <MudStack Row="true" AlignItems="AlignItems.Center">
             <MudLink Href="@_loginRoute" Color="Color.Inherit">
-                Login
+                @UIDisplayTextFor.Login
             </MudLink>
         </MudStack>
     </NotAuthorized>

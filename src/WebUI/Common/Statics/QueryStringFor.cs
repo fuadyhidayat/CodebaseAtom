@@ -1,4 +1,4 @@
-namespace Vioren.CodebaseAtom.WebUI.Infrastructure.Common.Statics;
+namespace Vioren.CodebaseAtom.WebUI.Common.Statics;
 
 public static class QueryStringFor
 {
