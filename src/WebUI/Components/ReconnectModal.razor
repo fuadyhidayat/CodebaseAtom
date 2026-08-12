@@ -1,7 +1,10 @@
 <script type="module" src="@Assets["Components/ReconnectModal.razor.js"]"></script>
 
-<dialog id="components-reconnect-modal" class="rounded-lg" data-nosnippet aria-live="assertive" aria-atomic="true">
-    <div class="mud-dialog reconnect-dialog-surface py-10">
+<dialog id="components-reconnect-modal" class="mud-dialog-container mud-dialog-center rounded-lg" data-nosnippet aria-live="assertive" aria-atomic="true">
+    <div class="mud-overlay mud-overlay-dialog mud-skip-overlay-section mud-skip-overlay-positioning">
+        <div class="mud-overlay-scrim mud-overlay-dark"></div>
+    </div>
+    <div role="dialog" class="mud-dialog mud-dialog-width-sm mud-dialog-width-full reconnect-dialog-surface py-10">
         <div class="mud-dialog-content d-flex flex-column align-center gap-5">
             <div class="reconnect-icon-container d-flex align-center justify-center rounded-circle">
                 <div class="reconnect-pulse-ring"></div>

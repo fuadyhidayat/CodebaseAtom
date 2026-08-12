@@ -20,11 +20,17 @@
 
 #components-reconnect-modal
 {
-    width: min(30rem, calc(100% - 2rem));
+    position: fixed;
+    inset: 0;
+    box-sizing: border-box;
+    width: min(30rem, calc(100vw - 2rem));
+    min-width: 0;
+    height: fit-content;
     max-width: none;
-    margin: 20vh auto;
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
     padding: 0;
-    overflow: visible;
+    overflow: hidden;
     border: 0;
     outline: none;
     background: transparent;
@@ -32,6 +38,11 @@
     transition: opacity 0.3s, display 0.3s;
     transition-behavior: allow-discrete;
     animation: components-reconnect-modal-fadeOutOpacity 0.3s both;
+}
+
+#components-reconnect-modal > .mud-overlay
+{
+    display: none;
 }
 
 #components-reconnect-modal[open]
@@ -49,9 +60,14 @@
 
 .reconnect-dialog-surface
 {
+    position: relative;
     box-sizing: border-box;
     width: 100%;
+    min-width: 0;
+    height: auto;
     max-width: none;
+    max-height: calc(100dvh - 2rem);
+    margin: 0;
     overflow: hidden;
     border: 1px solid var(--mud-palette-divider, #E5E7EB);
     box-shadow: 0 24px 48px rgba(13, 59, 48, 0.18), 0 4px 12px rgba(31, 41, 55, 0.08);
@@ -274,7 +290,7 @@
 {
     #components-reconnect-modal
     {
-        margin: 15vh auto;
+        width: calc(100vw - 2rem);
     }
 }
 
