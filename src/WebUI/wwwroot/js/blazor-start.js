@@ -1,6 +1,6 @@
 window.blazorReconnectionOptions =
 {
-    maxRetries: 2,
+    maxRetries: 3,
     retryIntervalMilliseconds: (previousAttempts, maxRetries) =>
     {
         if (previousAttempts >= maxRetries)
@@ -8,7 +8,7 @@ window.blazorReconnectionOptions =
             return null;
         }
 
-        return 2000;
+        return 5000;
     }
 };
 
