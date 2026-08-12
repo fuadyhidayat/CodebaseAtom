@@ -139,24 +139,18 @@
     display: none;
 }
 
-.components-reconnect-failed .reconnect-actions,
-.components-reconnect-paused .reconnect-actions
-{
-    display: flex;
-}
-
 .reconnect-primary-button
 {
     box-sizing: border-box;
     min-width: 64px;
-    margin: 0;
+    margin: 0 !important;
     padding: 6px 16px;
     align-items: center;
     justify-content: center;
     border: 0;
     border-radius: var(--mud-default-borderradius, 4px);
     outline: 0;
-    color: var(--mud-palette-primary-text, #FFFFFF);
+    color: var(--mud-palette-primary-text, #FFFFFF) !important;
     background-color: var(--mud-palette-primary, #3A8A4A);
     font-family: var(--mud-typography-button-family, "Public Sans", "Segoe UI", sans-serif);
     font-size: var(--mud-typography-button-size, 0.875rem);
@@ -170,15 +164,24 @@
     transition: background-color 250ms cubic-bezier(.4, 0, .2, 1);
 }
 
-    .reconnect-primary-button:hover
-    {
-        background-color: var(--mud-palette-primary-darken, #2E6E3B);
-    }
+#components-reconnect-modal button
+{
+    margin: 0 !important;
+}
 
-    .reconnect-primary-button:active
-    {
-        background-color: var(--mud-palette-primary-darken, #2E6E3B);
-    }
+#components-reconnect-button.reconnect-primary-button:hover,
+#components-resume-button.reconnect-primary-button:hover
+{
+    background-color: #2E6E3B;
+    background-color: color-mix(in srgb, var(--mud-palette-primary, #3A8A4A) 85%, black);
+}
+
+#components-reconnect-button.reconnect-primary-button:active,
+#components-resume-button.reconnect-primary-button:active
+{
+    background-color: #285F33;
+    background-color: color-mix(in srgb, var(--mud-palette-primary, #3A8A4A) 75%, black);
+}
 
     .reconnect-primary-button:focus-visible
     {
