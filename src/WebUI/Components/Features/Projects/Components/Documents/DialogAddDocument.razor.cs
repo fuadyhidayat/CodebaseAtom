@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components.Documents;
@@ -12,54 +11,61 @@ public partial class DialogAddDocument
     [Parameter]
     public required Guid ProjectId { get; set; }
 
-    private readonly AddDocumentModel _input = new();
+    private readonly AddDocumentModel _model = new();
+    private readonly AddDocumentModelValidator _validator = new();
+    private MudForm _form = default!;
 
     private void OnFileUpdated(IBrowserFile? file)
     {
-        _input.File = file;
+        _model.File = file;
 
-        if (string.IsNullOrWhiteSpace(_input.Title))
+        if (string.IsNullOrWhiteSpace(_model.Title))
         {
             if (file is not null)
             {
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.Name);
-                _input.Title = fileNameWithoutExtension;
+                _model.Title = fileNameWithoutExtension;
             }
         }
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             IsLoadingBase = true;
             ExceptionBase = null;
 
-            if (_input.File is null)
+            if (_model.File is null)
             {
                 throw new InvalidOperationException($"{DomainDisplayTextFor.Document} file is required.");
             }
 
-            if (_input.File.Size > MaximumValueFor.DocumentFileSize)
+            if (_model.File.Size > MaximumValueFor.DocumentFileSize)
             {
-                throw new FileSizeLimitValidationException($"{DomainDisplayTextFor.Document}", _input.File.Size, MaximumValueFor.DocumentFileSize);
+                throw new FileSizeLimitValidationException($"{DomainDisplayTextFor.Document}", _model.File.Size, MaximumValueFor.DocumentFileSize);
             }
 
-            var fileBytes = await _input.File.ToBytesAsync(MaximumValueFor.DocumentFileSize);
+            var fileBytes = await _model.File.ToBytesAsync(MaximumValueFor.DocumentFileSize);
 
             var input = new CreateDocumentInput
             {
                 ProjectId = ProjectId,
-                Title = _input.Title,
+                Title = _model.Title,
                 FileContent = new ReadOnlyCollection<byte>(fileBytes),
-                FileName = _input.File.Name,
-                ContentType = _input.File.ContentType,
-                FileSize = _input.File.Size
+                FileName = _model.File.Name,
+                ContentType = _model.File.ContentType,
+                FileSize = _model.File.Size
             };
 
             _ = await CreateDocumentLogic.Handle(input);
 
-            Snackbar.AddSuccess($"Document '{_input.Title}' has been uploaded successfully.");
+            Snackbar.AddSuccess($"Document '{_model.Title}' has been uploaded successfully.");
 
             Dialog.Close();
         }
@@ -75,11 +81,23 @@ public partial class DialogAddDocument
 
     private sealed record AddDocumentModel
     {
-        [Required(ErrorMessage = "File is required.")]
         public IBrowserFile? File { get; set; }
-
-        [Required(ErrorMessage = "Title is required.")]
-        [StringLength(MaximumLengthFor.Title, ErrorMessage = "Title cannot exceed 100 characters.")]
         public string Title { get; set; } = string.Empty;
+    }
+
+    private sealed class AddDocumentModelValidator : AbstractValidatorBase<AddDocumentModel>
+    {
+        public AddDocumentModelValidator()
+        {
+            _ = RuleFor(x => x.File)
+                .NotNull()
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Document, DomainDisplayTextFor.File));
+
+            _ = RuleFor(x => x.Title)
+                .NotEmpty()
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Document, DomainDisplayTextFor.Title))
+                .MaximumLength(MaximumLengthFor.Title)
+                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Document, DomainDisplayTextFor.Title, MaximumLengthFor.Title));
+        }
     }
 }

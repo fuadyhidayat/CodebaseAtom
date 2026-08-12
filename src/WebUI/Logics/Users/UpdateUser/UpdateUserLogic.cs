@@ -3,10 +3,14 @@ using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Logics.Users.UpdateUser;
 
-public sealed class UpdateUserLogic(IServiceScopeFactory serviceScopeFactory)
+public sealed class UpdateUserLogic(
+    IServiceScopeFactory serviceScopeFactory,
+    IValidator<UpdateUserInput> validator)
 {
-    public async Task Handle(UpdateUserInput input)
+    public async Task Handle(UpdateUserInput input, CancellationToken cancellationToken = default)
     {
+        await validator.ValidateInputAsync(input, cancellationToken);
+
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 

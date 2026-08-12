@@ -4,30 +4,26 @@
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-            @if (Model is not null)
-            {
-                <EditForm Model="Model" OnValidSubmit="OnValidSubmitAsync">
-                    <DataAnnotationsValidator />
-                    <GridDefault>
-                        <MudItem xs="12">
-                            <TextFieldDefault Label="@DomainDisplayTextFor.DisplayName"
-                                              Placeholder="@($"Enter your {DomainDisplayTextFor.DisplayName}")"
-                                              @bind-Value="Model.DisplayName"
-                                              For="@(() => Model.DisplayName)" />
-                        </MudItem>
-                        <MudItem xs="12">
-                            <TextFieldDefault Label="@DomainDisplayTextFor.Email"
-                                              Placeholder="@($"Enter your {DomainDisplayTextFor.Email}")"
-                                              @bind-Value="Model.NewEmail"
-                                              For="@(() => Model.NewEmail)" />
-                        </MudItem>
-                    </GridDefault>
-                    <BottomButtonPanel>
-                        <ButtonCancel OnClick="Cancel" Disabled="@IsLoadingBase" />
-                        <ButtonConfirm ButtonType="ButtonType.Submit" />
-                    </BottomButtonPanel>
-                </EditForm>
-            }
+            <MudForm @ref="_form" Model="@Model" Validation="@_validator.ValidateValue">
+                <GridDefault>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@DomainDisplayTextFor.DisplayName"
+                                          Placeholder="@($"Enter your {DomainDisplayTextFor.DisplayName}")"
+                                          @bind-Value="Model.DisplayName"
+                                          For="@(() => Model.DisplayName)" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@DomainDisplayTextFor.Email"
+                                          Placeholder="@($"Enter your {DomainDisplayTextFor.Email}")"
+                                          @bind-Value="Model.NewEmail"
+                                          For="@(() => Model.NewEmail)" />
+                    </MudItem>
+                </GridDefault>
+                <BottomButtonPanel>
+                    <ButtonCancel OnClick="Cancel" Disabled="@IsLoadingBase" />
+                    <ButtonConfirm OnClick="HandleSubmit" />
+                </BottomButtonPanel>
+            </MudForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

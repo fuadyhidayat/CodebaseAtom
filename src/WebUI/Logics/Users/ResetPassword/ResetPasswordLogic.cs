@@ -3,10 +3,14 @@ using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Logics.Users.ResetPassword;
 
-public sealed class ResetPasswordLogic(IServiceScopeFactory serviceScopeFactory)
+public sealed class ResetPasswordLogic(
+    IServiceScopeFactory serviceScopeFactory,
+    IValidator<ResetPasswordInput> validator)
 {
-    public async Task Handle(ResetPasswordInput input)
+    public async Task Handle(ResetPasswordInput input, CancellationToken cancellationToken = default)
     {
+        await validator.ValidateInputAsync(input, cancellationToken);
+
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 

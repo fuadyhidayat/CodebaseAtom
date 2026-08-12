@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.UpdatePassword;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Pages.Profile.Components;
@@ -14,12 +13,19 @@ public partial class DialogChangePassword
     [Parameter]
     public required ChangePasswordModel Model { get; set; }
 
+    private readonly ChangePasswordModelValidator _validator = new();
+    private MudForm _form = default!;
     private MudMessageBox _messageBoxChangePassword = default!;
 
-    private async Task OnValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             IsLoadingBase = true;
             ExceptionBase = null;
 
@@ -58,18 +64,31 @@ public partial class DialogChangePassword
 public sealed record ChangePasswordModel
 {
     public required Guid UserId { get; set; }
-
-    [Required]
-    [DataType(DataType.Password)]
     public string CurrentPassword { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(MaximumLengthFor.Password, ErrorMessage = "The New Password must be at least {2} and at max {1} characters long.", MinimumLength = MinimumLengthFor.Password)]
-    [DataType(DataType.Password)]
     public string NewPassword { get; set; } = string.Empty;
-
-    [Required]
-    [DataType(DataType.Password)]
-    [Compare("NewPassword", ErrorMessage = "The New Password and Confirm Password do not match.")]
     public string ConfirmPassword { get; set; } = string.Empty;
+}
+
+public sealed class ChangePasswordModelValidator : AbstractValidatorBase<ChangePasswordModel>
+{
+    public ChangePasswordModelValidator()
+    {
+        _ = RuleFor(x => x.CurrentPassword)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, $"Current {DomainDisplayTextFor.Password}"));
+
+        _ = RuleFor(x => x.NewPassword)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, $"New {DomainDisplayTextFor.Password}"))
+            .MinimumLength(MinimumLengthFor.Password)
+                .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.User, $"New {DomainDisplayTextFor.Password}", MinimumLengthFor.Password))
+            .MaximumLength(MaximumLengthFor.Password)
+                .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.User, $"New {DomainDisplayTextFor.Password}", MaximumLengthFor.Password));
+
+        _ = RuleFor(x => x.ConfirmPassword)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.ConfirmPassword))
+            .Equal(x => x.NewPassword)
+                .WithMessage("The New Password and Confirm Password do not match.");
+    }
 }

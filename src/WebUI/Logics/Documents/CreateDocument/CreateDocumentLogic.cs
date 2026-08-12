@@ -4,10 +4,13 @@ namespace Vioren.CodebaseAtom.WebUI.Logics.Documents.CreateDocument;
 
 public sealed class CreateDocumentLogic(
     IDbContextFactory<DatabaseContext> databaseContextFactory,
-    FileStorageService fileStorageService)
+    FileStorageService fileStorageService,
+    IValidator<CreateDocumentInput> validator)
 {
     public async Task<CreateDocumentOutput> Handle(CreateDocumentInput input, CancellationToken cancellationToken = default)
     {
+        await validator.ValidateInputAsync(input, cancellationToken);
+
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
         var document = new Document

@@ -10,16 +10,18 @@ public partial class DialogEditWorkItem
     [Parameter]
     public required EditWorkItemModel Model { get; set; }
 
-    private DateTime? DeadlineDateTime
-    {
-        get => Model.Deadline.ToDateTimeNullable();
-        set => Model.Deadline = value.ToDateOnly();
-    }
+    private readonly EditWorkItemModelValidator _validator = new();
+    private MudForm _form = default!;
 
-    private async Task OnValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             IsLoadingBase = true;
 
             var input = new UpdateWorkItemInput
@@ -55,4 +57,32 @@ public sealed record EditWorkItemModel
     public required string Description { get; set; }
     public required DateOnly Deadline { get; set; }
     public required WorkItemStatus Status { get; set; }
+
+    public DateTime? DeadlineDateTime
+    {
+        get => Deadline.ToDateTimeNullable();
+        set => Deadline = value.ToDateOnly();
+    }
+}
+
+public sealed class EditWorkItemModelValidator : AbstractValidatorBase<EditWorkItemModel>
+{
+    public EditWorkItemModelValidator()
+    {
+        _ = RuleFor(x => x.Title)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Title))
+            .MaximumLength(MaximumLengthFor.Title)
+                .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Title, MaximumLengthFor.Title));
+
+        _ = RuleFor(x => x.Description)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Description))
+            .MaximumLength(MaximumLengthFor.Description)
+                .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Description, MaximumLengthFor.Description));
+
+        _ = RuleFor(x => x.Status)
+            .IsInEnum()
+                .WithMessage($"{DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Status} is invalid.");
+    }
 }

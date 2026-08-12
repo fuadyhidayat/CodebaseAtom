@@ -10,10 +10,18 @@ public partial class DialogEditDocument
     [Parameter]
     public required EditDocumentModel Model { get; set; }
 
-    private async Task OnValidSubmitAsync()
+    private readonly EditDocumentModelValidator _validator = new();
+    private MudForm _form = default!;
+
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             IsLoadingBase = true;
 
             var input = new UpdateDocumentInput
@@ -46,4 +54,22 @@ public sealed record EditDocumentModel
     public required string Title { get; set; }
     public required string FileNameWithoutExtension { get; set; }
     public required string FileExtension { get; init; }
+}
+
+public sealed class EditDocumentModelValidator : AbstractValidatorBase<EditDocumentModel>
+{
+    public EditDocumentModelValidator()
+    {
+        _ = RuleFor(x => x.Title)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Document, DomainDisplayTextFor.Title))
+            .MaximumLength(MaximumLengthFor.Title)
+                .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Document, DomainDisplayTextFor.Title, MaximumLengthFor.Title));
+
+        _ = RuleFor(x => x.FileNameWithoutExtension)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Document, DomainDisplayTextFor.FileName))
+            .Must((model, fileName) => $"{fileName}{model.FileExtension}".Length <= MaximumLengthFor.FileName)
+                .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Document, DomainDisplayTextFor.FileName, MaximumLengthFor.FileName));
+    }
 }

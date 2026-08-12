@@ -6,14 +6,7 @@ public sealed class CreateProjectLogic(
 {
     public async Task<CreateProjectOutput> Handle(CreateProjectInput input, CancellationToken cancellationToken = default)
     {
-        var validationResult = await validator.ValidateAsync(input, cancellationToken);
-
-        if (!validationResult.IsValid)
-        {
-            var errorMessages = validationResult.Errors.Select(error => error.ErrorMessage).ToArray();
-
-            throw new ModelValidationException(errorMessages);
-        }
+        await validator.ValidateInputAsync(input, cancellationToken);
 
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 

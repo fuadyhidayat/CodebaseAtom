@@ -3,12 +3,9 @@
 <MudDialog>
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
-            <LoadingLinear IsVisible="IsLoadingBase" />
             <ErrorViewer Exception="ExceptionBase" />
-            <MudForm @ref="_form"
-                     Model="@_model"
-                     Validation="@_validator.ValidateValue"
-                     ValidationDelay="200">
+            <LoadingLinear IsVisible="IsLoadingBase" />
+            <MudForm @ref="_form" Model="@_model" Validation="@_validator.ValidateValue">
                 <GridDefault>
                     <MudItem xs="12">
                         <TextFieldDefault Label="@DomainDisplayTextFor.Title"

@@ -1,9 +1,13 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.Projects.UpdateProject;
 
-public sealed class UpdateProjectLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
+public sealed class UpdateProjectLogic(
+    IDbContextFactory<DatabaseContext> databaseContextFactory,
+    IValidator<UpdateProjectInput> validator)
 {
     public async Task Handle(UpdateProjectInput input, CancellationToken cancellationToken = default)
     {
+        await validator.ValidateInputAsync(input, cancellationToken);
+
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
         var project = await databaseContext.Projects

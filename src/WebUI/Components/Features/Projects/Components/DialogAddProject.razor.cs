@@ -7,9 +7,9 @@ public partial class DialogAddProject
     [Inject]
     public required CreateProjectLogic CreateProjectLogic { get; set; }
 
-    private MudForm _form = default!;
     private readonly AddProjectModel _model = new();
     private readonly AddProjectModelValidator _validator = new();
+    private MudForm _form = default!;
 
     private async Task HandleSubmit()
     {

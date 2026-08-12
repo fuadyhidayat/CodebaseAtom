@@ -1,3 +1,5 @@
+using FluentValidation.Results;
+
 namespace Vioren.CodebaseAtom.WebUI.Logics.Common.Exceptions;
 
 public sealed class ModelValidationException : Exception
@@ -24,5 +26,11 @@ public sealed class ModelValidationException : Exception
         : base($"There {(errorMessages.Length > 1 ? "are" : "is")} {errorMessages.Length} validation failure{(errorMessages.Length > 1 ? "s" : "")}.")
     {
         ErrorMessages = errorMessages;
+    }
+
+    public ModelValidationException(IReadOnlyCollection<ValidationFailure> validationFailures)
+        : base($"There {(validationFailures.Count > 1 ? "are" : "is")} {validationFailures.Count} validation failure{(validationFailures.Count > 1 ? "s" : "")}.")
+    {
+        ErrorMessages = validationFailures.Select(x => x.ErrorMessage);
     }
 }

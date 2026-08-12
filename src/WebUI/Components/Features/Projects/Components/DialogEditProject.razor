@@ -4,31 +4,28 @@
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-            @if (Model is not null)
-            {
-                <EditForm Model="Model" OnValidSubmit="OnValidSubmitAsync">
-                    <DataAnnotationsValidator />
-                    <GridDefault>
-                        <MudItem xs="12">
-                            <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title}")"
-                                              @bind-Value="Model.Title"
-                                              For="@(() => Model.Title)" />
-                        </MudItem>
-                        <MudItem xs="12">
-                            <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
-                                                Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description}")"
-                                                Lines="3"
-                                                MaxLines="5"
-                                                @bind-Value="Model.Description"
-                                                For="@(() => Model.Description)" />
-                        </MudItem>
-                    </GridDefault>
-                    <BottomButtonPanel>
-                        <ButtonSave ButtonType="ButtonType.Submit" />
-                    </BottomButtonPanel>
-                </EditForm>
-            }
+            <LoadingLinear IsVisible="IsLoadingBase" />
+            <MudForm @ref="_form" Model="@Model" Validation="@_validator.ValidateValue">
+                <GridDefault>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@DomainDisplayTextFor.Title"
+                                          Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title}")"
+                                          @bind-Value="Model.Title"
+                                          For="@(() => Model.Title)" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
+                                            Placeholder="@($"Enter the {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description}")"
+                                            Lines="3"
+                                            MaxLines="5"
+                                            @bind-Value="Model.Description"
+                                            For="@(() => Model.Description)" />
+                    </MudItem>
+                </GridDefault>
+                <BottomButtonPanel>
+                    <ButtonSave OnClick="HandleSubmit" />
+                </BottomButtonPanel>
+            </MudForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

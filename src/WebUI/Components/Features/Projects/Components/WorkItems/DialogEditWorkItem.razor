@@ -4,52 +4,45 @@
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-            @if (Model is not null)
-            {
-                <EditForm Model="Model" OnValidSubmit="OnValidSubmitAsync">
-                    <DataAnnotationsValidator />
-                    <GridDefault>
-                        <MudItem xs="12">
-                            <TextFieldDefault Label="@DomainDisplayTextFor.Title"
-                                              Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
-                                              @bind-Value="Model.Title"
-                                              For="@(() => Model.Title)" />
-                        </MudItem>
-                        <MudItem xs="12">
-                            <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
-                                                Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
-                                                Lines="3"
-                                                MaxLines="5"
-                                                @bind-Value="Model.Description"
-                                                For="@(() => Model.Description)" />
-                        </MudItem>
-                        <MudItem xs="12" sm="6">
-                            <MudDatePicker Label="@DomainDisplayTextFor.Deadline"
-                                           @bind-Date="DeadlineDateTime"
-                                           DateFormat="d MMMM yyyy"
-                                           Required="true"
-                                           Variant="Variant.Outlined"
-                                           RequiredError="@($"{DomainDisplayTextFor.Deadline} is required")"
-                                           MinDate="@DateTime.Today" />
-                        </MudItem>
-                        <MudItem xs="12" sm="6">
-                            <SelectDefault Label="@DomainDisplayTextFor.Status"
-                                           T="WorkItemStatus"
-                                           @bind-Value="Model.Status">
-                                @foreach (var status in Enum.GetValues<WorkItemStatus>())
-                                {
-                                    <MudSelectItem Value="@status">
-                                        @status.Name
-                                    </MudSelectItem>
-                                }
-                            </SelectDefault>
-                        </MudItem>
-                    </GridDefault>
-                    <BottomButtonPanel>
-                        <ButtonSave ButtonType="ButtonType.Submit" />
-                    </BottomButtonPanel>
-                </EditForm>
-            }
+            <LoadingLinear IsVisible="IsLoadingBase" />
+            <MudForm @ref="_form" Model="@Model" Validation="@_validator.ValidateValue">
+                <GridDefault>
+                    <MudItem xs="12">
+                        <TextFieldDefault Label="@DomainDisplayTextFor.Title"
+                                          Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
+                                          @bind-Value="Model.Title"
+                                          For="@(() => Model.Title)" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
+                                            Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
+                                            Lines="3"
+                                            MaxLines="5"
+                                            @bind-Value="Model.Description"
+                                            For="@(() => Model.Description)" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <DatePickerDefault Label="@DomainDisplayTextFor.Deadline"
+                                           @bind-Date="Model.DeadlineDateTime" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <SelectDefault Label="@DomainDisplayTextFor.Status"
+                                       T="WorkItemStatus"
+                                       @bind-Value="Model.Status"
+                                       For="@(() => Model.Status)">
+                            @foreach (var status in Enum.GetValues<WorkItemStatus>())
+                            {
+                                <MudSelectItem Value="@status">
+                                    @status.Name
+                                </MudSelectItem>
+                            }
+                        </SelectDefault>
+                    </MudItem>
+                </GridDefault>
+                <BottomButtonPanel>
+                    <ButtonSave OnClick="HandleSubmit" />
+                </BottomButtonPanel>
+            </MudForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

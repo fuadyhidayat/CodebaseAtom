@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using Vioren.CodebaseAtom.WebUI.Logics.Users.ResetPassword;
@@ -22,6 +21,8 @@ public partial class ResetMyPassword
     private InputModel Input { get; set; } = new();
 
     private MudMessageBox _messageBoxPasswordReset = default!;
+    private MudForm _form = default!;
+    private readonly InputModelValidator _validator = new();
 
     protected override void OnInitialized()
     {
@@ -42,10 +43,15 @@ public partial class ResetMyPassword
         }
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task HandleSubmit()
     {
         try
         {
+            if (!await _form.IsValidAsync())
+            {
+                return;
+            }
+
             _isLoading = true;
             _exception = null;
 
@@ -82,20 +88,41 @@ public partial class ResetMyPassword
 
     private sealed record InputModel
     {
-        [Required]
         public string Username { get; set; } = string.Empty;
-
-        [Required]
         public string Code { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(MaximumLengthFor.Password, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = MinimumLengthFor.Password)]
-        [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
-
-        [DataType(DataType.Password)]
-        [Display(Name = DomainDisplayTextFor.ConfirmPassword)]
-        [Compare(DomainDisplayTextFor.Password, ErrorMessage = $"The {DomainDisplayTextFor.Password} and {DomainDisplayTextFor.ConfirmPassword} do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
+    private sealed class InputModelValidator : AbstractValidatorBase<InputModel>
+    {
+        public InputModelValidator()
+        {
+            _ = RuleFor(x => x.Username)
+                .NotEmpty()
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.Username))
+                .MinimumLength(MinimumLengthFor.Username)
+                    .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Username, MinimumLengthFor.Username))
+                .MaximumLength(MaximumLengthFor.Username)
+                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Username, MaximumLengthFor.Username));
+
+            _ = RuleFor(x => x.Code)
+                .NotEmpty()
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.Code));
+
+            _ = RuleFor(x => x.Password)
+                .NotEmpty()
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.Password))
+                .MinimumLength(MinimumLengthFor.Password)
+                    .WithMessage(ValidationMessageFor.MinimumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Password, MinimumLengthFor.Password))
+                .MaximumLength(MaximumLengthFor.Password)
+                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.User, DomainDisplayTextFor.Password, MaximumLengthFor.Password));
+
+            _ = RuleFor(x => x.ConfirmPassword)
+                .NotEmpty()
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.User, DomainDisplayTextFor.ConfirmPassword))
+                .Equal(x => x.Password)
+                    .WithMessage($"The {DomainDisplayTextFor.Password} and {DomainDisplayTextFor.ConfirmPassword} do not match.");
+        }
     }
 }

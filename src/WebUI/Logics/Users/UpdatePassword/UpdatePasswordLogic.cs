@@ -3,10 +3,14 @@ using Vioren.CodebaseAtom.WebUI.Infrastructure.Identity;
 
 namespace Vioren.CodebaseAtom.WebUI.Logics.Users.UpdatePassword;
 
-public sealed class UpdatePasswordLogic(IServiceScopeFactory serviceScopeFactory)
+public sealed class UpdatePasswordLogic(
+    IServiceScopeFactory serviceScopeFactory,
+    IValidator<UpdatePasswordInput> validator)
 {
-    public async Task Handle(UpdatePasswordInput input)
+    public async Task Handle(UpdatePasswordInput input, CancellationToken cancellationToken = default)
     {
+        await validator.ValidateInputAsync(input, cancellationToken);
+
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 

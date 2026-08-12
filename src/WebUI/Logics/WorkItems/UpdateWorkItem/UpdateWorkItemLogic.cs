@@ -1,9 +1,13 @@
 namespace Vioren.CodebaseAtom.WebUI.Logics.WorkItems.UpdateWorkItem;
 
-public sealed class UpdateWorkItemLogic(IDbContextFactory<DatabaseContext> databaseContextFactory)
+public sealed class UpdateWorkItemLogic(
+    IDbContextFactory<DatabaseContext> databaseContextFactory,
+    IValidator<UpdateWorkItemInput> validator)
 {
     public async Task Handle(UpdateWorkItemInput input, CancellationToken cancellationToken = default)
     {
+        await validator.ValidateInputAsync(input, cancellationToken);
+
         await using var databaseContext = await databaseContextFactory.CreateDbContextAsync(cancellationToken);
 
         var workItem = await databaseContext.WorkItems

@@ -4,8 +4,8 @@
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-            <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
-                <DataAnnotationsValidator />
+            <LoadingLinear IsVisible="IsLoadingBase" />
+            <MudForm @ref="_form" Model="@_model" Validation="@_validator.ValidateValue">
                 <GridDefault>
                     <MudItem xs="12">
                         <FileUploadSingle Accept=".docx,.xlsx,.pptx,.pdf" OnFileUpdated="OnFileUpdated" />
@@ -14,14 +14,14 @@
                         <TextFieldDefault Label="@DomainDisplayTextFor.Title"
                                           Placeholder="@($"Enter the {DomainDisplayTextFor.Document} {DomainDisplayTextFor.Title}")"
                                           AutoFocus="true"
-                                          @bind-Value="_input.Title"
-                                          For="@(() => _input.Title)" />
+                                          @bind-Value="_model.Title"
+                                          For="@(() => _model.Title)" />
                     </MudItem>
                 </GridDefault>
                 <BottomButtonPanel>
-                    <ButtonSubmit ButtonType="ButtonType.Submit" Disabled="@(_input.File is null)" />
+                    <ButtonSubmit OnClick="HandleSubmit" Disabled="@(_model.File is null)" />
                 </BottomButtonPanel>
-            </EditForm>
+            </MudForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

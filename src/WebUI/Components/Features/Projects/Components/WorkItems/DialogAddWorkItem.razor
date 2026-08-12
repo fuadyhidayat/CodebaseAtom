@@ -4,31 +4,25 @@
     <DialogContent>
         <MudStack Spacing="4" Class="mb-3">
             <ErrorViewer Exception="ExceptionBase" />
-            <EditForm Model="_input" OnValidSubmit="OnValidSubmitAsync">
-                <DataAnnotationsValidator />
+            <MudForm @ref="_form" Model="@_model" Validation="@_validator.ValidateValue">
                 <GridDefault>
                     <MudItem xs="12">
                         <TextFieldDefault Label="@DomainDisplayTextFor.Title"
                                           Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Title}")"
-                                          @bind-Value="_input.Title"
-                                          For="@(() => _input.Title)" />
+                                          @bind-Value="_model.Title"
+                                          For="@(() => _model.Title)" />
                     </MudItem>
                     <MudItem xs="12">
                         <TextFieldMultiline Label="@DomainDisplayTextFor.Description"
                                             Placeholder="@($"Enter the {DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Description}")"
                                             Lines="3"
                                             MaxLines="5"
-                                            @bind-Value="_input.Description"
-                                            For="@(() => _input.Description)" />
+                                            @bind-Value="_model.Description"
+                                            For="@(() => _model.Description)" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker Label="@DomainDisplayTextFor.Deadline"
-                                       @bind-Date="DeadlineDateTime"
-                                       DateFormat="d MMMM yyyy"
-                                       Required="true"
-                                       Variant="Variant.Outlined"
-                                       RequiredError="@($"{DomainDisplayTextFor.Deadline} is required")"
-                                       MinDate="@DateTime.Today" />
+                        <DatePickerDefault Label="@DomainDisplayTextFor.Deadline"
+                                           @bind-Date="_model.DeadlineDateTime" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <SelectDefault Label="@DomainDisplayTextFor.Status"
@@ -41,9 +35,9 @@
                     </MudItem>
                 </GridDefault>
                 <BottomButtonPanel>
-                    <ButtonSave ButtonType="ButtonType.Submit" />
+                    <ButtonSave OnClick="HandleSubmit" />
                 </BottomButtonPanel>
-            </EditForm>
+            </MudForm>
         </MudStack>
     </DialogContent>
 </MudDialog>

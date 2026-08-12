@@ -9,14 +9,12 @@ public abstract class AbstractValidatorBase<T> : AbstractValidator<T>
     /// </summary>
     public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
     {
-        // Safety check if model is null or the type does not match T
         if (model is not T instance)
         {
             return Array.Empty<string>();
         }
 
         var validationContext = ValidationContext<T>.CreateWithOptions(instance, options => options.IncludeProperties(propertyName));
-
         var result = await ValidateAsync(validationContext);
 
         if (result.IsValid)
