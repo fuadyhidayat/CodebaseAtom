@@ -17,7 +17,6 @@ public partial class ResetMyPassword
 
     private bool _isLoading;
     private Exception? _exception;
-
     private ResetPasswordModel _model = default!;
     private readonly ResetPasswordModelValidator _validator = new();
     private MudForm _form = default!;
