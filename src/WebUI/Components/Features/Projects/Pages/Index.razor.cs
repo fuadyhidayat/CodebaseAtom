@@ -33,6 +33,7 @@ public partial class Index
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var output = await GetProjectsLogic.Handle();
 

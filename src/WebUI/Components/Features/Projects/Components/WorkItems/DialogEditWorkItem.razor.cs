@@ -23,6 +23,7 @@ public partial class DialogEditWorkItem
             }
 
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new UpdateWorkItemInput
             {

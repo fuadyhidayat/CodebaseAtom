@@ -23,6 +23,7 @@ public partial class DialogEditDocument
             }
 
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new UpdateDocumentInput
             {

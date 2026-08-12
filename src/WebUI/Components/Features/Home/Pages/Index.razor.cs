@@ -26,6 +26,7 @@ public partial class Index
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             _statistic = await GetStatisticLogic.Handle();
         }

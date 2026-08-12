@@ -43,6 +43,7 @@ public partial class TabContentDocuments
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var output = await GetDocumentsLogic.Handle(new GetDocumentsInput
             {
@@ -109,6 +110,7 @@ public partial class TabContentDocuments
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var output = await DownloadDocumentLogic.Handle(new DownloadDocumentInput
             {
@@ -222,6 +224,7 @@ public partial class TabContentDocuments
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new DeleteDocumentsInput
             {

@@ -21,6 +21,7 @@ public partial class DialogAddProject
             }
 
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new CreateProjectInput
             {

@@ -39,6 +39,7 @@ public partial class Details
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var output = await GetProjectLogic.Handle(new GetProjectInput
             {
@@ -109,6 +110,7 @@ public partial class Details
             try
             {
                 IsLoadingBase = true;
+                ExceptionBase = null;
 
                 var input = new DeleteProjectInput
                 {

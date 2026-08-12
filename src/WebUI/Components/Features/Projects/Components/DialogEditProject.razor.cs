@@ -23,6 +23,7 @@ public partial class DialogEditProject
             }
 
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new UpdateProjectInput
             {

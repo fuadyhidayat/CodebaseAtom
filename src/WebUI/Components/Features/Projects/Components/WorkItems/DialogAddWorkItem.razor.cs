@@ -24,6 +24,7 @@ public partial class DialogAddWorkItem
             }
 
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new CreateWorkItemInput
             {

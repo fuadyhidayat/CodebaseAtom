@@ -47,6 +47,7 @@ public partial class TabContentWorkItems
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var output = await GetWorkItemsLogic.Handle(new GetWorkItemsInput
             {
@@ -166,6 +167,7 @@ public partial class TabContentWorkItems
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new DeleteWorkItemInput
             {
@@ -212,6 +214,7 @@ public partial class TabContentWorkItems
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new DeleteWorkItemsInput
             {
@@ -260,6 +263,7 @@ public partial class TabContentWorkItems
         try
         {
             IsLoadingBase = true;
+            ExceptionBase = null;
 
             var input = new UpdateWorkItemStatusInput
             {
