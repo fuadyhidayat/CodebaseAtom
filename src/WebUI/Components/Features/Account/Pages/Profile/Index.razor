@@ -8,12 +8,8 @@
 @if (_user is not null)
 {
     <TopButtonPanel>
-        <ButtonEdit OnClick="ShowDialogEditProfile">
-            Edit Profile
-        </ButtonEdit>
-        <ButtonEdit OnClick="ShowDialogChangePassword">
-            Change Password
-        </ButtonEdit>
+        <ButtonEdit EntityType="@UIDisplayTextFor.Profile" OnClick="ShowDialogEditProfile" />
+        <ButtonChange EntityType="@DomainDisplayTextFor.Password" OnClick="ShowDialogChangePassword" />
     </TopButtonPanel>
     <PageSection>
         <GridDefault>

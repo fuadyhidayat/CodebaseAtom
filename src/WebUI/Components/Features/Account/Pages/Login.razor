@@ -44,9 +44,6 @@
                         </MudStack>
                     </MudItem>
                     <MudItem xs="12">
-                        <ButtonLogin ButtonType="ButtonType.Submit" />
-                    </MudItem>
-                    <MudItem xs="12">
                         @if (!string.IsNullOrWhiteSpace(_errorMessage))
                         {
                             <MudAlert Variant="Variant.Filled" Severity="Severity.Error">
@@ -55,6 +52,9 @@
                         }
                     </MudItem>
                 </GridDefault>
+                <BottomButtonPanel>
+                    <ButtonLogin ButtonType="ButtonType.Submit" />
+                </BottomButtonPanel>
             </EditForm>
             <MudDivider Class="my-2" />
             <MudStack AlignItems="AlignItems.Start">
