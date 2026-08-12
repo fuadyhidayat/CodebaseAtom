@@ -8,9 +8,9 @@ public static partial class EndpointRouteBuilderExtensions
 {
     public static IEndpointConventionBuilder MapIdentityEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        var routeGroupAccount = endpoints.MapGroup("/Account");
+        var routeGroupAccount = endpoints.MapGroup($"/{RouteGroupNameFor.Account}");
 
-        _ = routeGroupAccount.MapPost("/Logout", async (
+        _ = routeGroupAccount.MapPost(RoutePatternFor.Logout, async (
             ClaimsPrincipal user,
             [FromServices] SignInManager<ApplicationUser> signInManager,
             [FromForm] string returnUrl) =>

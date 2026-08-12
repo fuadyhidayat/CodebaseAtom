@@ -2,19 +2,19 @@ namespace Vioren.CodebaseAtom.WebUI.Components.Features.Account.Statics;
 
 public static class RouteFor
 {
-    public const string AccessDenied = "Account/AccessDenied";
-    public const string ForgotPassword = "Account/ForgotPassword";
-    public const string Lockout = "Account/Lockout";
-    public const string Logout = "Account/Logout";
-    public const string ResetPassword = "Account/ResetPassword";
+    public const string AccessDenied = $"{RouteGroupNameFor.Account}/AccessDenied";
+    public const string ForgotPassword = $"{RouteGroupNameFor.Account}/ForgotPassword";
+    public const string Lockout = $"{RouteGroupNameFor.Account}/Lockout";
+    public const string Logout = $"{RouteGroupNameFor.Account}{RoutePatternFor.Logout}";
+    public const string ResetPassword = $"{RouteGroupNameFor.Account}/ResetPassword";
 
     public static string Login(string? returnUrl = null)
     {
         if (string.IsNullOrWhiteSpace(returnUrl))
         {
-            return "Account/Login";
+            return $"{RouteGroupNameFor.Account}/Login";
         }
 
-        return $"Account/Login?{QueryStringFor.ReturnUrl}={Uri.EscapeDataString(returnUrl)}";
+        return $"{RouteGroupNameFor.Account}/Login?{QueryStringFor.ReturnUrl}={Uri.EscapeDataString(returnUrl)}";
     }
 }
