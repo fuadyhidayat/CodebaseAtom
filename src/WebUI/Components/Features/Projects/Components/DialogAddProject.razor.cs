@@ -1,4 +1,3 @@
-using Vioren.CodebaseAtom.WebUI.Common.Validators;
 using Vioren.CodebaseAtom.WebUI.Logics.Projects.CreateProject;
 
 namespace Vioren.CodebaseAtom.WebUI.Components.Features.Projects.Components;
@@ -57,15 +56,15 @@ public partial class DialogAddProject
         {
             _ = RuleFor(x => x.Title)
                 .NotEmpty()
-                    .WithMessage($"{DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title} is required.")
-                .MaximumLength(5)
-                    .WithMessage($"Blazor: The maximum length for {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Title} is {MaximumLengthFor.Title} characters.");
+                    .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Project, DomainDisplayTextFor.Title))
+                .MaximumLength(MaximumLengthFor.Title)
+                    .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Project, DomainDisplayTextFor.Title, MaximumLengthFor.Title));
 
             _ = RuleFor(x => x.Description)
-                .NotEmpty()
-                    .WithMessage($"{DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description} is required.")
-                .MaximumLength(5)
-                    .WithMessage($"Blazor: The maximum length for {DomainDisplayTextFor.Project} {DomainDisplayTextFor.Description} is {MaximumLengthFor.Description} characters.");
+                    .NotEmpty()
+                        .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.Project, DomainDisplayTextFor.Description))
+                    .MaximumLength(MaximumLengthFor.Description)
+                        .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.Project, DomainDisplayTextFor.Description, MaximumLengthFor.Description));
         }
     }
 }
