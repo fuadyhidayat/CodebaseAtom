@@ -82,6 +82,14 @@ public sealed class EditWorkItemModelValidator : AbstractValidatorBase<EditWorkI
             .MaximumLength(MaximumLengthFor.Description)
                 .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Description, MaximumLengthFor.Description));
 
+        _ = RuleFor(x => x.Deadline)
+            .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
+                .WithMessage($"{DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Deadline} cannot be in the past.");
+
+        _ = RuleFor(x => x.DeadlineDateTime)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Deadline));
+
         _ = RuleFor(x => x.Status)
             .IsInEnum()
                 .WithMessage($"{DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Status} is invalid.");
