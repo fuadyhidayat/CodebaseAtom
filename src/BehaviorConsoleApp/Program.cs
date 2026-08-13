@@ -4,12 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 var services = new ServiceCollection();
 services.AddScoped(typeof(ILogicBehavior<,>), typeof(LoggingBehavior<,>));
 services.AddScoped(typeof(ILogicBehavior<,>), typeof(PerformanceBehavior<,>));
-services.AddScoped<AdditionLogic>();
-services.AddScoped<ILogic<AdditionInput, AdditionOutput>>(serviceProvider =>
-    new LogicPipeline<AdditionInput, AdditionOutput>(
-        serviceProvider.GetRequiredService<AdditionLogic>(),
-        serviceProvider.GetServices<ILogicBehavior<AdditionInput, AdditionOutput>>()
-    ));
+//services.AddScoped<AdditionLogic>();
+//services.AddScoped<ILogic<AdditionInput, AdditionOutput>>(serviceProvider =>
+//    new LogicPipeline<AdditionInput, AdditionOutput>(
+//        serviceProvider.GetRequiredService<AdditionLogic>(),
+//        serviceProvider.GetServices<ILogicBehavior<AdditionInput, AdditionOutput>>()
+//    ));
+services.AddLogicWithPipeline<AdditionLogic, AdditionInput, AdditionOutput>();
 
 using var serviceProvider = services.BuildServiceProvider();
 
