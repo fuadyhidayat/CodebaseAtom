@@ -10,6 +10,8 @@
     <File Path=".github/copilot-instructions.md" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/BehaviorConsoleApp/BehaviorConsoleApp.csproj" Id="cadbb177-327e-448e-aada-f276a85e27c1" />
+    <Project Path="src/CobaConsoleApp/CobaConsoleApp.csproj" Id="dd349a37-2e40-4d1f-8d2f-71b91683a3a1" />
     <Project Path="src/WebUI/WebUI.csproj" />
   </Folder>
 </Solution>
