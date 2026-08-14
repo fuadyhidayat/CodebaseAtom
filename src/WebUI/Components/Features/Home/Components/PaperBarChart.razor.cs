@@ -7,19 +7,32 @@ public partial class PaperBarChart
     [Parameter, EditorRequired]
     public IReadOnlyList<ProjectDto> Projects { get; set; }
 
-    public IReadOnlyList<ProjectDto> SelectedProjects => Projects.Where(project => project.WorkItemsCount > 0).ToList();
-
-    private BarChartOptions BlazorChartOptions => new()
+    private BarChartOptions _options = new()
     {
-        ShowValues = true,
-        XAxisLabelRotation = 45,
-        YAxisLines = true,
-        YAxisTicks = SelectedProjects.Max(project => project.WorkItemsCount) + 1
+        ShowValues = true
     };
 
-    private List<ChartSeries<double>> WorkItemsCounts => SelectedProjects.Select(project => new ChartSeries<double>
+    private List<ProjectDto> _selectedProjects = [];
+    private List<ChartSeries<double>> _workItemsCounts = [];
+
+    protected override void OnParametersSet()
     {
-        Name = project.Title,
-        Data = new double[] { project.WorkItemsCount }
-    }).ToList();
+        _selectedProjects = Projects.Where(project => project.WorkItemsCount > 0).ToList();
+
+        _options = new()
+        {
+            ShowValues = true,
+            XAxisLabelRotation = 45,
+            YAxisTicks = _selectedProjects.Max(project => project.WorkItemsCount)
+        };
+
+        _workItemsCounts =
+        [
+            new ChartSeries<double>
+            {
+                Name = $"{DomainDisplayTextFor.WorkItems} {DomainDisplayTextFor.Count}",
+                Data = _selectedProjects.Select(p => (double)p.WorkItemsCount).ToList()
+            }
+        ];
+    }
 }

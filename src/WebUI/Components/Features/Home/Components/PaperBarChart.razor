@@ -1,9 +1,9 @@
 <MudText Typo="Typo.h5">
-    @DomainDisplayTextFor.WorkItems Count
+    @DomainDisplayTextFor.WorkItems @DomainDisplayTextFor.Count
 </MudText>
 <MudChart T="double"
           ChartType="ChartType.Bar"
-          ChartSeries="@WorkItemsCounts"
-          ChartOptions="@BlazorChartOptions"
+          ChartOptions="_options"
+          ChartSeries="_workItemsCounts"
           Width="100%"
           Height="400px" />
