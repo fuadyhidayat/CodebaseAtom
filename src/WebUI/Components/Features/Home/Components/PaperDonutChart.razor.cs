@@ -8,12 +8,18 @@ public partial class PaperDonutChart
     public IReadOnlyList<ProjectDto> Projects { get; set; }
 
     private int _index = -1;
+    private DonutChartOptions _options = new();
     private List<ProjectDto> _selectedProjects = [];
     private string[] _labels = [];
     private List<ChartSeries<double>> _data = [];
 
     protected override void OnParametersSet()
     {
+        _options = new()
+        {
+            ShowValues = true,
+        };
+
         _selectedProjects = Projects.Where(project => project.DocumentsCount > 0).ToList();
         _labels = _selectedProjects.Select(project => project.Title).ToArray();
 

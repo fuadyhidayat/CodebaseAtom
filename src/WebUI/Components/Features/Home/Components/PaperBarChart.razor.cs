@@ -7,11 +7,7 @@ public partial class PaperBarChart
     [Parameter, EditorRequired]
     public IReadOnlyList<ProjectDto> Projects { get; set; }
 
-    private BarChartOptions _options = new()
-    {
-        ShowValues = true
-    };
-
+    private BarChartOptions _options = new();
     private List<ProjectDto> _selectedProjects = [];
     private List<ChartSeries<double>> _workItemsCounts = [];
 
@@ -26,7 +22,6 @@ public partial class PaperBarChart
             YAxisTicks = _selectedProjects.Count > 0 ? _selectedProjects.Max(project => project.WorkItemsCount) : 0
         };
 
-        // For Bar Chart with labels: Create one series per project
         _workItemsCounts = _selectedProjects.Select(project => new ChartSeries<double>
         {
             Name = project.Title,
