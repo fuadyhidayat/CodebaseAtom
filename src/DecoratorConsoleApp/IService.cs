@@ -1,4 +1,4 @@
-namespace CobaConsoleApp;
+namespace DecoratorConsoleApp;
 
 public interface IService
 {

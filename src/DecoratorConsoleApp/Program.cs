@@ -1,4 +1,4 @@
-using CobaConsoleApp;
+using DecoratorConsoleApp;
 
 IService someService = new SomeService();
 someService = new LoggingDecorator(someService);
