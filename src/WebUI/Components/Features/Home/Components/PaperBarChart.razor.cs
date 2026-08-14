@@ -23,16 +23,14 @@ public partial class PaperBarChart
         {
             ShowValues = true,
             XAxisLabelRotation = 45,
-            YAxisTicks = _selectedProjects.Max(project => project.WorkItemsCount)
+            YAxisTicks = _selectedProjects.Count > 0 ? _selectedProjects.Max(project => project.WorkItemsCount) : 0
         };
 
-        _workItemsCounts =
-        [
-            new ChartSeries<double>
-            {
-                Name = $"{DomainDisplayTextFor.WorkItems} {DomainDisplayTextFor.Count}",
-                Data = _selectedProjects.Select(p => (double)p.WorkItemsCount).ToList()
-            }
-        ];
+        // For Bar Chart with labels: Create one series per project
+        _workItemsCounts = _selectedProjects.Select(project => new ChartSeries<double>
+        {
+            Name = project.Title,
+            Data = new double[] { project.WorkItemsCount }
+        }).ToList();
     }
 }
