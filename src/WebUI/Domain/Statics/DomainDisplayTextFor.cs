@@ -27,6 +27,7 @@ public static class DomainDisplayTextFor
     public const string PhoneNumber = $"{Phone} {Number}";
     public const string Role = "Role";
     public const string Roles = "Roles";
+    public const string Count = "Count";
 
     public const string File = nameof(File);
     public const string Size = nameof(Size);

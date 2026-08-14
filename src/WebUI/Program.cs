@@ -1,4 +1,3 @@
-using ApexCharts;
 using MudBlazor.Services;
 using Vioren.CodebaseAtom.WebUI.Components;
 using Vioren.CodebaseAtom.WebUI.Infrastructure;
@@ -10,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddInfrastructure();
 builder.AddLogics();
 builder.Services.AddMudServices();
-builder.Services.AddApexCharts();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
