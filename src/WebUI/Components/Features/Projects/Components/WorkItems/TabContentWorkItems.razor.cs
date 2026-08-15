@@ -130,6 +130,7 @@ public partial class TabContentWorkItems
             Title = workItem.Title,
             Description = workItem.Description,
             Deadline = workItem.Deadline,
+            OriginalDeadline = workItem.Deadline,
             Status = workItem.Status
         };
 

@@ -57,6 +57,7 @@ public sealed record EditWorkItemModel
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required DateOnly Deadline { get; set; }
+    public required DateOnly OriginalDeadline { get; init; }
     public required WorkItemStatus Status { get; set; }
 
     public DateTime? DeadlineDateTime
@@ -83,7 +84,8 @@ public sealed class EditWorkItemModelValidator : AbstractValidatorBase<EditWorkI
                 .WithMessage(ValidationMessageFor.MaximumLength(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Description, MaximumLengthFor.Description));
 
         _ = RuleFor(x => x.Deadline)
-            .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
+                .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
+                .When(x => x.Deadline != x.OriginalDeadline)
                 .WithMessage($"{DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Deadline} cannot be in the past.");
 
         _ = RuleFor(x => x.DeadlineDateTime)
