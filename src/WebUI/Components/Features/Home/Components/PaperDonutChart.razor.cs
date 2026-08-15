@@ -7,29 +7,23 @@ public partial class PaperDonutChart
     [Parameter, EditorRequired]
     public IReadOnlyList<ProjectDto> Projects { get; set; }
 
-    private int _index = -1;
-    private DonutChartOptions _options = new();
-    private List<ProjectDto> _selectedProjects = [];
-    private string[] _labels = [];
-    private List<ChartSeries<double>> _data = [];
-
-    protected override void OnParametersSet()
+    private static readonly DonutChartOptions _options = new()
     {
-        _options = new()
-        {
-            ShowValues = true,
-        };
+        ShowValues = true,
+    };
 
-        _selectedProjects = Projects.Where(project => project.DocumentsCount > 0).ToList();
-        _labels = _selectedProjects.Select(project => project.Title).ToArray();
+    private IEnumerable<ProjectDto> SelectedProjects => Projects
+        .Where(project => project.DocumentsCount > 0);
 
-        _data =
-        [
+    private string[] Labels => SelectedProjects
+        .Select(project => project.Title).ToArray();
+
+    private List<ChartSeries<double>> Series => [
             new ChartSeries<double>
             {
                 Name = $"{DomainDisplayTextFor.Documents} {DomainDisplayTextFor.Count}",
-                Data = _selectedProjects.Select(p => (double)p.DocumentsCount).ToList()
+                Data =  SelectedProjects
+                    .Select(p => (double)p.DocumentsCount).ToList()
             }
         ];
-    }
 }
