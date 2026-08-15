@@ -1,13 +1,10 @@
-@using ApexCharts
-@using Vioren.CodebaseAtom.WebUI.Logics.Statistics.GetStatistic
-
-<MudText Typo="Typo.h5">@DomainDisplayTextFor.Documents Count</MudText>
-<ApexChart TItem="ProjectDto" Height="400" Options="_options">
-    <ApexPointSeries TItem="ProjectDto"
-                     Items="Projects"
-                     SeriesType="SeriesType.Donut"
-                     Name="Documents Count"
-                     XValue="@(project => project.Title)"
-                     YAggregate="@(projects => projects.Sum(project => project.DocumentsCount))"
-                     OrderByDescending="dataPoint => dataPoint.Y" />
-</ApexChart>
+<MudText Typo="Typo.h5">
+    @DomainDisplayTextFor.Documents @DomainDisplayTextFor.Count
+</MudText>
+<MudChart T="double"
+          ChartType="MudBlazor.ChartType.Donut"
+          Width="100%"
+          Height="400px"
+          ChartOptions="_options"
+          ChartSeries="Series"
+          ChartLabels="Labels" />

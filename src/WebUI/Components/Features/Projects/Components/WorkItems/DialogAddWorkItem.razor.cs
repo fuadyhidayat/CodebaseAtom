@@ -83,5 +83,9 @@ public sealed class AddWorkItemModelValidator : AbstractValidatorBase<AddWorkIte
         _ = RuleFor(x => x.Deadline)
             .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
                 .WithMessage($"{DomainDisplayTextFor.WorkItem} {DomainDisplayTextFor.Deadline} cannot be in the past.");
+
+        _ = RuleFor(x => x.DeadlineDateTime)
+            .NotEmpty()
+                .WithMessage(ValidationMessageFor.Required(DomainDisplayTextFor.WorkItem, DomainDisplayTextFor.Deadline));
     }
 }

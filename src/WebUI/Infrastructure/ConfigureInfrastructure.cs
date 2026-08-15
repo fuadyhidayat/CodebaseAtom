@@ -14,7 +14,6 @@ public static class ConfigureInfrastructure
         _ = builder.Services.AddIdentityService(builder.Configuration);
         _ = builder.Services.AddFileStorage(builder.Configuration);
 
-
         return builder;
     }
 }
